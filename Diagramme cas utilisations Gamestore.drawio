@@ -227,7 +227,7 @@
           <mxGeometry x="26" y="1250" width="30" height="60" as="geometry" />
         </mxCell>
         <mxCell id="rAIBt6rHSv0Fkx4nkbGc-88" value="&lt;font style=&quot;vertical-align: inherit;&quot;&gt;&lt;font style=&quot;vertical-align: inherit;&quot;&gt;Espace Administrateur&lt;/font&gt;&lt;/font&gt;" style="swimlane;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="76.5" y="1400" width="741" height="160" as="geometry" />
+          <mxGeometry x="76.5" y="1400" width="741" height="320" as="geometry" />
         </mxCell>
         <mxCell id="rAIBt6rHSv0Fkx4nkbGc-89" value="Remplir le formulaire" style="ellipse;whiteSpace=wrap;html=1;fillColor=#6d8764;fontColor=#ffffff;strokeColor=#3A5431;" vertex="1" parent="rAIBt6rHSv0Fkx4nkbGc-88">
           <mxGeometry x="61" y="40" width="120" height="80" as="geometry" />
@@ -236,7 +236,7 @@
           <mxGeometry x="288.5" y="30" width="164" height="120" as="geometry" />
         </mxCell>
         <mxCell id="rAIBt6rHSv0Fkx4nkbGc-91" value="&lt;font style=&quot;vertical-align: inherit;&quot;&gt;&lt;font style=&quot;vertical-align: inherit;&quot;&gt;Admin&lt;/font&gt;&lt;/font&gt;" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;fillColor=#1ba1e2;fontColor=#ffffff;strokeColor=#006EAF;" vertex="1" parent="1">
-          <mxGeometry x="26" y="1450" width="30" height="60" as="geometry" />
+          <mxGeometry x="26" y="1530" width="30" height="60" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
