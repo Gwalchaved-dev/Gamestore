@@ -1,9 +1,72 @@
 <mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36" version="24.7.6">
   <diagram name="Page-1" id="Thd2BQIGZXAX2JsIXWJJ">
-    <mxGraphModel>
+    <mxGraphModel dx="988" dy="536" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
+        <mxCell id="rAIBt6rHSv0Fkx4nkbGc-1" value="&lt;font style=&quot;vertical-align: inherit;&quot;&gt;&lt;font style=&quot;vertical-align: inherit;&quot;&gt;Page d&#39;accueil&lt;/font&gt;&lt;/font&gt;" style="swimlane;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="120" y="50" width="680" height="330" as="geometry" />
+        </mxCell>
+        <mxCell id="rAIBt6rHSv0Fkx4nkbGc-10" value="&lt;font style=&quot;vertical-align: inherit;&quot;&gt;&lt;font style=&quot;vertical-align: inherit;&quot;&gt;Consulter&lt;/font&gt;&lt;/font&gt;" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="rAIBt6rHSv0Fkx4nkbGc-1">
+          <mxGeometry x="80" y="35" width="120" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="rAIBt6rHSv0Fkx4nkbGc-14" value="Modifier" style="ellipse;whiteSpace=wrap;html=1;fillColor=#0050ef;fontColor=#ffffff;strokeColor=#001DBC;" vertex="1" parent="rAIBt6rHSv0Fkx4nkbGc-1">
+          <mxGeometry x="280" y="90" width="110" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="rAIBt6rHSv0Fkx4nkbGc-16" value="Supprimer" style="ellipse;whiteSpace=wrap;html=1;fillColor=#0050ef;fontColor=#ffffff;strokeColor=#001DBC;" vertex="1" parent="rAIBt6rHSv0Fkx4nkbGc-1">
+          <mxGeometry x="280" y="250" width="110" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="rAIBt6rHSv0Fkx4nkbGc-15" value="Ajouter" style="ellipse;whiteSpace=wrap;html=1;fillColor=#0050ef;fontColor=#ffffff;strokeColor=#001DBC;" vertex="1" parent="rAIBt6rHSv0Fkx4nkbGc-1">
+          <mxGeometry x="280" y="170" width="110" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="rAIBt6rHSv0Fkx4nkbGc-24" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;strokeColor=#afa2bd;" edge="1" parent="rAIBt6rHSv0Fkx4nkbGc-1" source="rAIBt6rHSv0Fkx4nkbGc-23" target="rAIBt6rHSv0Fkx4nkbGc-14">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="rAIBt6rHSv0Fkx4nkbGc-25" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;strokeColor=#AFA2BD;" edge="1" parent="rAIBt6rHSv0Fkx4nkbGc-1" source="rAIBt6rHSv0Fkx4nkbGc-23" target="rAIBt6rHSv0Fkx4nkbGc-15">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="rAIBt6rHSv0Fkx4nkbGc-26" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;strokeColor=#afa2bd;" edge="1" parent="rAIBt6rHSv0Fkx4nkbGc-1" source="rAIBt6rHSv0Fkx4nkbGc-23" target="rAIBt6rHSv0Fkx4nkbGc-16">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="rAIBt6rHSv0Fkx4nkbGc-23" value="S&#39;authentifier" style="ellipse;whiteSpace=wrap;html=1;fillColor=#76608a;strokeColor=#432D57;fontColor=#ffffff;" vertex="1" parent="rAIBt6rHSv0Fkx4nkbGc-1">
+          <mxGeometry x="453" y="170" width="107" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="rAIBt6rHSv0Fkx4nkbGc-27" value="" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="rAIBt6rHSv0Fkx4nkbGc-1">
+          <mxGeometry x="593" y="155" width="70" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="rAIBt6rHSv0Fkx4nkbGc-2" value="&lt;font style=&quot;vertical-align: inherit;&quot;&gt;&lt;font style=&quot;vertical-align: inherit;&quot;&gt;Page jeux vidéo - global&lt;/font&gt;&lt;/font&gt;" style="swimlane;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="157" y="600" width="670" height="200" as="geometry" />
+        </mxCell>
+        <mxCell id="rAIBt6rHSv0Fkx4nkbGc-3" value="&lt;font style=&quot;vertical-align: inherit;&quot;&gt;&lt;font style=&quot;vertical-align: inherit;&quot;&gt;Page jeux vidéo - détail&lt;/font&gt;&lt;/font&gt;" style="swimlane;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="160" y="840" width="670" height="200" as="geometry" />
+        </mxCell>
+        <mxCell id="rAIBt6rHSv0Fkx4nkbGc-11" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="rAIBt6rHSv0Fkx4nkbGc-5" target="rAIBt6rHSv0Fkx4nkbGc-10">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="rAIBt6rHSv0Fkx4nkbGc-5" value="&lt;font style=&quot;vertical-align: inherit;&quot;&gt;&lt;font style=&quot;vertical-align: inherit;&quot;&gt;Visiteur&lt;/font&gt;&lt;/font&gt;" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" vertex="1" parent="1">
+          <mxGeometry x="60" y="70" width="30" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="rAIBt6rHSv0Fkx4nkbGc-20" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeColor=#0011ff;" edge="1" parent="1" source="rAIBt6rHSv0Fkx4nkbGc-7" target="rAIBt6rHSv0Fkx4nkbGc-16">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="rAIBt6rHSv0Fkx4nkbGc-21" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeColor=#002aff;" edge="1" parent="1" source="rAIBt6rHSv0Fkx4nkbGc-7" target="rAIBt6rHSv0Fkx4nkbGc-15">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="rAIBt6rHSv0Fkx4nkbGc-22" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeColor=#0033ff;" edge="1" parent="1" source="rAIBt6rHSv0Fkx4nkbGc-7" target="rAIBt6rHSv0Fkx4nkbGc-14">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="rAIBt6rHSv0Fkx4nkbGc-7" value="&lt;font style=&quot;vertical-align: inherit;&quot;&gt;&lt;font style=&quot;vertical-align: inherit;&quot;&gt;Admin&lt;/font&gt;&lt;/font&gt;" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;fillColor=#1ba1e2;fontColor=#ffffff;strokeColor=#006EAF;" vertex="1" parent="1">
+          <mxGeometry x="60" y="180" width="30" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="rAIBt6rHSv0Fkx4nkbGc-8" value="&lt;font style=&quot;vertical-align: inherit;&quot;&gt;&lt;font style=&quot;vertical-align: inherit;&quot;&gt;Employé&lt;/font&gt;&lt;/font&gt;" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" vertex="1" parent="1">
+          <mxGeometry x="60" y="290" width="30" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="rAIBt6rHSv0Fkx4nkbGc-12" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=1;entryDx=0;entryDy=0;strokeColor=#0033ff;" edge="1" parent="1" source="rAIBt6rHSv0Fkx4nkbGc-7" target="rAIBt6rHSv0Fkx4nkbGc-10">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="rAIBt6rHSv0Fkx4nkbGc-28" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.258;entryY=0.925;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="rAIBt6rHSv0Fkx4nkbGc-8" target="rAIBt6rHSv0Fkx4nkbGc-10">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
       </root>
     </mxGraphModel>
   </diagram>
