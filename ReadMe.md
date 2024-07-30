@@ -38,9 +38,12 @@ $ npm install
 $ npm start
 *** initialisation of git repertory and creation git branchs***
 $ git init
-$ git commit -m "premier commit"
-$ 
-
+$ git commit -m "premier commit" (if files already exists)
+$ git remote add origin https://github.com/Gwalchaved-dev/Gamestore.git (add distant github repertory to my local repertory)
+$ git branch -M main 
+$ git push -u origine main (creation and push main branch)
+$ git checkout -b develop (creation and switch in developpement branch)
+$ git push -u origin develop (Push new branch to github)
 ```
 Side information: To use the application in a special environment use ```lorem ipsum``` to start
 
