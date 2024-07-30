@@ -110,11 +110,31 @@
         <mxCell id="rAIBt6rHSv0Fkx4nkbGc-30" value="&lt;font style=&quot;vertical-align: inherit;&quot;&gt;&lt;font style=&quot;vertical-align: inherit;&quot;&gt;Visiteur&lt;/font&gt;&lt;/font&gt;" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" vertex="1" parent="1">
           <mxGeometry x="24" y="430" width="30" height="60" as="geometry" />
         </mxCell>
+        <mxCell id="rAIBt6rHSv0Fkx4nkbGc-51" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeColor=#0008ff;" edge="1" parent="1" source="rAIBt6rHSv0Fkx4nkbGc-31" target="rAIBt6rHSv0Fkx4nkbGc-41">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="rAIBt6rHSv0Fkx4nkbGc-52" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeColor=#0033ff;" edge="1" parent="1" source="rAIBt6rHSv0Fkx4nkbGc-31" target="rAIBt6rHSv0Fkx4nkbGc-43">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="rAIBt6rHSv0Fkx4nkbGc-53" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeColor=#004cff;" edge="1" parent="1" source="rAIBt6rHSv0Fkx4nkbGc-31" target="rAIBt6rHSv0Fkx4nkbGc-42">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="rAIBt6rHSv0Fkx4nkbGc-55" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="rAIBt6rHSv0Fkx4nkbGc-31">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="80" y="570" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
         <mxCell id="rAIBt6rHSv0Fkx4nkbGc-31" value="&lt;font style=&quot;vertical-align: inherit;&quot;&gt;&lt;font style=&quot;vertical-align: inherit;&quot;&gt;Admin&lt;/font&gt;&lt;/font&gt;" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;fillColor=#1ba1e2;fontColor=#ffffff;strokeColor=#006EAF;" vertex="1" parent="1">
           <mxGeometry x="25" y="540" width="30" height="60" as="geometry" />
         </mxCell>
+        <mxCell id="rAIBt6rHSv0Fkx4nkbGc-54" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=1;entryDx=0;entryDy=0;strokeColor=#ff988d;" edge="1" parent="1" source="rAIBt6rHSv0Fkx4nkbGc-32" target="rAIBt6rHSv0Fkx4nkbGc-33">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
         <mxCell id="rAIBt6rHSv0Fkx4nkbGc-32" value="&lt;font style=&quot;vertical-align: inherit;&quot;&gt;&lt;font style=&quot;vertical-align: inherit;&quot;&gt;Employé&lt;/font&gt;&lt;/font&gt;" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;fillColor=#e51400;fontColor=#ffffff;strokeColor=#B20000;" vertex="1" parent="1">
           <mxGeometry x="25" y="650" width="30" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="rAIBt6rHSv0Fkx4nkbGc-56" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.333;entryY=1;entryDx=0;entryDy=0;entryPerimeter=0;strokeColor=#0011ff;" edge="1" parent="1" source="rAIBt6rHSv0Fkx4nkbGc-31" target="rAIBt6rHSv0Fkx4nkbGc-33">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
