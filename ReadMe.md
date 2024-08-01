@@ -27,7 +27,7 @@ A list of technologies used within the project:
 * [JavaScript](https://developer.mozilla.org/fr/docs/Web/JavaScript): JavaScript ES6
 * [MySql](https://www.mysql.com/fr/): Version 8.3.0
 * [PHP](https://www.php.net/): Version 8.3.7
-* [MongoDB](https://www.mongodb.com/fr-fr): Version 8.3.7
+* [MongoDB](https://www.mongodb.com/fr-fr): Version 7.0.12
 
 TECHOLOGIES UTILISEES (CF WAPPALYZER, Extension Chrome)
 
@@ -66,7 +66,7 @@ Start mongoDB :
 $ brew services start mongodb/brew/mongodb-community
 Stop mongoDB :
 $ brew services stop mongodb/brew/mongodb-community
-To verify that MongoDB is installed and working correctly, we can use the following command to access the MongoDB console: mongo
+To verify that MongoDB is installed and working correctly, we can use the following command to access the MongoDB console: mongosh (since version 5.0)
 This will connect you to the running MongoDB instance. If we see the MongoDB shell (>) appear, the installation was successful.
 
 Notes Importantes
@@ -76,13 +76,16 @@ Notes Importantes
 	•	Droits d’accès : Assure-toi d’avoir les permissions nécessaires pour écrire dans les répertoires utilisés par MongoDB. Si tu rencontres des erreurs de permission, tu peux changer les permissions ou exécuter les commandes avec sudo.
 
 
-```
-ok
 
-### Installation
+
+### DIAGRAMMES :
+*** Diagramme des cas d'Utilisations ***
+![Cas d'utilisation](/images/Diagramme%20cas%20utilisations%20Gamestore.drawio.png)
+
+#### Sécurité
 *** 
 ```
-Sous mac (with Homebrew) :
+Sous mac OS (with Homebrew) :
 $ brew update
 $ brew upgrade
 (Updating and upgrading differents softwares: openssl, etc... to the latest stable versions)
