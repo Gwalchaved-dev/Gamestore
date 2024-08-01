@@ -1,0 +1,15 @@
+{
+  "name": "gamestore",
+  "version": "1.0.0",
+  "description": "*** Infos entreprise *** ``` Gamestore est une entreprise spécialisée dans la vente de jeu vidéo. Ils ont 5 magasins en France à Nantes, Lille, Bordeaux, Paris ainsi que Toulouse. Ils proposent des jeux vidéo sur toutes les plateformes connues à ce jour, mais ils n’ont pas de site web. Pour le moment, seuls des prospectus sont effectués. Ce mode de fonctionnement est dépassé et Gamestore commence à perdre des clients. Ils ont besoin d’avoir accès à un outil leur donnant de la visibilité et permettant la vente en ligne des jeux vidéo. Vous avez été diplômé par l’école Studi. De plus, l’école ayant vanté vos compétences, vous avez été pris en freelance pour réaliser cette application. ```",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bootstrap": "^5.3.3"
+  }
+}
