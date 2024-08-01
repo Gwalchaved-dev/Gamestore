@@ -103,7 +103,7 @@ Notes Importantes
 ![Cas d'utilisation](/images/Diagramme%20cas%20utilisations%20Gamestore.drawio.png)
 ![Séquences]()
 
-#### Sécurité
+#### Security
 *** 
 ```
 Sous mac OS (with Homebrew) :
