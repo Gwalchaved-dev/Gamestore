@@ -1,4 +1,4 @@
-# GAMESTORE - ECF (MarkDown)
+# GAMESTORE - ECF Janvier/février 2025 - BJ HNT
 
 *** Infos entreprise ***
 Gamestore est une entreprise spécialisée dans la vente de jeu vidéo. Ils ont 5 magasins en
@@ -21,10 +21,13 @@ Pour ce faire, José, gérant de Gamestore, a décidé de vous prendre à part a
 ## Technologies
 ***
 A list of technologies used within the project:
-* [HTML](https://example.com): Version 12.3 
-* [CSS- BOOTSTRAP](https://example.com): Version 2.34
-* [CSS- BOOTSTRAP](https://example.com): Version 2.34
-* [Library name](https://example.com): Version 1234
+* [Docker] https://www.docker.com/ (pour palier au soucis de compatiblité de version, de plus travaillant sous Mac cela réduit les risques de rencontrer des problèmes pour les autres utilisateurs)
+* [HTML](https://developer.mozilla.org/fr/docs/Web/HTML): HTML5
+* [CSS- BOOTSTRAP](https://getbootstrap.com/): CSS3/CSS4
+* [JavaScript](https://developer.mozilla.org/fr/docs/Web/JavaScript): JavaScript ES6
+* [MySql](https://www.mysql.com/fr/): Version 8.3.0
+* [PHP](https://www.php.net/): Version 8.3.7
+* [MongoDB](https://www.mongodb.com/fr-fr): Version 8.3.7
 
 TECHOLOGIES UTILISEES (CF WAPPALYZER, Extension Chrome)
 
@@ -54,6 +57,34 @@ $ git push origin develop (and push in develop branch)
 $ git branch -d feature/nom-de-la-fonctionnalité
 $ git push origin --delete feature/nom-de-la-fonctionnalité (optional, removing specific feature branches, if no longer necessary)
 
+*** installation of MongoDB ***
+MongoDB has its own repository for Homebrew. We need to add this repository first to access the latest versions of MongoDB :
+$ brew tap mongodb/brew
+Once the repository is typed, we can install MongoDB Community Edition:
+$ brew install mongodb-community
+Start mongoDB :
+$ brew services start mongodb/brew/mongodb-community
+Stop mongoDB :
+$ brew services stop mongodb/brew/mongodb-community
+To verify that MongoDB is installed and working correctly, we can use the following command to access the MongoDB console: mongo
+This will connect you to the running MongoDB instance. If we see the MongoDB shell (>) appear, the installation was successful.
+
+Notes Importantes
+
+	•	Configuration par défaut : MongoDB est installé avec une configuration par défaut qui utilise /usr/local/var/mongodb pour le stockage des données et /usr/local/etc/mongod.conf pour le fichier de configuration.
+	•	Fichier de configuration : Tu peux modifier les configurations MongoDB en éditant le fichier /usr/local/etc/mongod.conf.
+	•	Droits d’accès : Assure-toi d’avoir les permissions nécessaires pour écrire dans les répertoires utilisés par MongoDB. Si tu rencontres des erreurs de permission, tu peux changer les permissions ou exécuter les commandes avec sudo.
+
+
 ```
-Side information: To use the application in a special environment use ```lorem ipsum``` to start
+ok
+
+### Installation
+*** 
+```
+Sous mac (with Homebrew) :
+$ brew update
+$ brew upgrade
+(Updating and upgrading differents softwares: openssl, etc... to the latest stable versions)
+```
 
