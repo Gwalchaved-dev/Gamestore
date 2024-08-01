@@ -21,7 +21,7 @@ Pour ce faire, José, gérant de Gamestore, a décidé de vous prendre à part a
 ## Technologies
 ***
 A list of technologies used within the project:
-* [Docker] https://www.docker.com/ pour palier au soucis de compatiblité de version, de plus travaillant sous Mac cela réduit les risques de rencontrer des problèmes pour les autres utilisateurs
+* [Docker] https://www.docker.com/
 * [HTML](https://developer.mozilla.org/fr/docs/Web/HTML): HTML5
 * [CSS- BOOTSTRAP](https://getbootstrap.com/): CSS3/CSS4
 * [JavaScript](https://developer.mozilla.org/fr/docs/Web/JavaScript): JavaScript ES6
