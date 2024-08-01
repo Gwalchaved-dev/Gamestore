@@ -61,6 +61,7 @@ $ git config pull.rebase true (In the case of branch divergence between the gith
 ```
 
 *** installation of MongoDB ***
+```
 MongoDB has its own repository for Homebrew. We need to add this repository first to access the latest versions of MongoDB :
 $ brew tap mongodb/brew
 Once the repository is typed, we can install MongoDB Community Edition:
@@ -71,6 +72,7 @@ Stop mongoDB :
 $ brew services stop mongodb/brew/mongodb-community
 To verify that MongoDB is installed and working correctly, we can use the following command to access the MongoDB console: mongosh (since version 5.0)
 This will connect you to the running MongoDB instance. If we see the MongoDB shell (>) appear, the installation was successful.
+```
 
 Notes Importantes
 
@@ -82,7 +84,7 @@ Notes Importantes
 
 
 ### DIAGRAMMES :
-*** Diagramme des cas d'Utilisations ***
+
 ![Cas d'utilisation](/images/Diagramme%20cas%20utilisations%20Gamestore.drawio.png)
 
 #### Sécurité
