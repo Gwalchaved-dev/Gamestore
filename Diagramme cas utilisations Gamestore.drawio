@@ -1,6 +1,6 @@
 <mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36" version="24.7.6">
   <diagram name="Page-1" id="Thd2BQIGZXAX2JsIXWJJ">
-    <mxGraphModel dx="946" dy="631" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="244" dy="162" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -254,7 +254,12 @@
           <mxGeometry x="13.5" y="125" width="107" height="70" as="geometry" />
         </mxCell>
         <mxCell id="rAIBt6rHSv0Fkx4nkbGc-127" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeColor=#1100ff;" parent="rAIBt6rHSv0Fkx4nkbGc-88" source="rAIBt6rHSv0Fkx4nkbGc-94" target="rAIBt6rHSv0Fkx4nkbGc-96" edge="1">
-          <mxGeometry relative="1" as="geometry" />
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="320" y="160" />
+              <mxPoint x="320" y="65" />
+            </Array>
+          </mxGeometry>
         </mxCell>
         <mxCell id="rAIBt6rHSv0Fkx4nkbGc-128" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeColor=#1100ff;" parent="rAIBt6rHSv0Fkx4nkbGc-88" source="rAIBt6rHSv0Fkx4nkbGc-94" target="rAIBt6rHSv0Fkx4nkbGc-98" edge="1">
           <mxGeometry relative="1" as="geometry" />
@@ -263,7 +268,12 @@
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="rAIBt6rHSv0Fkx4nkbGc-130" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeColor=#0055ff;" parent="rAIBt6rHSv0Fkx4nkbGc-88" source="rAIBt6rHSv0Fkx4nkbGc-94" target="rAIBt6rHSv0Fkx4nkbGc-99" edge="1">
-          <mxGeometry relative="1" as="geometry" />
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="320" y="160" />
+              <mxPoint x="320" y="315" />
+            </Array>
+          </mxGeometry>
         </mxCell>
         <mxCell id="rAIBt6rHSv0Fkx4nkbGc-94" value="A renseigner :&lt;div&gt;Adresse email&lt;/div&gt;&lt;div&gt;MdP&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;" parent="rAIBt6rHSv0Fkx4nkbGc-88" vertex="1">
           <mxGeometry x="153.5" y="110" width="147" height="100" as="geometry" />
