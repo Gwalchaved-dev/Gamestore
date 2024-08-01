@@ -28,6 +28,7 @@ A list of technologies used within the project:
 * [MySql](https://www.mysql.com/fr/): Version 8.3.0
 * [PHP](https://www.php.net/): Version 8.3.7
 * [MongoDB](https://www.mongodb.com/fr-fr): Version 7.0.12
+* [Docker](https://www.docker.com/): Version 4.33
 
 TECHOLOGIES UTILISEES (CF WAPPALYZER, Extension Chrome)
 
