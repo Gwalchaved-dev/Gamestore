@@ -19,8 +19,10 @@ application lui permettant de :
 ->Proposer de la vente en ligne (cependant, le paiement ainsi que le retrait se fera dans
 une agence)
 Pour ce faire, José, gérant de Gamestore, a décidé de vous prendre à part afin de vous présenter tous les éléments (CF CAHIER DES CHARGES).
-```
 
+```
+*** KANBAN ***
+* [TRELLO](https://trello.com/b/BsKkY6Gp/gamestore-bj-hnt-kanban): Tabler KANBAN - ECF - GAMESTORE
 
 ## Technologies
 ***
@@ -33,6 +35,9 @@ A list of technologies used within the project:
 * [PHP](https://www.php.net/): Version 8.3.7
 * [MongoDB](https://www.mongodb.com/fr-fr): Version 7.0.12
 * [Docker](https://www.docker.com/): Version 4.33
+* [Node.js](https://nodejs.org/fr): Version 22.5.1
+* [Bootstrap](https://getbootstrap.com/): Version 5.3.3
+* [Npm](https://www.npmjs.com/): Version 10.8.2
 
 TECHOLOGIES UTILISEES (CF WAPPALYZER, Extension Chrome)
 
@@ -41,8 +46,13 @@ TECHOLOGIES UTILISEES (CF WAPPALYZER, Extension Chrome)
 ```
 $ mkdir -p /users/bjh/env/workplace/Gamestore
 $ cd /users/bjh/env/workplace/Gamestore
+```
+*** Bootstrap ***
+```
+$ brew install node (Install of Node.js)
 $ npm install
-$ npm start
+$ npm init -y
+$ npm install bootstrap@5.3.3
 ```
 *** initialisation of git repository and creation git branchs ***
 ```
