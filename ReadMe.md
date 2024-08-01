@@ -21,7 +21,7 @@ Pour ce faire, José, gérant de Gamestore, a décidé de vous prendre à part a
 ## Technologies
 ***
 A list of technologies used within the project:
-* [Docker] https://www.docker.com/ (pour palier au soucis de compatiblité de version, de plus travaillant sous Mac cela réduit les risques de rencontrer des problèmes pour les autres utilisateurs)
+* [Docker] https://www.docker.com/ pour palier au soucis de compatiblité de version, de plus travaillant sous Mac cela réduit les risques de rencontrer des problèmes pour les autres utilisateurs
 * [HTML](https://developer.mozilla.org/fr/docs/Web/HTML): HTML5
 * [CSS- BOOTSTRAP](https://getbootstrap.com/): CSS3/CSS4
 * [JavaScript](https://developer.mozilla.org/fr/docs/Web/JavaScript): JavaScript ES6
@@ -40,6 +40,7 @@ $ npm install
 $ npm star
 ```
 *** initialisation of git repository and creation git branchs ***
+```
 $ git init
 $ git commit -m "premier commit" (if files already exists)
 $ git remote add origin https://github.com/Gwalchaved-dev/Gamestore.git (add distant github repository to my local repository)
@@ -56,6 +57,8 @@ $ git merge feature/nom-de-la-fonctionnalité (merge the specific branch of func
 $ git push origin develop (and push in develop branch)
 $ git branch -d feature/nom-de-la-fonctionnalité
 $ git push origin --delete feature/nom-de-la-fonctionnalité (optional, removing specific feature branches, if no longer necessary)
+$ git config pull.rebase true (In the case of branch divergence between the github repository and the local)
+```
 
 *** installation of MongoDB ***
 MongoDB has its own repository for Homebrew. We need to add this repository first to access the latest versions of MongoDB :
