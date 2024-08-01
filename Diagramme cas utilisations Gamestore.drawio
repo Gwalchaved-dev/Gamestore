@@ -244,7 +244,7 @@
         <mxCell id="rAIBt6rHSv0Fkx4nkbGc-78" value="&lt;font style=&quot;vertical-align: inherit;&quot;&gt;&lt;font style=&quot;vertical-align: inherit;&quot;&gt;Visiteur&lt;/font&gt;&lt;/font&gt;" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" parent="1" vertex="1">
           <mxGeometry x="26" y="1260" width="30" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="rAIBt6rHSv0Fkx4nkbGc-88" value="&lt;font style=&quot;vertical-align: inherit;&quot;&gt;&lt;font style=&quot;vertical-align: inherit;&quot;&gt;Espace Administrateur&lt;/font&gt;&lt;/font&gt;" style="swimlane;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+        <mxCell id="rAIBt6rHSv0Fkx4nkbGc-88" value="&lt;font style=&quot;vertical-align: inherit;&quot;&gt;&lt;font style=&quot;vertical-align: inherit;&quot;&gt;Espace Administrateur - MySQL&lt;/font&gt;&lt;/font&gt;" style="swimlane;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="80" y="1400" width="741" height="360" as="geometry" />
         </mxCell>
         <mxCell id="szdp30UPk_fIDK5p82z5-6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeColor=#0400ff;" edge="1" parent="rAIBt6rHSv0Fkx4nkbGc-88" source="rAIBt6rHSv0Fkx4nkbGc-92" target="rAIBt6rHSv0Fkx4nkbGc-94">
@@ -435,6 +435,42 @@
         </mxCell>
         <mxCell id="szdp30UPk_fIDK5p82z5-64" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.053;entryY=1.045;entryDx=0;entryDy=0;entryPerimeter=0;fillColor=#60a917;strokeColor=#2D7600;" edge="1" parent="1" source="szdp30UPk_fIDK5p82z5-56" target="szdp30UPk_fIDK5p82z5-62">
           <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="szdp30UPk_fIDK5p82z5-67" value="&lt;font style=&quot;vertical-align: inherit;&quot;&gt;&lt;font style=&quot;vertical-align: inherit;&quot;&gt;&lt;font style=&quot;vertical-align: inherit;&quot;&gt;&lt;font style=&quot;vertical-align: inherit;&quot;&gt;&lt;font style=&quot;vertical-align: inherit;&quot;&gt;&lt;font style=&quot;vertical-align: inherit;&quot;&gt;Calcul des ventes - noSQL - mongoDB&lt;/font&gt;&lt;/font&gt;&lt;/font&gt;&lt;/font&gt;&lt;/font&gt;&lt;/font&gt;" style="swimlane;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="80" y="2400" width="741" height="320" as="geometry" />
+        </mxCell>
+        <mxCell id="szdp30UPk_fIDK5p82z5-68" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;fillColor=#60a917;strokeColor=#2D7600;" edge="1" parent="szdp30UPk_fIDK5p82z5-67" source="szdp30UPk_fIDK5p82z5-69" target="szdp30UPk_fIDK5p82z5-71">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="szdp30UPk_fIDK5p82z5-69" value="&lt;font style=&quot;vertical-align: inherit;&quot;&gt;&lt;font style=&quot;vertical-align: inherit;&quot;&gt;Utilisateurs&lt;/font&gt;&lt;/font&gt;" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;fillColor=#60a917;fontColor=#ffffff;strokeColor=#2D7600;" vertex="1" parent="szdp30UPk_fIDK5p82z5-67">
+          <mxGeometry x="-56" y="150" width="30" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="szdp30UPk_fIDK5p82z5-70" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;fillColor=#60a917;strokeColor=#2D7600;" edge="1" parent="szdp30UPk_fIDK5p82z5-67" source="szdp30UPk_fIDK5p82z5-71" target="szdp30UPk_fIDK5p82z5-73">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="szdp30UPk_fIDK5p82z5-71" value="S&#39;authentifier" style="ellipse;whiteSpace=wrap;html=1;fillColor=#76608a;strokeColor=#432D57;fontColor=#ffffff;" vertex="1" parent="szdp30UPk_fIDK5p82z5-67">
+          <mxGeometry x="31" y="145" width="107" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="szdp30UPk_fIDK5p82z5-87" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="szdp30UPk_fIDK5p82z5-67" source="szdp30UPk_fIDK5p82z5-73" target="szdp30UPk_fIDK5p82z5-81">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="szdp30UPk_fIDK5p82z5-73" value="A renseigner :&lt;div&gt;Adresse email&lt;/div&gt;&lt;div&gt;MdP&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="szdp30UPk_fIDK5p82z5-67">
+          <mxGeometry x="164.5" y="130" width="147" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="szdp30UPk_fIDK5p82z5-90" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="szdp30UPk_fIDK5p82z5-67" source="szdp30UPk_fIDK5p82z5-76" target="szdp30UPk_fIDK5p82z5-86">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="szdp30UPk_fIDK5p82z5-76" value="Statut commande :&lt;div&gt;en cours -&amp;gt; livrée&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="szdp30UPk_fIDK5p82z5-67">
+          <mxGeometry x="470" y="145" width="131.5" height="65" as="geometry" />
+        </mxCell>
+        <mxCell id="szdp30UPk_fIDK5p82z5-89" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="szdp30UPk_fIDK5p82z5-67" source="szdp30UPk_fIDK5p82z5-81" target="szdp30UPk_fIDK5p82z5-76">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="szdp30UPk_fIDK5p82z5-81" value="Modifier" style="ellipse;whiteSpace=wrap;html=1;fillColor=#0050ef;fontColor=#ffffff;strokeColor=#001DBC;" vertex="1" parent="szdp30UPk_fIDK5p82z5-67">
+          <mxGeometry x="338.5" y="145" width="110" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="szdp30UPk_fIDK5p82z5-86" value="Stocker :&lt;div&gt;Nom de l&#39;article&lt;/div&gt;&lt;div&gt;Prix&lt;/div&gt;&lt;div&gt;Date&amp;nbsp;&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="szdp30UPk_fIDK5p82z5-67">
+          <mxGeometry x="620" y="80" width="110.5" height="200" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
