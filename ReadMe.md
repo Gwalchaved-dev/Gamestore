@@ -42,7 +42,7 @@ TECHOLOGIES UTILISEES (CF WAPPALYZER, Extension Chrome)
 $ mkdir -p /users/bjh/env/workplace/Gamestore
 $ cd /users/bjh/env/workplace/Gamestore
 $ npm install
-$ npm star
+$ npm start
 ```
 *** initialisation of git repository and creation git branchs ***
 ```
