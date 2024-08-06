@@ -25,7 +25,9 @@ Pour ce faire, José, gérant de Gamestore, a décidé de vous prendre à part a
 * [TRELLO](https://trello.com/b/BsKkY6Gp/gamestore-bj-hnt-kanban): Tabler KANBAN - ECF - GAMESTORE
 
 *** FIGMA ***
-<link src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Fdesign%2Fp8sm3BDQKgfxbb5WqlIAil%2FGamestore%3Fnode-id%3D1-2%26t%3DlFNHdUidUp3ep4nD-1">
+
+https://www.figma.com/design/p8sm3BDQKgfxbb5WqlIAil/Gamestore?node-id=1-2&m=dev&t=EEXlZ1F3uJrL7LYK-1
+
 
 ## Technologies
 ***
