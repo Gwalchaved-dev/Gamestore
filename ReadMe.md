@@ -43,6 +43,7 @@ A list of technologies used within the project:
 * [Node.js](https://nodejs.org/fr): Version 22.5.1
 * [Bootstrap](https://getbootstrap.com/): Version 5.3.3
 * [Npm](https://www.npmjs.com/): Version 10.8.2
+* [Sass](https://sass-lang.com/): Version 1.77.8
 
 TECHOLOGIES UTILISEES (CF WAPPALYZER, Extension Chrome)
 
