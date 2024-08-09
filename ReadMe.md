@@ -21,29 +21,39 @@ une agence)
 Pour ce faire, José, gérant de Gamestore, a décidé de vous prendre à part afin de vous présenter tous les éléments (CF CAHIER DES CHARGES).
 
 ```
-*** KANBAN ***
+*** Kanban ***
 * [TRELLO](https://trello.com/b/BsKkY6Gp/gamestore-bj-hnt-kanban): Tabler KANBAN - ECF - GAMESTORE
 
-*** FIGMA ***
+*** Figma ***
 
 https://www.figma.com/design/p8sm3BDQKgfxbb5WqlIAil/Gamestore?node-id=1-2&m=dev&t=EEXlZ1F3uJrL7LYK-1
 
+```
+Réalisation des wireframes et mockups sur figma. (cf lien ci-dessus)
+Les test d'accessibilité ont été réalisés à l'aide du plug-in Stark Contrasts, permettant de tester la lisibilité de la maquette en testant les polices et tailles de caractères utilisés (ici obtention des notes AA et AAA), et permettent aussi de simuler un rendu en fonction des différents "handicaps" visuels afin d'avoir un aperçu de l'accessibilité du site. (ici le site aura un rendu correct pour une majortité de visiteurs).
+```
 
 ## Technologies
-***
-A list of technologies used within the project:
+*** Choix des technologies ***
+
+
+*** A list of technologies used within the project: ***
+*** Front-End ***
 
 * [HTML](https://developer.mozilla.org/fr/docs/Web/HTML): HTML5
 * [CSS- BOOTSTRAP](https://getbootstrap.com/): CSS3/CSS4
 * [JavaScript](https://developer.mozilla.org/fr/docs/Web/JavaScript): JavaScript ES6
+* [Bootstrap](https://getbootstrap.com/): Version 5.3.3
+* [Npm](https://www.npmjs.com/): Version 10.8.2
+* [Sass](https://sass-lang.com/): Version 1.77.8
+
+*** Back-End ***
+
 * [MySql](https://www.mysql.com/fr/): Version 8.3.0
 * [PHP](https://www.php.net/): Version 8.3.7
 * [MongoDB](https://www.mongodb.com/fr-fr): Version 7.0.12
 * [Docker](https://www.docker.com/): Version 4.33
 * [Node.js](https://nodejs.org/fr): Version 22.5.1
-* [Bootstrap](https://getbootstrap.com/): Version 5.3.3
-* [Npm](https://www.npmjs.com/): Version 10.8.2
-* [Sass](https://sass-lang.com/): Version 1.77.8
 
 TECHOLOGIES UTILISEES (CF WAPPALYZER, Extension Chrome)
 
@@ -101,10 +111,14 @@ Notes Importantes
 	•	Fichier de configuration : Tu peux modifier les configurations MongoDB en éditant le fichier /usr/local/etc/mongod.conf.
 	•	Droits d’accès : Assure-toi d’avoir les permissions nécessaires pour écrire dans les répertoires utilisés par MongoDB. Si tu rencontres des erreurs de permission, tu peux changer les permissions ou exécuter les commandes avec sudo.
 
+*** installation of SASS ***
+```
+$ npm install -g sass
+other possibility with Homebrew, for install Dart Sass :
+$ brew install sass/sass/sass
+```
 
-
-
-### DIAGRAMMES :
+### Diagrammes :
 
 ![Cas d'utilisation](/images/Diagramme%20cas%20utilisations%20Gamestore.drawio.png)
 ![Séquences]()
@@ -118,3 +132,56 @@ $ brew upgrade
 (Updating and upgrading differents softwares: openssl, etc... to the latest stable versions)
 ```
 
+##### Référencement
+*** Recherche de mots clés ***
+```
+• Use Google TRENDS : https://trends.google.fr/trends/
+
+• Voici notre liste de mots clés sélectionnés avec goolgle TREND pour un magasin de jeux-vidéos, au vu de la taille du projet nous avons opté pour l'usage de 3 mots clés / page : 
+
+
+```
+*** SEO ***
+```
+• Netlinking (maillage interne)
+
+• Maillage Externe : Backlinks et liens sortants, dans le cadre de notre activité de ventes de jeux vidéos, il sera intéressant d'avoir des liens sortants pertinents tel que le site du studio de production du jeux en questions, ou éventuellements des sites officiels de la communauté pour certains jeux MMO... Pour le nombres de liens à intégrer sur son site, Google (en 2011) ne recommander pas d'avoirs plus d'une centaines de liens, même si cette règle ne tiens plus vraiment aujourd'hui, il faut faire preuve de discernement et surtout s'assurer ques les liens qu'ils soient interne ou externe, soient pertinents et importants pour le contenu mais aussi pour l'utilisateur.
+```
+*** SEA ***
+```
+• Fonction des besoins du clients, peut-être sera t'il pertinent d'attribuer un budget en SEA afin d'apparaitre dans les Annonces de début de SERP.
+
+• Use Google Ads : https://ads.google.com
+```
+*** METADONNEES ***
+```
+```
+
+*** Attributs ALT ***
+```
+Nous avons employés des attrbuts ALT  pour chaque image (Img) lors du développement de notre code :
+
+```
+
+###### Déploiement
+*** Publication ***
+```
+https://www.netlify.com/
+Use FilleZilla for the FTP transfert.
+Capture d'écran
+```
+*** Tests performances (et améliorations) ***
+```
+• Use Google PageSpeeds Insights: https://developers.google.com/speed/docs/insights/v5/about?hl=fr
+
+(inclure capture)
+
+```
+*** Test compatibilité & responsive ***
+```
+• Nous pourrons tester notre site sous différents OS : Microsoft, Mac, Linux et les OS mobile Android et IOS.
+• Collecter les feedbacks (retour clients).
+• L'aspect responsive à été pris en charge tout du long du développement, avec la méthode de mobile first, ainsi qu'avec l'usage des frameworks tels que BOOTSTRAP. Certains site permettent de réaliser ces tests, tel que : http://www.responsinator.com/ (il est possible de les réaliser directement via F12 sur Chrome)
+• Enfin il nous faut tester notre site sur différents navigateurs internet: Chrome, Firefox, Safari.
+
+```
