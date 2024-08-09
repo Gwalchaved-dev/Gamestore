@@ -120,7 +120,7 @@ $ brew install sass/sass/sass
 
 ### Diagrammes :
 
-![Cas d'utilisation](/images/Diagramme%20cas%20utilisations%20Gamestore.drawio.png)
+![Cas d'utilisation](Assets/images/Diagramme%20cas%20utilisations%20Gamestore.drawio.png)
 ![Séquences]()
 
 #### Security
