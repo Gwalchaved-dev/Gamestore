@@ -26,7 +26,7 @@ Pour ce faire, José, gérant de Gamestore, a décidé de vous prendre à part a
 
 *** Figma ***
 
-https://www.figma.com/design/p8sm3BDQKgfxbb5WqlIAil/Gamestore?node-id=1-2&m=dev&t=EEXlZ1F3uJrL7LYK-1
+* [FIGMA](https://www.figma.com/design/p8sm3BDQKgfxbb5WqlIAil/Gamestore?node-id=1-2&m=dev&t=EEXlZ1F3uJrL7LYK-1): Maquette projet Gamestore.
 
 ```
 Réalisation des wireframes et mockups sur figma. (cf lien ci-dessus)
@@ -38,6 +38,7 @@ Les test d'accessibilité ont été réalisés à l'aide du plug-in Stark Contra
 
 
 *** A list of technologies used within the project: ***
+
 *** Front-End ***
 
 * [HTML](https://developer.mozilla.org/fr/docs/Web/HTML): HTML5
@@ -107,9 +108,9 @@ This will connect you to the running MongoDB instance. If we see the MongoDB she
 
 Notes Importantes
 
-	•	Configuration par défaut : MongoDB est installé avec une configuration par défaut qui utilise /usr/local/var/mongodb pour le stockage des données et /usr/local/etc/mongod.conf pour le fichier de configuration.
-	•	Fichier de configuration : Tu peux modifier les configurations MongoDB en éditant le fichier /usr/local/etc/mongod.conf.
-	•	Droits d’accès : Assure-toi d’avoir les permissions nécessaires pour écrire dans les répertoires utilisés par MongoDB. Si tu rencontres des erreurs de permission, tu peux changer les permissions ou exécuter les commandes avec sudo.
+• Configuration par défaut : MongoDB est installé avec une configuration par défaut qui utilise /usr/local/var/mongodb pour le stockage des données et /usr/local/etc/mongod.conf pour le fichier de configuration.
+• Fichier de configuration : Tu peux modifier les configurations MongoDB en éditant le fichier /usr/local/etc/mongod.conf.
+• Droits d’accès : Assure-toi d’avoir les permissions nécessaires pour écrire dans les répertoires utilisés par MongoDB. Si tu rencontres des erreurs de permission, tu peux changer les permissions ou exécuter les commandes avec sudo.
 
 *** installation of SASS ***
 ```
