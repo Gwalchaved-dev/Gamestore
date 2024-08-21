@@ -121,13 +121,15 @@ $ brew install sass/sass/sass
 
 ### Diagrammes :
 
-![Cas d'utilisation](Assets/images/Diagramme%20cas%20utilisations%20Gamestore.drawio.png)
-![Séquences]()
+![Cas d'utilisation](Assets/images/Diagrammes/Diagramme%20cas%20utilisations%20Gamestore.drawio.png)
+![Séquence de connexion](Assets/images/Diagrammes/Diag%20Seq%20Connexion.png)
+![Séquence de vente en ligne](Assets/images/Diagrammes/Diag%20seq%20Vente%20en%20ligne.png)
+![Séquence de création/modification employés](Assets/images/Diagrammes/Diag%20Seq%20Crea:delete:modif%20employee.png)
 
 #### Security
 *** 
-```
 Sous mac OS (with Homebrew) :
+```
 $ brew update
 $ brew upgrade
 (Updating and upgrading differents softwares: openssl, etc... to the latest stable versions)
