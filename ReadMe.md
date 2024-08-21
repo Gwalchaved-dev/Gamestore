@@ -28,10 +28,10 @@ Pour ce faire, José, gérant de Gamestore, a décidé de vous prendre à part a
 
 * [FIGMA](https://www.figma.com/design/p8sm3BDQKgfxbb5WqlIAil/Gamestore?node-id=1-2&m=dev&t=EEXlZ1F3uJrL7LYK-1): Maquette projet Gamestore.
 
-```
+
 Réalisation des wireframes et mockups sur figma. (cf lien ci-dessus)
 Les test d'accessibilité ont été réalisés à l'aide du plug-in Stark Contrasts, permettant de tester la lisibilité de la maquette en testant les polices et tailles de caractères utilisés (ici obtention des notes AA et AAA), et permettent aussi de simuler un rendu en fonction des différents "handicaps" visuels afin d'avoir un aperçu de l'accessibilité du site. (ici le site aura un rendu correct pour une majortité de visiteurs).
-```
+
 
 ## Technologies
 *** Choix des technologies ***
@@ -122,7 +122,6 @@ $ brew install sass/sass/sass
 ### Diagrammes :
 *** Cas d'utilisations ***
 ![Cas d'utilisation](Assets/images/Diagrammes/Diagramme%20cas%20utilisations%20Gamestore.drawio.png)
-*** Diagrammes de séquences ***
 *** Séquence de connexion ***
 ![Séquence de connexion](Assets/images/Diagrammes/Diag%20Seq%20Connexion.png)
 *** Séquence de vente en ligne ***
@@ -141,11 +140,11 @@ $ brew upgrade
 
 ##### Référencement
 *** Recherche de mots clés ***
-```
+
 • Use Google TRENDS : https://trends.google.fr/trends/
 
 • Voici notre liste de mots clés sélectionnés avec goolgle TREND pour un magasin de jeux-vidéos, au vu de la taille du projet nous avons opté pour l'usage de 3 mots clés / page : 
-
+```
 
 ```
 *** SEO ***
@@ -166,7 +165,7 @@ $ brew upgrade
 
 *** Attributs ALT ***
 ```
-Nous avons employés des attrbuts ALT  pour chaque image (Img) lors du développement de notre code :
+Nous avons employés des attrbuts ALT  pour chaque image (Img) lors du développement de notre code.
 
 ```
 
