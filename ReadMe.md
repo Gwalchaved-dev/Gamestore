@@ -51,6 +51,7 @@ Les test d'accessibilité ont été réalisés à l'aide du plug-in Stark Contra
 *** Back-End ***
 
 * [MySql](https://www.mysql.com/fr/): Version 8.3.0
+* [Symfony](https://symfony.com/bundles): Version 7.1.3
 * [PHP](https://www.php.net/): Version 8.3.7
 * [MongoDB](https://www.mongodb.com/fr-fr): Version 7.0.12
 * [Docker](https://www.docker.com/): Version 4.33
