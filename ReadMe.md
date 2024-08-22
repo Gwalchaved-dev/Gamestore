@@ -145,7 +145,7 @@ $ brew upgrade
 
 • Voici notre liste de mots clés sélectionnés avec goolgle TREND pour un magasin de jeux-vidéos, au vu de la taille du projet nous avons opté pour l'usage de 3 mots clés / page : 
 ```
-
+Jeux vidéos - RPG - FPS - Builder - Magasins de jeux
 ```
 *** SEO ***
 ```
