@@ -1,7 +1,7 @@
 # GAMESTORE - ECF Janvier/février 2025 - BJ HNT
 
 *** Infos entreprise ***
-```
+
 Gamestore est une entreprise spécialisée dans la vente de jeu vidéo. Ils ont 5 magasins en
 France à Nantes, Lille, Bordeaux, Paris ainsi que Toulouse.
 Ils proposent des jeux vidéo sur toutes les plateformes connues à ce jour, mais ils n’ont pas de
@@ -9,10 +9,10 @@ site web. Pour le moment, seuls des prospectus sont effectués. Ce mode de fonct
 est dépassé et Gamestore commence à perdre des clients. Ils ont besoin d’avoir accès à un outil leur donnant de la visibilité et permettant la vente en ligne des jeux vidéo.
 Vous avez été diplômé par l’école Studi. De plus, l’école ayant vanté vos compétences, vous
 avez été pris en freelance pour réaliser cette application.
-```
+
 
 *** Description projet ***
-```
+
 Gamestore souhaite améliorer sa gestion. Dans cette optique, l’entreprise a besoin d’une
 application lui permettant de :
 ->Développer sa visibilité
@@ -20,7 +20,7 @@ application lui permettant de :
 une agence)
 Pour ce faire, José, gérant de Gamestore, a décidé de vous prendre à part afin de vous présenter tous les éléments (CF CAHIER DES CHARGES).
 
-```
+
 *** Kanban ***
 * [TRELLO](https://trello.com/b/BsKkY6Gp/gamestore-bj-hnt-kanban): Tabler KANBAN - ECF - GAMESTORE
 
