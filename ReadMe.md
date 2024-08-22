@@ -118,6 +118,12 @@ $ npm install -g sass
 other possibility with Homebrew, for install Dart Sass :
 $ brew install sass/sass/sass
 ```
+*** installation of Symfony and create BDD game_store_bdd ***
+
+```
+$ composer create-project symfony/skeleton game_store_bdd
+```
+
 
 ### Diagrammes :
 *** Cas d'utilisations ***
