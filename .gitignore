@@ -8,3 +8,18 @@
 /var/
 /vendor/
 ###< symfony/framework-bundle ###
+
+# Fichiers système macOS
+.DS_Store
+.Trash/
+.Spotlight-V100/
+.DocumentRevisions-V100/
+.fseventsd/
+.TemporaryItems/
+.AppleDouble/
+.AppleDB/
+
+# Configurations personnelles
+.vscode/
+.zsh_sessions/
+.zshrc
