@@ -8,9 +8,9 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class DefaultController extends AbstractController
 {
-    #[Route('/')]
+   #[Route("/", name:"app_homepage")]
     public function home(): Response
     {
-        return new Response('Hello World!');
+        return new Response('Welcome to Symfony!');
     }
 }
