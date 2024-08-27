@@ -32,5 +32,16 @@ services:
     depends_on:
       - database
 
+  app:
+    build: .
+    container_name: symfony_app
+    user: www-data
+    volumes:
+      - .:/var/www/html
+    ports:
+      - "8081:80"
+    depends_on:
+      - database
+
 volumes:
   database_data:
