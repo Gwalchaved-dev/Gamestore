@@ -1,6 +1,6 @@
 # GAMESTORE - ECF Janvier/février 2025 - BJ HNT
 
-*** Infos entreprise ***
+***Infos entreprise***
 
 Gamestore est une entreprise spécialisée dans la vente de jeu vidéo. Ils ont 5 magasins en
 France à Nantes, Lille, Bordeaux, Paris ainsi que Toulouse.
@@ -10,8 +10,7 @@ est dépassé et Gamestore commence à perdre des clients. Ils ont besoin d’av
 Vous avez été diplômé par l’école Studi. De plus, l’école ayant vanté vos compétences, vous
 avez été pris en freelance pour réaliser cette application.
 
-
-*** Description projet ***
+***Description projet***
 
 Gamestore souhaite améliorer sa gestion. Dans cette optique, l’entreprise a besoin d’une
 application lui permettant de :
@@ -20,22 +19,18 @@ application lui permettant de :
 une agence)
 Pour ce faire, José, gérant de Gamestore, a décidé de vous prendre à part afin de vous présenter tous les éléments (CF CAHIER DES CHARGES).
 
-
-*** Kanban ***
+***Kanban***
 * [TRELLO](https://trello.com/b/BsKkY6Gp/gamestore-bj-hnt-kanban): Tabler KANBAN - ECF - GAMESTORE
 
 *** Figma ***
-
 * [FIGMA](https://www.figma.com/design/p8sm3BDQKgfxbb5WqlIAil/Gamestore?node-id=1-2&m=dev&t=EEXlZ1F3uJrL7LYK-1): Maquette projet Gamestore.
 
 
 Réalisation des wireframes et mockups sur figma. (cf lien ci-dessus)
 Les test d'accessibilité ont été réalisés à l'aide du plug-in Stark Contrasts, permettant de tester la lisibilité de la maquette en testant les polices et tailles de caractères utilisés (ici obtention des notes AA et AAA), et permettent aussi de simuler un rendu en fonction des différents "handicaps" visuels afin d'avoir un aperçu de l'accessibilité du site. (ici le site aura un rendu correct pour une majortité de visiteurs).
 
-
 ## Technologies
 *** Choix des technologies ***
-
 
 *** A list of technologies used within the project: ***
 
