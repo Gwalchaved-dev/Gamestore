@@ -20,7 +20,7 @@ class CartJeuxVideos
     private ?int $JeuxVideosID = null;
 
     #[ORM\Column]
-    private ?int $Quantité = null;
+    private ?int $Quantite = null;
 
     public function getId(): ?int
     {
@@ -51,14 +51,14 @@ class CartJeuxVideos
         return $this;
     }
 
-    public function getQuantité(): ?int
+    public function getQuantite(): ?int
     {
-        return $this->Quantité;
+        return $this->Quantite;
     }
 
-    public function setQuantité(int $Quantité): static
+    public function setQuantite(int $Quantite): static
     {
-        $this->Quantité = $Quantité;
+        $this->Quantite = $Quantite;
 
         return $this;
     }
