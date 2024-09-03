@@ -45,6 +45,8 @@ services:
     depends_on:
       - database
     environment:
+       - APP_ENV=dev
+       - APP_DEBUG=1
        - DATABASE_URL=mysql://${MYSQL_USER}:${MYSQL_PASSWORD}@database:3306/${MYSQL_DATABASE}?serverVersion=8.0
     networks:
      - app-network

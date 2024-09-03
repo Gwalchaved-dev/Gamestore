@@ -4,8 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ asset('node_modules/bootstrap/dist/css/bootstrap.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('node_modules/bootstrap-icons/font/bootstrap-icons.css') }}">
-    <link rel="stylesheet" href="{{ asset('public/sass/main.scss') }}">
+    <link rel="stylesheet" href="{{ asset('Assets/sass/main.scss') }}">
     <title>Gamestore : magasins de jeux vidéos</title>
 </head>
 <body>
@@ -22,7 +21,7 @@
           <div class="collapse navbar-collapse" id="navbarNav">
               <ul class="navbar-nav ms-auto">
                   <li class="nav-item">
-                      <a class="nav-link" href="{{ path('home') }}">Accueil</a>
+                      <a class="nav-link" href="{{ path('app_homepage') }}">Accueil</a>
                   </li>
                   <li class="nav-item">
                       <a class="nav-link" href="{{ path('galerie') }}">Nos jeux vidéos</a>
@@ -38,8 +37,7 @@
         </nav>
         <div class="header-bg"></div>
       </header>
- 
-    <script type="module" src="{{ asset('Router/router.js') }}"></script>
+
 </body>
 test
 </html>
