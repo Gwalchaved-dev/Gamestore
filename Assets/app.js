@@ -8,8 +8,8 @@
 // any CSS you import will output into a single css file (app.css in this case)
 import $ from 'jquery';
 import 'bootstrap';
-import '../sass/app.scss'; // Si emploi du SCSS
+import '/assets/sass/app.scss'; // Correction du chemin relatif
 
 $(document).ready(function() {
-    // Ton code jQuery ici
+    // code jQuery ici
 });

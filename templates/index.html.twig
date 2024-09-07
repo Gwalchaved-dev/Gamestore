@@ -3,41 +3,45 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{ asset('node_modules/bootstrap/dist/css/bootstrap.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('Assets/sass/main.scss') }}">
+
+    {# Appel du CSS compilé via Webpack Encore #}
+    {{ encore_entry_link_tags('app') }}
+    {{ encore_entry_link_tags('styles/app_css') }}
+
     <title>Gamestore : magasins de jeux vidéos</title>
 </head>
 <body>
     <div class="main-container">
-        <!--NAVBAR & Logo dépassant-->
-      <header id="navbar-container">
-        <nav class="navbar navbar-expand-lg bg-custom">
-          <a class="navbar-brand" href="#">
-              <img src="{{ asset('Assets/images/logoGamestore.png') }}" alt="Gamestore logo" class="logo">
-          </a>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-              <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarNav">
-              <ul class="navbar-nav ms-auto">
-                  <li class="nav-item">
-                      <a class="nav-link" href="{{ path('app_homepage') }}">Accueil</a>
-                  </li>
-                  <li class="nav-item">
-                      <a class="nav-link" href="{{ path('galerie') }}">Nos jeux vidéos</a>
-                  </li>
-                  <li class="nav-item">
-                      <a class="nav-link" href="#"><i class="bi bi-bag-heart"></i></a>
-                  </li>
-                  <li class="nav-item">
-                      <a class="nav-link" href="#"><i class="bi bi-person-circle"></i></a>
-                  </li>
-              </ul>
-          </div>
-        </nav>
-        <div class="header-bg"></div>
-      </header>
+        <!-- NAVBAR & Logo -->
+        <header id="navbar-container">
+            <nav class="navbar navbar-expand-lg bg-custom">
+                <a class="navbar-brand" href="#">
+                    <img src="{{ asset('Assets/images/logoGamestore.png') }}" alt="Gamestore logo" class="logo">
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('app_homepage') }}">Accueil</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('galerie') }}">Nos jeux vidéos</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#"><i class="bi bi-bag-heart"></i></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#"><i class="bi bi-person-circle"></i></a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </header>
 
+        {# Appel du JavaScript compilé via Webpack Encore #}
+        {{ encore_entry_script_tags('app') }}
+    </div>
 </body>
-test
 </html>

@@ -7,65 +7,46 @@ if (!Encore.isRuntimeEnvironmentConfigured()) {
 }
 
 Encore
-    // directory where compiled assets will be stored
+    // Directory where compiled assets will be stored
     .setOutputPath('public/build/')
-    // public path used by the web server to access the output path
-    .setPublicPath('/build')
-    // only needed for CDN's or subdirectory deploy
-    //.setManifestKeyPrefix('build/')
+    // Public path used by the web server to access the output path
+    .setPublicPath('public/build')
 
-    /*
-     * ENTRY CONFIG
-     *
-     * Each entry will result in one JavaScript file (e.g. app.js)
-     * and one CSS file (e.g. app.css) if your JavaScript imports CSS.
-     */
+    // JavaScript entry
     .addEntry('app', './assets/app.js')
-    .addStyleEntry('css/app', './public/sass/main.scss')
 
-    // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.
-    .splitEntryChunks()
+    // SCSS entry
+    .addStyleEntry('styles/app_css', './assets/sass/app.scss') // Nom unique pour l'entrée CSS
 
-    // will require an extra script tag for runtime.js
-    // but, you probably want this, unless you're building a single-page app
+    // Enable single runtime chunk (fix required)
     .enableSingleRuntimeChunk()
 
-    /*
-     * FEATURE CONFIG
-     *
-     * Enable & configure other features below. For a full
-     * list of features, see:
-     * https://symfony.com/doc/current/frontend.html#adding-more-features
-     */
-    .cleanupOutputBeforeBuild()
-    .enableBuildNotifications()
+    // Enable Sass/SCSS loader
+    .enableSassLoader()
+
+    // Enable source maps during development
     .enableSourceMaps(!Encore.isProduction())
-    // enables hashed filenames (e.g. app.abc123.css)
+
+    // Enable versioning of files for production
     .enableVersioning(Encore.isProduction())
 
-    // configure Babel
-    // .configureBabel((config) => {
-    //     config.plugins.push('@babel/a-babel-plugin');
-    // })
+    // Clean up output before each build
+    .cleanupOutputBeforeBuild()
 
-    // enables and configure @babel/preset-env polyfills
+    // Enable hashed filenames (e.g. app.abc123.css)
+    .enableVersioning(Encore.isProduction())
+
+    // Configure Babel, with polyfills
     .configureBabelPresetEnv((config) => {
         config.useBuiltIns = 'usage';
         config.corejs = 3;
     })
 
-    // enables Sass/SCSS support
-    .enableSassLoader()
-
-    // uncomment if you use React
-    //.enableReactPreset()
-
-    // uncomment to get integrity="..." attributes on your script & link tags
-    // requires WebpackEncoreBundle 1.4 or higher
-    //.enableIntegrityHashes(Encore.isProduction())
-
-    // uncomment if you're having problems with a jQuery plugin
-    //.autoProvidejQuery()
+    // Configure the DevServer with live reload
+    .configureDevServerOptions(options => {
+        options.liveReload = true;
+        options.watchFiles = ['templates/**/*.html.twig', 'assets/sass/**/*.scss', 'assets/js/**/*.js'];
+    })
 ;
 
 module.exports = Encore.getWebpackConfig();
