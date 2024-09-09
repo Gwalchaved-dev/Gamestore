@@ -1,52 +1,76 @@
+/* Image de fond sur toute la page */
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-image: url('/assets/images/5415398.jpg')!important;
+  background-size: cover; /* Ajuste la taille de l'image pour couvrir tout l'écran */
+  background-position: center; /* Centrage de l'image */
+  background-repeat: no-repeat; /* Pour éviter la répétition de l'image */
+  display: flex;
+  flex-direction: column; /* Permet d'aligner les éléments correctement */
+}
+
+/* Navbar fixe en haut de page avec un fond bleu */
 header {
-    position: fixed;
-    width: 100%;
-    height: 257px;
-    z-index: 1000;
-  }
-  
-  .navbar {
-    position: relative;
-    height: 100px; /* Hauteur de la barre de navigation */
-    background-color: #5a645a; /* Couleur de la barre de navigation */
-    display: flex;
-    align-items: center;
-    padding-left: 20px;
-  
-  }
-  
-  .bg-custom {
-    background-color: #000000 !important; /* Utilisez !important pour surcharger les styles Bootstrap */
-  }
-  
-  .navbar-nav .nav-link {
-    color: white; /* Couleur du texte des liens */
-  }
-  
-  .navbar-nav .nav-link:hover {
-    color: #ccc; /* Couleur au survol des liens */
-  }
-  
-  .nav-item{
-    display: flex;
-    flex-direction: row;
-    margin: 30px;
-  }
-  
-  .logo {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 100px; /* Hauteur de la navbar */
+  z-index: 1000;
+}
+
+/* Forcer l'élément de fond à rester derrière */
+.header-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  z-index: -1;
+}
+
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* Aligne les éléments aux extrémités */
+  padding: 0 20px; /* Espacement gauche-droite */
+  background-color: #3129c9; /* Couleur de la navbar */
+  height: 100%;
+}
+
+/* Couleur du texte de la navbar */
+.navbar-nav .nav-link {
+  color: white; /* Couleur du texte des liens */
+  padding: 10px;
+}
+
+/* Couleur des liens au survol */
+.navbar-nav .nav-link:hover {
+  color: #ccc; /* Couleur au survol */
+}
+
+/* Centrage du logo dans la navbar */
+.logo {
     position: absolute;
     bottom: -70px; /* Dépassement de 30px de la barre de navigation */
     width: 150px; /* Taille du logo, ajustez selon vos besoins */
     height: auto;
     border-radius: 100px;
   }
-  
-  .header-bg {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-size: cover;
-    z-index: -1; /* Assure que le fond est derrière les autres éléments */
-  }
+
+/* Alignement des éléments dans la navbar */
+.navbar-nav {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+ul.navbar-nav {
+  list-style: none; /* Supprimer les puces */
+  padding-left: 0; /* Retirer tout padding qui pourrait provoquer des décalages */
+}

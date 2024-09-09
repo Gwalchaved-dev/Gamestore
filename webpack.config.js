@@ -1,52 +1,55 @@
 const Encore = require('@symfony/webpack-encore');
+const CopyPlugin = require('copy-webpack-plugin'); // Import du plugin
 
-// Manually configure the runtime environment if not already configured yet by the "encore" command.
-// It's useful when you use tools that rely on webpack.config.js file.
 if (!Encore.isRuntimeEnvironmentConfigured()) {
     Encore.configureRuntimeEnvironment(process.env.NODE_ENV || 'dev');
 }
 
 Encore
-    // Directory where compiled assets will be stored
+    // Dossier de sortie des fichiers compilés
     .setOutputPath('public/build/')
-    // Public path used by the web server to access the output path
-    .setPublicPath('public/build')
+    // Chemin public pour accéder aux fichiers compilés
+    .setPublicPath('/build')
 
-    // JavaScript entry
+    // Entrée JavaScript
     .addEntry('app', './assets/app.js')
 
-    // SCSS entry
-    .addStyleEntry('styles/app_css', './assets/sass/app.scss') // Nom unique pour l'entrée CSS
+    // Entrée SCSS
+    .addStyleEntry('styles/app_css', './assets/sass/app.scss')
 
-    // Enable single runtime chunk (fix required)
+    // Activer le "runtime" pour avoir un fichier runtime.js séparé
     .enableSingleRuntimeChunk()
 
-    // Enable Sass/SCSS loader
+    // Activer le support de Sass/SCSS
     .enableSassLoader()
 
-    // Enable source maps during development
+    // Activer les sourcemaps pour le développement
     .enableSourceMaps(!Encore.isProduction())
 
-    // Enable versioning of files for production
+    // Activer le versioning des fichiers (hashing) pour la production
     .enableVersioning(Encore.isProduction())
 
-    // Clean up output before each build
+    // Nettoyer le dossier de sortie avant chaque build
     .cleanupOutputBeforeBuild()
 
-    // Enable hashed filenames (e.g. app.abc123.css)
-    .enableVersioning(Encore.isProduction())
-
-    // Configure Babel, with polyfills
+    // Configurer Babel pour utiliser les polyfills en fonction des besoins
     .configureBabelPresetEnv((config) => {
         config.useBuiltIns = 'usage';
         config.corejs = 3;
     })
 
-    // Configure the DevServer with live reload
+    // Configurer le serveur de développement (hot-reload)
     .configureDevServerOptions(options => {
         options.liveReload = true;
         options.watchFiles = ['templates/**/*.html.twig', 'assets/sass/**/*.scss', 'assets/js/**/*.js'];
     })
+
+    // Ajout du plugin pour copier les fichiers d'images
+    .addPlugin(new CopyPlugin({
+        patterns: [
+            { from: './assets/images', to: 'images' } // Copier toutes les images dans public/build/images
+        ]
+    }))
 ;
 
 module.exports = Encore.getWebpackConfig();
