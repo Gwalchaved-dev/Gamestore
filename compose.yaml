@@ -34,9 +34,28 @@ services:
     networks:
      - app-network
 
-  app:
+  # Commenting out the old Symfony container
+  # symfony_app:
+  #   build: .
+  #   container_name: symfony_app
+  #   user: www-data
+  #   volumes:
+  #     - .:/var/www/html
+  #   ports:
+  #     - "8081:80"
+  #   depends_on:
+  #     - database
+  #   environment:
+  #      - APP_ENV=dev
+  #      - APP_DEBUG=1
+  #      - DATABASE_URL=mysql://${MYSQL_USER}:${MYSQL_PASSWORD}@database:3306/${MYSQL_DATABASE}?serverVersion=8.0
+  #   networks:
+  #    - app-network
+
+  # New Symfony container
+  my_symfony_app:
     build: .
-    container_name: symfony_app
+    container_name: my_symfony_app
     user: www-data
     volumes:
       - .:/var/www/html
@@ -52,8 +71,8 @@ services:
      - app-network
 
 networks:
-     app-network:
-       driver: bridge
+  app-network:
+    driver: bridge
 
 volumes:
   database_data:

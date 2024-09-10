@@ -8,7 +8,7 @@ if (!Encore.isRuntimeEnvironmentConfigured()) {
 Encore
     // Dossier de sortie des fichiers compilés
     .setOutputPath('public/build/')
-    // Chemin public pour accéder aux fichiers compilés
+    // Chemin public pour accéder aux fichiers compilés, ajusté pour le dev-server
     .setPublicPath('/build')
 
     // Entrée JavaScript
@@ -38,10 +38,16 @@ Encore
         config.corejs = 3;
     })
 
-    // Configurer le serveur de développement (hot-reload)
+    // Configurer le serveur de développement (hot-reload et hot module replacement)
     .configureDevServerOptions(options => {
         options.liveReload = true;
+        options.hot = true;
         options.watchFiles = ['templates/**/*.html.twig', 'assets/sass/**/*.scss', 'assets/js/**/*.js'];
+    })
+
+    // Ajouter l'option watch pour détecter les changements de fichiers
+    .configureWatchOptions(watchOptions => {
+        watchOptions.poll = 1000; // Vérifier les changements toutes les secondes
     })
 
     // Ajout du plugin pour copier les fichiers d'images

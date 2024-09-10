@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8c8f68700656200d04b6c4200c6a8d1d",
+    "content-hash": "2f0a38a5bc93a3c39570ab470113f927",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -5420,16 +5420,16 @@
         },
         {
             "name": "twig/twig",
-            "version": "v3.12.0",
+            "version": "v3.14.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/twigphp/Twig.git",
-                "reference": "4d19472d4ac1838e0b1f0e029ce1fa4040eb34ea"
+                "reference": "126b2c97818dbff0cdf3fbfc881aedb3d40aae72"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twigphp/Twig/zipball/4d19472d4ac1838e0b1f0e029ce1fa4040eb34ea",
-                "reference": "4d19472d4ac1838e0b1f0e029ce1fa4040eb34ea",
+                "url": "https://api.github.com/repos/twigphp/Twig/zipball/126b2c97818dbff0cdf3fbfc881aedb3d40aae72",
+                "reference": "126b2c97818dbff0cdf3fbfc881aedb3d40aae72",
                 "shasum": ""
             },
             "require": {
@@ -5483,7 +5483,7 @@
             ],
             "support": {
                 "issues": "https://github.com/twigphp/Twig/issues",
-                "source": "https://github.com/twigphp/Twig/tree/v3.12.0"
+                "source": "https://github.com/twigphp/Twig/tree/v3.14.0"
             },
             "funding": [
                 {
@@ -5495,7 +5495,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-08-29T09:51:12+00:00"
+            "time": "2024-09-09T17:55:12+00:00"
         }
     ],
     "packages-dev": [
@@ -5731,55 +5731,6 @@
                 }
             ],
             "time": "2024-05-31T14:55:39+00:00"
-        },
-        {
-            "name": "symfony/debug-pack",
-            "version": "v1.0.10",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/debug-pack.git",
-                "reference": "98ef3cb02f9adb54b98d8bc95c84b896513a51d5"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/debug-pack/zipball/98ef3cb02f9adb54b98d8bc95c84b896513a51d5",
-                "reference": "98ef3cb02f9adb54b98d8bc95c84b896513a51d5",
-                "shasum": ""
-            },
-            "require": {
-                "symfony/debug-bundle": "*",
-                "symfony/monolog-bundle": "^3.0",
-                "symfony/profiler-pack": "*"
-            },
-            "require-dev": {
-                "symfony/debug-bundle": "*",
-                "symfony/profiler-pack": "*"
-            },
-            "type": "symfony-pack",
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "description": "A debug pack for Symfony projects",
-            "support": {
-                "issues": "https://github.com/symfony/debug-pack/issues",
-                "source": "https://github.com/symfony/debug-pack/tree/v1.0.10"
-            },
-            "funding": [
-                {
-                    "url": "https://symfony.com/sponsor",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://github.com/fabpot",
-                    "type": "github"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
-                    "type": "tidelift"
-                }
-            ],
-            "time": "2021-08-20T17:29:57+00:00"
         },
         {
             "name": "symfony/maker-bundle",
@@ -6092,54 +6043,6 @@
                 }
             ],
             "time": "2024-07-26T12:44:47+00:00"
-        },
-        {
-            "name": "symfony/profiler-pack",
-            "version": "v1.0.6",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/profiler-pack.git",
-                "reference": "bcd6e80af9819454ac18594362e7875fd1d771c7"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/profiler-pack/zipball/bcd6e80af9819454ac18594362e7875fd1d771c7",
-                "reference": "bcd6e80af9819454ac18594362e7875fd1d771c7",
-                "shasum": ""
-            },
-            "require": {
-                "symfony/stopwatch": "*",
-                "symfony/web-profiler-bundle": "*"
-            },
-            "require-dev": {
-                "symfony/stopwatch": "*",
-                "symfony/web-profiler-bundle": "*"
-            },
-            "type": "symfony-pack",
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "description": "A pack for the Symfony web profiler",
-            "support": {
-                "issues": "https://github.com/symfony/profiler-pack/issues",
-                "source": "https://github.com/symfony/profiler-pack/tree/v1.0.6"
-            },
-            "funding": [
-                {
-                    "url": "https://symfony.com/sponsor",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://github.com/fabpot",
-                    "type": "github"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
-                    "type": "tidelift"
-                }
-            ],
-            "time": "2021-08-20T17:27:58+00:00"
         },
         {
             "name": "symfony/web-profiler-bundle",
