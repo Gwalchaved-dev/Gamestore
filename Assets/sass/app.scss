@@ -7,13 +7,10 @@ html, body {
 }
 
 body {
-  background-image: url('/assets/images/5415398.jpg')!important;
+  background-image: url('/assets/images/5415398.jpg') !important;
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  display: flex;
-  flex-direction: column;
-  z-index: -1; /* Il est rare d'avoir besoin d'un z-index ici */
 }
 
 /* Wrapper du logo */
@@ -23,20 +20,19 @@ body {
   left: 20px;
   width: 150px;
   height: auto;
-  z-index: 100; /* Maintenir le logo au-dessus du reste */
+  z-index: 100;
 }
 
-/* Positionnement du logo */
 .logo {
   width: 150px;
   height: auto;
   border-radius: 100px;
   position: relative;
-  bottom: -50px; /* Fais dépasser le logo sous la navbar */
-  border: 2px solid #00bfff; /* Ajout d'un contour bleu ciel */
+  bottom: -50px;
+  border: 2px solid #00bfff;
 }
 
-/* Navbar fixe en haut de page avec un fond bleu */
+/* Navbar */
 header {
   position: relative;
   top: 0;
@@ -56,73 +52,107 @@ header {
   clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 85%, 0% 100%);
   z-index: 10;
   overflow: visible;
-  border: 2px solid #00bfff; /* Ajout d'un contour bleu ciel */
+  border: 2px solid #00bfff;
 }
 
-/* Couleur du texte de la navbar */
 .navbar-nav .nav-link {
   color: white;
-  padding: 10px;
 }
 
-/* Couleur des liens au survol */
 .navbar-nav .nav-link:hover {
   color: #ccc;
 }
 
-/* Alignement des éléments dans la navbar */
-.navbar-nav {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-}
-
-ul.navbar-nav {
-  list-style: none;
-  padding-left: 0;
-}
-
 /* CAROUSEL */
 #monCarousel {
-  width: 100%;
+  width: 80%;
   max-height: 500px;
-  overflow: hidden;
-}
-
-.carousel-item {
-  height: 100%;
-  background-size: cover;
-  background-position: center;
-}
-
-.overlay-image {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  top: 0;
-  background-position: center;
-  background-size: cover;
-  opacity: 0.5;
-}
-
-.carousel-inner {
-  height: 100%; /* Faire en sorte que la hauteur du contenu s'adapte à la taille du carrousel */
-}
-
-/* Ajuster la légende pour qu'elle soit visible sur chaque slide */
-.carousel-caption {
-  position: absolute;
-  bottom: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  background-color: rgba(0, 0, 0, 0.5);
-  padding: 10px;
-  border-radius: 5px;
-  color: white;
+  margin: 0 auto;
 }
 
 .carousel-item img {
-  max-height: 500px; /* Ajuste cette valeur selon tes besoins */
-  object-fit: cover; /* Garde l'image contenue sans déformation */
+  width: 100%;
+  height: auto;
+  max-height: 500px;
+  object-fit: cover;
+}
+
+/* SECTION PRÉSENTATION */
+#presentation {
+  padding: 50px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.presentation-box {
+  background-color: #b30000;
+  color: white;
+  padding: 30px;
+  text-align: center;
+  border-radius: 10px;
+  width: 80%;
+}
+
+.presentation-box h2 {
+  font-size: 2rem;
+  margin-bottom: 20px;
+}
+
+.presentation-box p {
+  font-size: 1.2rem;
+  line-height: 1.6;
+  margin-bottom: 0;
+}
+
+/* FOOTER */
+footer {
+  background-color: #003366;
+  color: white;
+  padding: 20px 0;
+  text-align: center;
+  position: relative;
+  bottom: 0;
+  width: 100%;
+  border-top: 2px solid #00bfff;
+}
+
+footer p {
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+footer a {
+  color: #00bfff;
+  text-decoration: none;
+}
+
+footer a:hover {
+  text-decoration: underline;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .navbar {
+    height: auto;
+    clip-path: none;
+  }
+
+  .presentation-box {
+    width: 95%;
+    padding: 20px;
+  }
+
+  #monCarousel {
+    width: 100%;
+    max-height: 400px;
+  }
+
+  .carousel-item img {
+    max-height: 400px;
+  }
+
+  .logo-container {
+    left: 10px;
+  }
 }

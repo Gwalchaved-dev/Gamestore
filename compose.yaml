@@ -1,4 +1,5 @@
 services:
+  # MySQL Database service
   database:
     image: mysql:8.0
     container_name: mysql_gamestore
@@ -20,6 +21,7 @@ services:
     networks:
      - app-network
 
+  # PhpMyAdmin service for managing the database
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
     container_name: phpmyadmin_gamestore
@@ -34,41 +36,30 @@ services:
     networks:
      - app-network
 
-  # Commenting out the old Symfony container
-  # symfony_app:
-  #   build: .
-  #   container_name: symfony_app
-  #   user: www-data
-  #   volumes:
-  #     - .:/var/www/html
-  #   ports:
-  #     - "8081:80"
-  #   depends_on:
-  #     - database
-  #   environment:
-  #      - APP_ENV=dev
-  #      - APP_DEBUG=1
-  #      - DATABASE_URL=mysql://${MYSQL_USER}:${MYSQL_PASSWORD}@database:3306/${MYSQL_DATABASE}?serverVersion=8.0
-  #   networks:
-  #    - app-network
-
-  # New Symfony container
+  # Symfony application service
   my_symfony_app:
     build: .
     container_name: my_symfony_app
     user: www-data
     volumes:
-      - .:/var/www/html
+      - .:/var/www/html:rw,cached
     ports:
       - "8081:80"
     depends_on:
       - database
     environment:
-       - APP_ENV=dev
-       - APP_DEBUG=1
-       - DATABASE_URL=mysql://${MYSQL_USER}:${MYSQL_PASSWORD}@database:3306/${MYSQL_DATABASE}?serverVersion=8.0
+      - APP_ENV=dev
+      - APP_DEBUG=1
+      - DATABASE_URL=mysql://${MYSQL_USER}:${MYSQL_PASSWORD}@database:3306/${MYSQL_DATABASE}?serverVersion=8.0
     networks:
      - app-network
+    command: /bin/bash -c "tail -f /dev/null"
+    # Attendre que la base de données soit prête avant de démarrer Symfony
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
 
 networks:
   app-network:

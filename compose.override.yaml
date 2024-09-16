@@ -1,7 +1,63 @@
+version: '3.8'
 
 services:
-###> doctrine/doctrine-bundle ###
+  ###> doctrine/doctrine-bundle ###
   database:
+    image: mysql:8.0
+    container_name: mysql_gamestore
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    volumes:
+      - database_data:/var/lib/mysql
     ports:
-      - "5432"
-###< doctrine/doctrine-bundle ###
+      - "3306:3306"
+    networks:
+      - app-network
+    env_file:
+      - .env.local
+  ###< doctrine/doctrine-bundle ###
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: phpmyadmin_gamestore
+    environment:
+      PMA_HOST: database
+      PMA_USER: ${PMA_USER}
+      PMA_PASSWORD: ${PMA_PASSWORD}
+    ports:
+      - "8080:80"
+    depends_on:
+      - database
+    networks:
+      - app-network
+    env_file:
+      - .env.local
+
+  my_symfony_app:
+    build: .
+    container_name: my_symfony_app
+    user: www-data
+    volumes:
+      - .:/var/www/html
+    ports:
+      - "8081:80"
+    depends_on:
+      - database
+    environment:
+       - APP_ENV=dev
+       - APP_DEBUG=1
+       - DATABASE_URL=mysql://${MYSQL_USER}:${MYSQL_PASSWORD}@database:3306/${MYSQL_DATABASE}?serverVersion=8.0
+    networks:
+      - app-network
+    env_file:
+      - .env.local
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  database_data:
