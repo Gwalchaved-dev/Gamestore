@@ -4,13 +4,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+    <meta name="description" content="Page d'accueil de Gamestore, magasins de jeux vidéos présent en France à Lille, Paris, Bordeaux, Toulouse et Nantes. Retrouvez tous types de jeux vidéos : FPS, RPG, BUILDER, PLATFORM.">
+    <meta name="author" content="Gwalchaved-Dev" />
     <!-- Appel du CSS compilé via Webpack Encore avec versionnement pour éviter la mise en cache -->
     {{ encore_entry_link_tags('app') }}
     {{ encore_entry_link_tags('styles/app_css') }}
     <link rel="stylesheet" href="{{ asset('build/styles/app_css.css') }}?v={{ random() }}">
 
-    <title>Gamestore : magasins de jeux vidéos</title>
+    <title>Gamestore : magasins de jeux vidéos, rpg, fps, builder...</title>
 </head>
 
 <body>
@@ -108,6 +109,7 @@
 
     <!-- Appel du JavaScript compilé via Webpack Encore -->
     {{ encore_entry_script_tags('app') }}
+    {{ encore_entry_script_tags('carousel') }}
 
     <!-- Ajout du fichier JavaScript de Bootstrap -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

@@ -16,6 +16,9 @@ Encore
     // Définir le préfixe du manifest (clé nécessaire pour les URLs absolues dans les templates)
     .setManifestKeyPrefix('build/')
 
+    // Ajouter la ligne suivante pour inclure carousel.js
+    .addEntry('carousel', './assets/carousel.js')
+
     // Entrée JavaScript
     .addEntry('app', './assets/app.js')
 
