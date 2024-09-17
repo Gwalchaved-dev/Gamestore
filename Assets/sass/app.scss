@@ -1,3 +1,16 @@
+// Importer les variables de Bootstrap
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
+
+
+@import 'variable'; 
+
+// Importer le reste de Bootstrap 
+@import '~bootstrap/scss/bootstrap';
+
+
+@import 'main';
+
 /* Image de fond sur toute la page */
 html, body {
   height: 100%;
@@ -27,8 +40,8 @@ body {
   width: 150px;
   height: auto;
   border-radius: 100px;
-  position: relative;
-  bottom: -50px;
+  position: fixed;
+  bottom: auto;
   border: 2px solid #00bfff;
 }
 
@@ -42,7 +55,7 @@ header {
 }
 
 .navbar {
-  position: relative;
+  position: fixed;
   background-color: #003366;
   height: 100px;
   display: flex;
@@ -53,45 +66,110 @@ header {
   z-index: 10;
   overflow: visible;
   border: 2px solid #00bfff;
+  width: 100%;
+}
+
+/* Alignement à droite des onglets du menu */
+.navbar-nav {
+  display: flex;
+  align-items: center;
+  margin-left: auto; /* Aligne les items à droite */
+  list-style-type: none; /* Supprime les points de liste */
+}
+
+.navbar-nav .nav-item {
+  padding: 0 10px; /* ajuster l'espacement entre les éléments */
 }
 
 .navbar-nav .nav-link {
   color: white;
+  padding-right: 20px;
 }
 
 .navbar-nav .nav-link:hover {
   color: #ccc;
 }
 
+/* Style pour les icônes de connexion et de caddie */
+.navbar-nav .icon-link {
+  display: flex;
+  align-items: center;
+  color: white;
+  font-size: 1.5rem;
+  padding-left: 20px;
+}
+
+.navbar-nav .icon-link:hover {
+  color: #ccc;
+}
+
+/* Boutons de contrôle du carousel */
+.carousel-control-prev, .carousel-control-next {
+  width: 5%;
+}
+
+.carousel-control-prev-icon, .carousel-control-next-icon {
+  background-color: #b3000079;
+  border-radius: 50%;
+}
+
 /* CAROUSEL */
 #monCarousel {
   width: 80%;
   max-height: 500px;
-  margin: 0 auto;
+  margin: 30px auto;
 }
 
 .carousel-item img {
-  width: 100%;
+  width: 80%;
   height: auto;
   max-height: 500px;
   object-fit: cover;
+  margin-top: 60px;
+  border-radius: 30px;
+}
+
+.carousel-caption {
+  position: relative;
+  bottom: 465px;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: left;
+  background-color: #004daa9e;
+  padding: 10px;
+  border-radius: 10px;
+  color: #fff;
+  padding-left: 60px;
+}
+
+.carousel-control-prev,
+.carousel-control-next {
+    width: 5%;
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+    background-color: black;
+    border-radius: 50%;
 }
 
 /* SECTION PRÉSENTATION */
 #presentation {
-  padding: 50px 0;
+  padding: 0px 0;
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-bottom: 50px;
 }
 
 .presentation-box {
-  background-color: #b30000;
+  background-color: #b3000079;
   color: white;
   padding: 30px;
   text-align: center;
   border-radius: 10px;
   width: 80%;
+  margin-bottom: 50px;
 }
 
 .presentation-box h2 {
@@ -115,6 +193,7 @@ footer {
   bottom: 0;
   width: 100%;
   border-top: 2px solid #00bfff;
+  position: fixed;
 }
 
 footer p {

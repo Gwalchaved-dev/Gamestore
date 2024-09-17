@@ -6,10 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Page d'accueil de Gamestore, magasins de jeux vidéos présent en France à Lille, Paris, Bordeaux, Toulouse et Nantes. Retrouvez tous types de jeux vidéos : FPS, RPG, BUILDER, PLATFORM.">
     <meta name="author" content="Gwalchaved-Dev" />
+    
     <!-- Appel du CSS compilé via Webpack Encore avec versionnement pour éviter la mise en cache -->
     {{ encore_entry_link_tags('app') }}
-    {{ encore_entry_link_tags('styles/app_css') }}
-    <link rel="stylesheet" href="{{ asset('build/styles/app_css.css') }}?v={{ random() }}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.5.0/font/bootstrap-icons.min.css" rel="stylesheet">
 
     <title>Gamestore : magasins de jeux vidéos, rpg, fps, builder...</title>
 </head>
@@ -33,11 +33,12 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{{ path('galerie') }}">Nos jeux vidéos</a>
                     </li>
+                    <!-- Ajout des icônes de connexion et caddie dans la navbar -->
                     <li class="nav-item">
-                        <a class="nav-link" href="#"><i class="bi bi-bag-heart"></i></a>
+                        <a class="nav-link" href="#"><i class="bi bi-person-circle"></i></a> <!-- Icone connexion/mon compte -->
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#"><i class="bi bi-person-circle"></i></a>
+                        <a class="nav-link" href="#"><i class="bi bi-cart4"></i></a> <!-- Icone caddie -->
                     </li>
                 </ul>
             </div>
@@ -45,59 +46,54 @@
     </header>
 
     <!-- CAROUSEL Gamestore -->
+<!-- CAROUSEL Gamestore -->
     <section id="carousel-section">
-        <div id="monCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel">
-            <div class="carousel-indicators">
-                <button type="button" data-bs-target="#monCarousel" data-bs-slide-to="0" class="active"
-                    aria-current="true" aria-label="Slide 1"></button>
-                <button type="button" data-bs-target="#monCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
-                <button type="button" data-bs-target="#monCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+        <div class="container"> <!-- Ajout du container pour aligner avec la section présentation -->
+            <div id="carouselExampleInterval" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                    <div class="carousel-item active" data-bs-interval="10000">
+                        <img src="{{ asset('build/images/fps/fpsGameplay.png') }}" class="d-block w-100" alt="FPS Gameplay">
+                        <div class="carousel-caption d-none d-md-block">
+                            <h5>Nouveauté</h5>
+                            <p>Nouveau FPS disponible.</p>
+                        </div>
+                    </div>
+                    <div class="carousel-item" data-bs-interval="2000">
+                        <img src="{{ asset('build/images/rpg/rpgCine.png') }}" class="d-block w-100" alt="RPG">
+                        <div class="carousel-caption d-none d-md-block">
+                            <h5>Promotion du mois</h5>
+                            <p>- 20 % sur nos RPG.</p>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <img src="{{ asset('build/images/platform/plateFormCine.png') }}" class="d-block w-100" alt="Plateform Cine">
+                        <div class="carousel-caption d-none d-md-block">
+                            <h5>Découvrez tous nos jeux</h5>
+                            <p>Jeux disponibles pour tous les goûts.</p>
+                        </div>
+                    </div>
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleInterval" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleInterval" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
             </div>
-
-            <div class="carousel-inner">
-                <div class="carousel-item active">
-                    <img src="{{ asset('build/images/fps/fpsGameplay.png') }}" class="d-block w-100" alt="FPS Gameplay">
-                    <div class="carousel-caption d-none d-md-block">
-                        <h5>Nouveauté</h5>
-                        <p>Nouveau FPS disponible.</p>
-                    </div>
-                </div>
-
-                <div class="carousel-item">
-                    <img src="{{ asset('build/images/platform/plateFormCine.png') }}" class="d-block w-100"
-                        alt="PlateForm Cine">
-                    <div class="carousel-caption d-none d-md-block">
-                        <h5>Promotion du mois</h5>
-                        <p>- 20 % sur nos RPG.</p>
-                    </div>
-                </div>
-
-                <div class="carousel-item">
-                    <img src="{{ asset('build/images/rpg/rpgCine.png') }}" class="d-block w-100" alt="RPG Cine">
-                    <div class="carousel-caption d-none d-md-block">
-                        <h5>Découvrez tous nos jeux</h5>
-                        <p>Jeux disponibles pour tous les goûts.</p>
-                    </div>
-                </div>
-            </div>
-
-            <button class="carousel-control-prev" type="button" data-bs-target="#monCarousel" data-bs-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Previous</span>
-            </button>
-
-            <button class="carousel-control-next" type="button" data-bs-target="#monCarousel" data-bs-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Next</span>
-            </button>
-        </div>
+        </div> <!-- Fermeture du container -->
     </section>
 
     <!-- SECTION PRÉSENTATION -->
     <section id="presentation">
         <div class="presentation-box">
             <h2>Gamestore, bien plus qu'un magasin !</h2>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Turpis lacus turpis fringilla et.</p>
+            <p>Gamestore, c’est votre destination incontournable pour les jeux vidéo en France, avec des magasins situés à Lille, Paris, Bordeaux, Toulouse et Nantes. Plus qu’une simple boutique, Gamestore est une véritable référence pour les passionnés de jeux vidéo. Que vous soyez un adepte des FPS, RPG, plateformes ou autres genres, nous avons ce qu’il vous faut sur toutes les plateformes populaires.
+
+                Notre mission est d’offrir à nos clients non seulement un large choix de jeux vidéo, mais également une expérience unique. C’est pourquoi nous mettons en avant des promotions régulières, des exclusivités, ainsi que des événements pour les gamers de tous horizons.
+
+                Bientôt, Gamestore passera à un autre niveau avec la vente en ligne, vous permettant de réserver vos jeux préférés et de les retirer en magasin. Profitez d’une navigation fluide et d’une expérience immersive depuis le confort de votre domicile. Gamestore, bien plus qu’un magasin, c’est l’endroit où chaque joueur trouve son bonheur. Plongez dans notre univers et découvrez des jeux vidéo pour tous les goûts !</p>
         </div>
     </section>
 
@@ -113,6 +109,7 @@
 
     <!-- Ajout du fichier JavaScript de Bootstrap -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
 
 </html>
