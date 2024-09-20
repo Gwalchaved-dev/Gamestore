@@ -15,7 +15,30 @@ class JeuxVideosRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, JeuxVideos::class);
     }
+/**
+     * Récupérer les jeux en fonction des filtres de genre et de prix.
+     */
+    public function findByFilters($genre, $minPrice, $maxPrice)
+    {
+        $qb = $this->createQueryBuilder('j');
 
+        if ($genre) {
+            $qb->andWhere('j.genre = :genre')
+               ->setParameter('genre', $genre);
+        }
+
+        if ($minPrice) {
+            $qb->andWhere('j.prix >= :minPrice')
+               ->setParameter('minPrice', $minPrice);
+        }
+
+        if ($maxPrice) {
+            $qb->andWhere('j.prix <= :maxPrice')
+               ->setParameter('maxPrice', $maxPrice);
+        }
+
+        return $qb->getQuery()->getResult();
+    }
     //    /**
     //     * @return JeuxVideos[] Returns an array of JeuxVideos objects
     //     */

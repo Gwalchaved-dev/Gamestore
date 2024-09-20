@@ -1,1 +1,47 @@
+@import url('https://fonts.googleapis.com/css2?family=Sarpanch:wght@600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=PT+Mono&family=Sarpanch:wght@400;500;600;700;800;900&display=swap');
+
 $primary-color: #ff5733;
+
+.sarpanch-regular {
+    font-family: "Sarpanch", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+  }
+  
+  .sarpanch-medium {
+    font-family: "Sarpanch", sans-serif;
+    font-weight: 500;
+    font-style: normal;
+  }
+  
+  .sarpanch-semibold {
+    font-family: "Sarpanch", sans-serif;
+    font-weight: 600;
+    font-style: normal;
+  }
+  
+  .sarpanch-bold {
+    font-family: "Sarpanch", sans-serif;
+    font-weight: 700;
+    font-style: normal;
+  }
+  
+  .sarpanch-extrabold {
+    font-family: "Sarpanch", sans-serif;
+    font-weight: 800;
+    font-style: normal;
+  }
+  
+  .sarpanch-black {
+    font-family: "Sarpanch", sans-serif;
+    font-weight: 900;
+    font-style: normal;
+  }
+
+  .pt-mono-regular {
+    font-family: "PT Mono", monospace;
+    font-weight: 300;
+    font-style: normal;
+  }
+  

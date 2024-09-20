@@ -16,8 +16,14 @@ Encore
     // Définir le préfixe du manifest (clé nécessaire pour les URLs absolues dans les templates)
     .setManifestKeyPrefix('build/')
 
+    // Entrée JavaScript pour le fichier de filtrage
+    .addEntry('filtre', './assets/filtre.js')  
+
+    // Entrée JavaScript pour le fichier de galerie Modal
+    .addEntry('galerieModal', './assets/galerieModal.js')  
+
     // Ajouter la ligne suivante pour inclure carousel.js
-    .addEntry('carousel', './assets/carousel.js')
+    .addEntry('carousel', './assets/carousel.js')  
 
     // Entrée JavaScript
     .addEntry('app', './assets/app.js')
@@ -46,15 +52,6 @@ Encore
             { from: './assets/images', to: 'images', force: true } // Copier toutes les images dans public/build/images
         ]
     }))
-
-    // Désactiver le hot-reload et la configuration du dev-server
-    //.configureDevServerOptions((options) => { ... }) // Pas besoin de configurer ça si tu ne veux pas utiliser dev-server
-
-    // Désactiver le nettoyage en mode développement (watch)
-    .configureWatchOptions((watchOptions) => {
-        watchOptions.poll = 1000; // Vérifier les changements toutes les secondes
-        watchOptions.ignored = /node_modules/; // Ignorer les changements dans node_modules
-    })
 
     // Configurer Babel pour utiliser les polyfills en fonction des besoins
     .configureBabelPresetEnv((config) => {

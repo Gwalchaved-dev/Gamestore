@@ -28,14 +28,14 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ path('app_homepage') }}">Accueil</a>
+                        <a class="sarpanch-regular nav-link" href="{{ path('app_homepage') }}">Accueil</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ path('galerie') }}">Nos jeux vidéos</a>
+                        <a class="sarpanch-regular nav-link" href="{{ path('galerie') }}">Nos jeux vidéos</a>
                     </li>
                     <!-- Ajout des icônes de connexion et caddie dans la navbar -->
                     <li class="nav-item">
-                        <a class="nav-link" href="#"><i class="bi bi-person-circle"></i></a> <!-- Icone connexion/mon compte -->
+                        <a class="nav-link" href="{{ path('app_login') }}"><i class="bi bi-person-circle"></i></a> <!-- Icone connexion/mon compte -->
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#"><i class="bi bi-cart4"></i></a> <!-- Icone caddie -->
@@ -45,7 +45,6 @@
         </nav>
     </header>
 
-    <!-- CAROUSEL Gamestore -->
 <!-- CAROUSEL Gamestore -->
     <section id="carousel-section">
         <div class="container"> <!-- Ajout du container pour aligner avec la section présentation -->
@@ -54,22 +53,22 @@
                     <div class="carousel-item active" data-bs-interval="10000">
                         <img src="{{ asset('build/images/fps/fpsGameplay.png') }}" class="d-block w-100" alt="FPS Gameplay">
                         <div class="carousel-caption d-none d-md-block">
-                            <h5>Nouveauté</h5>
-                            <p>Nouveau FPS disponible.</p>
+                            <h2 class="sarpanch-semibold">Nouveauté</h2>
+                            <p class="pt-mono-regular">Nouveau FPS disponible.</p>
                         </div>
                     </div>
                     <div class="carousel-item" data-bs-interval="2000">
                         <img src="{{ asset('build/images/rpg/rpgCine.png') }}" class="d-block w-100" alt="RPG">
                         <div class="carousel-caption d-none d-md-block">
-                            <h5>Promotion du mois</h5>
-                            <p>- 20 % sur nos RPG.</p>
+                            <h2 class="sarpanch-semibold">Promotion du mois</h2>
+                            <p class="pt-mono-regular">- 20 % sur nos RPG.</p>
                         </div>
                     </div>
                     <div class="carousel-item">
                         <img src="{{ asset('build/images/platform/plateFormCine.png') }}" class="d-block w-100" alt="Plateform Cine">
                         <div class="carousel-caption d-none d-md-block">
-                            <h5>Découvrez tous nos jeux</h5>
-                            <p>Jeux disponibles pour tous les goûts.</p>
+                            <h2 class="sarpanch-semibold">Découvrez tous nos jeux</h2>
+                            <p class="pt-mono-regular">Jeux disponibles pour tous les goûts.</p>
                         </div>
                     </div>
                 </div>
@@ -88,19 +87,20 @@
     <!-- SECTION PRÉSENTATION -->
     <section id="presentation">
         <div class="presentation-box">
-            <h2>Gamestore, bien plus qu'un magasin !</h2>
-            <p>Gamestore, c’est votre destination incontournable pour les jeux vidéo en France, avec des magasins situés à Lille, Paris, Bordeaux, Toulouse et Nantes. Plus qu’une simple boutique, Gamestore est une véritable référence pour les passionnés de jeux vidéo. Que vous soyez un adepte des FPS, RPG, plateformes ou autres genres, nous avons ce qu’il vous faut sur toutes les plateformes populaires.
+            <h1 class="sarpanch-semibold">Gamestore, bien plus qu'un magasin !</h1>
+            <p class="pt-mono-regular">Gamestore, c’est votre destination incontournable pour les jeux vidéo en France, avec des magasins situés à Lille, Paris, Bordeaux, Toulouse et Nantes.</p><br/>
+            <p class="pt-mono-regular">Plus qu’une simple boutique, Gamestore est une véritable référence pour les passionnés de jeux vidéo. Que vous soyez un adepte des FPS, RPG, plateformes ou autres genres, nous avons ce qu’il vous faut sur toutes les plateformes populaires.</p><br/>
 
-                Notre mission est d’offrir à nos clients non seulement un large choix de jeux vidéo, mais également une expérience unique. C’est pourquoi nous mettons en avant des promotions régulières, des exclusivités, ainsi que des événements pour les gamers de tous horizons.
+            <p class="pt-mono-regular">Notre mission est d’offrir à nos clients non seulement un large choix de jeux vidéo, mais également une expérience unique. C’est pourquoi nous mettons en avant des promotions régulières, des exclusivités, ainsi que des événements pour les gamers de tous horizons.</p><br/>
 
-                Bientôt, Gamestore passera à un autre niveau avec la vente en ligne, vous permettant de réserver vos jeux préférés et de les retirer en magasin. Profitez d’une navigation fluide et d’une expérience immersive depuis le confort de votre domicile. Gamestore, bien plus qu’un magasin, c’est l’endroit où chaque joueur trouve son bonheur. Plongez dans notre univers et découvrez des jeux vidéo pour tous les goûts !</p>
+            <p class="pt-mono-regular">Aujourd'hui, Gamestore passera à un autre niveau avec la vente en ligne, vous permettant de réserver vos jeux préférés et de les retirer en magasin. Profitez d’une navigation fluide et d’une expérience immersive depuis le confort de votre domicile. Gamestore, bien plus qu’un magasin, c’est l’endroit où chaque joueur trouve son bonheur. Plongez dans notre univers et découvrez des jeux vidéo pour tous les goûts !</p><br/>
         </div>
     </section>
 
     <!-- FOOTER -->
     <footer>
-        <p>&copy; 2024 Gamestore - Tous droits réservés</p>
-        <p><a href="#">Mentions légales</a> | <a href="#">Politique de confidentialité</a></p>
+        <p class="pt-mono-regular">&copy; 2024 Gamestore - Tous droits réservés</p>
+        <p class="pt-mono-regular"><a href="#">Mentions légales</a> | <a href="#">Politique de confidentialité</a></p>
     </footer>
 
     <!-- Appel du JavaScript compilé via Webpack Encore -->
