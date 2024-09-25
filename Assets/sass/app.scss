@@ -345,3 +345,102 @@ h2{
 .modal-body .game-description, .modal-body .game-price {
   margin-top: 20px;
 }
+
+/* Mise en page des formulaires */
+/* Centrer le contenu verticalement et horizontalement */
+.centered-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: calc(100vh - 150px); /* Ajustement de la hauteur pour tenir compte du header et du footer */
+  margin-top: 50px;
+  margin-bottom: 150px;
+}
+
+.form-container {
+  background-color: rgba(0, 0, 0, 0.8); /* Conserve la boîte noire */
+  padding: 20px;
+  border-radius: 8px;
+  width: 100%;
+  max-width: 600px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+  overflow-y: auto; /* Ajouter un défilement si le contenu dépasse */
+}
+
+.sarpanch-semibold {
+  font-weight: bold;
+  color: white;
+  text-align: center;
+}
+
+button {
+  width: 100%;
+  margin-top: 15px;
+}
+
+.form-container label {
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: #fff;
+}
+
+.form-container input {
+  margin-bottom: 15px;
+  padding: 10px;
+  width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.form-container button {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.form-container button:hover {
+  background-color: #0056b3;
+}
+
+/* Espace admin */
+.admin-container {
+  text-align: center;
+  padding: 50px;
+}
+
+h1 {
+  color: #b01717;
+  font-size: 3rem;
+  margin-bottom: 40px;
+}
+
+.admin-sections {
+  display: flex;
+  justify-content: space-around;
+  margin: 20px 0;
+}
+
+.admin-section {
+  text-align: center;
+  background-color: rgba(0, 13, 255, 0.248);
+  border-radius: 10px;
+  padding: 20px;
+}
+
+.admin-section a {
+  text-decoration: none;
+  color: white;
+}
+
+.admin-section h2 {
+  margin-top: 15px;
+  font-size: 1.5rem;
+}
+
+.admin-icon {
+  width: 200px;
+  height: 200px;
+}

@@ -11,7 +11,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_EMAIL', fields: ['email'])]
-#[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
+#[UniqueEntity(fields: ['email'], message: 'Il existe déjà un compte avec cet email.')]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
@@ -20,55 +20,45 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?int $id = null;
 
     #[ORM\Column(type: 'string', length: 255)]
-    #[Assert\NotBlank]
-    private $nom; 
+    #[Assert\NotBlank(message: "Le nom ne doit pas être vide.")]
+    private string $nom;
 
     #[ORM\Column(type: 'string', length: 255)]
-    #[Assert\NotBlank]
-    private $prenom;
+    #[Assert\NotBlank(message: "Le prénom ne doit pas être vide.")]
+    private string $prenom;
 
     #[ORM\Column(type: 'string', length: 255)]
-    #[Assert\NotBlank]
-    private $adressePostale;
+    #[Assert\NotBlank(message: "L'adresse postale ne doit pas être vide.")]
+    private string $adressePostale;
 
     #[ORM\Column(type: 'string', length: 10)]
-    #[Assert\NotBlank]
-    private $codePostal;
+    #[Assert\NotBlank(message: "Le code postal ne doit pas être vide.")]
+    private string $codePostal;
 
     #[ORM\Column(type: 'string', length: 255)]
-    #[Assert\NotBlank]
-    private $ville;
-
-    #[ORM\Column(type: 'date')]
-    #[Assert\NotBlank]
-    #[Assert\Date]
-    private $dateAnniversaire;
+    #[Assert\NotBlank(message: "La ville ne doit pas être vide.")]
+    private string $ville;
 
     #[ORM\Column(length: 180)]
+    #[Assert\NotBlank(message: "L'adresse e-mail ne doit pas être vide.")]
+    #[Assert\Email(message: 'L\'adresse e-mail "{{ value }}" n\'est pas valide.')]
     private ?string $email = null;
 
-    /**
-     * @var list<string> The user roles
-     */
     #[ORM\Column]
     private array $roles = [];
 
-    /**
-     * @var string The hashed password
-     */
     #[ORM\Column]
     private ?string $password = null;
 
     #[ORM\Column]
     private bool $isVerified = false;
 
-    /**
-     * Propriété plainPassword (non persistée)
-     */
-    #[Assert\NotBlank]
-    #[Assert\Length(min: 6, max: 4096)]
+    // Champ non persisté, utilisé uniquement dans le formulaire pour la saisie du mot de passe en clair
+    #[Assert\NotBlank(message: "Le mot de passe ne doit pas être vide.")]
+    #[Assert\Length(min: 6, minMessage: "Le mot de passe doit contenir au moins {{ limit }} caractères.")]
     private ?string $plainPassword = null;
 
+    // Getters et Setters
     public function getId(): ?int
     {
         return $this->id;
@@ -82,7 +72,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setEmail(string $email): static
     {
         $this->email = $email;
-
         return $this;
     }
 
@@ -94,7 +83,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setNom(string $nom): static
     {
         $this->nom = $nom;
-
         return $this;
     }
 
@@ -106,7 +94,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setPrenom(string $prenom): static
     {
         $this->prenom = $prenom;
-
         return $this;
     }
 
@@ -118,7 +105,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setAdressePostale(string $adressePostale): static
     {
         $this->adressePostale = $adressePostale;
-
         return $this;
     }
 
@@ -130,7 +116,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setCodePostal(string $codePostal): static
     {
         $this->codePostal = $codePostal;
-
         return $this;
     }
 
@@ -142,74 +127,46 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setVille(string $ville): static
     {
         $this->ville = $ville;
-
         return $this;
     }
 
-    public function getDateAnniversaire(): ?\DateTimeInterface
-    {
-        return $this->dateAnniversaire;
-    }
-
-    public function setDateAnniversaire(\DateTimeInterface $dateAnniversaire): static
-    {
-        $this->dateAnniversaire = $dateAnniversaire;
-
-        return $this;
-    }
-
-    /**
-     * A visual identifier that represents this user.
-     *
-     * @see UserInterface
-     */
     public function getUserIdentifier(): string
     {
         return (string) $this->email;
     }
 
-    /**
-     * @see UserInterface
-     *
-     * @return list<string>
-     */
     public function getRoles(): array
     {
         $roles = $this->roles;
-        // guarantee every user at least has ROLE_USER
-        $roles[] = 'ROLE_USER';
-
+        // Ajoute toujours ROLE_USER par défaut
+        if (!in_array('ROLE_USER', $roles)) {
+            $roles[] = 'ROLE_USER';
+        }
         return array_unique($roles);
     }
 
-    /**
-     * @param list<string> $roles
-     */
     public function setRoles(array $roles): static
     {
-        $this->roles = $roles;
-
+        if (!in_array('ROLE_USER', $roles)) {
+            $roles[] = 'ROLE_USER'; // Toujours ajouter ROLE_USER si non présent
+        }
+        $this->roles = array_unique($roles);
         return $this;
     }
 
-    /**
-     * @see PasswordAuthenticatedUserInterface
-     */
     public function getPassword(): ?string
     {
         return $this->password;
     }
 
-    public function setPassword(string $password): static
+    public function setPassword(?string $password): static
     {
-        $this->password = $password;
-
+        if ($password) {
+            $this->password = $password;
+        }
         return $this;
     }
 
-    /**
-     * PlainPassword : utilisé uniquement pour le formulaire, non stocké dans la base de données
-     */
     public function getPlainPassword(): ?string
     {
         return $this->plainPassword;
@@ -218,16 +175,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setPlainPassword(?string $plainPassword): self
     {
         $this->plainPassword = $plainPassword;
-
         return $this;
     }
 
-    /**
-     * @see UserInterface
-     */
     public function eraseCredentials(): void
     {
-        // Efface les données sensibles temporaires
         $this->plainPassword = null;
     }
 
@@ -239,7 +191,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setVerified(bool $isVerified): static
     {
         $this->isVerified = $isVerified;
-
         return $this;
     }
 }

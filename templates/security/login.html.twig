@@ -1,38 +1,11 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Log in!{% endblock %}
+{% block title %}Connexion{% endblock %}
 
 {% block body %}
- <header id="navbar-container">
-        <!-- Wrapper pour le logo hors de la zone clip-path -->
-        <div class="logo-container">
-            <img src="{{ asset('build/images/logoGamestore.png') }}" alt="Gamestore logo" class="logo">
-        </div>
-        <nav class="navbar navbar-expand-lg bg-custom">
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="sarpanch-regular nav-link" href="{{ path('app_homepage') }}">Accueil</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="sarpanch-regular nav-link" href="{{ path('galerie') }}">Nos jeux vidéos</a>
-                    </li>
-                    <!-- Ajout des icônes de connexion et caddie dans la navbar -->
-                    <li class="nav-item">
-                        <a class="nav-link" href="#"><i class="bi bi-person-circle"></i></a> <!-- Icone connexion/mon compte -->
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#"><i class="bi bi-cart4"></i></a> <!-- Icone caddie -->
-                    </li>
-                </ul>
-            </div>
-        </nav>
-</header>
+
     <!--form de connexion-->
+<div class= "centered-container">
     <div class="form-container">
         <form method="post">
             {% if error %}
@@ -41,14 +14,14 @@
 
             {% if app.user %}
                 <div class="mb-3">
-                    You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>
+                    Vous êtes connecté en tant que{{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Se déconnecter</a>
                 </div>
             {% endif %}
 
-            <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
+            <h1 class="h3 mb-3 font-weight-normal sarpanch-semibold">Veuillez vous connecter</h1>
             <label class="pt-mono-regular" for="inputEmail">Email</label>
             <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
-            <label  class="pt-mono-regular" for="inputPassword">Password</label>
+            <label  class="pt-mono-regular" for="inputPassword">Mot de passe</label>
             <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
 
             <input type="hidden" name="_csrf_token"
@@ -57,7 +30,7 @@
 
             <div class="checkbox mb-3">
                 <label>
-                    <input type="checkbox" class="pt-mono-regular" name="_remember_me"> Remember me
+                    <input type="checkbox" class="pt-mono-regular" name="_remember_me"> Se souvenir de moi
                 </label>
             </div>
 
@@ -67,9 +40,5 @@
             <a href="{{ path('app_register') }}">Vous n'avez pas de compte ? En créer un maintenant</a>
         </form>
     </div>
-  <!-- FOOTER -->
-    <footer>
-        <p class="pt-mono-regular">&copy; 2024 Gamestore - Tous droits réservés</p>
-        <p class="pt-mono-regular"><a href="#">Mentions légales</a> | <a href="#">Politique de confidentialité</a></p>
-    </footer>
+  </div>
 {% endblock %}

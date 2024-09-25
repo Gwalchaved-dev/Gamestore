@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Espace Administrateur{% endblock %}
+
+{% block body %}
+    <div class="admin-container">
+        <h1 class="text-center">Espace Administrateur</h1>
+
+        <div class="admin-sections">
+            <div class="admin-section">
+                <a href="#"> <!-- Remplace par la route des employés -->
+                    <img src="{{ asset('build/images/adminSpace/employeIcon.png') }}" alt="Employés" class="admin-icon">
+                    <h2>Employés/Utilisateurs</h2>
+                </a>
+            </div>
+
+            <div class="admin-section">
+                <a href="#"> <!-- Remplace par la route du stock JV -->
+                    <img src="{{ asset('build/images/adminSpace/stockJV.png') }}" alt="Stock JV" class="admin-icon">
+                    <h2>Stock JV</h2>
+                </a>
+            </div>
+
+            <div class="admin-section">
+                <a href="#"> <!-- Remplace par la route du dashboard -->
+                    <img src="{{ asset('build/images/adminSpace/dashboard.png') }}" alt="Dashboard" class="admin-icon">
+                    <h2>Dashboard</h2>
+                </a>
+            </div>
+        </div>
+    </div>
+{% endblock %}

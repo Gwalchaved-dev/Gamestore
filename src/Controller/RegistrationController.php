@@ -27,6 +27,8 @@ class RegistrationController extends AbstractController
         $this->emailVerifier = $emailVerifier;
     }
 
+    private const REGISTRATION_TEMPLATE = 'registration/register.html.twig';
+
     #[Route('/register', name: 'app_register')]
     public function register(
         Request $request, 
@@ -39,21 +41,38 @@ class RegistrationController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // Récupérer le mot de passe en clair à partir du formulaire
+            // Récupérer les champs plainPassword et confirmPassword directement depuis le formulaire
             $plainPassword = $form->get('plainPassword')->getData();
+            $confirmPassword = $form->get('confirmPassword')->getData();
+
+            // Vérification : le mot de passe ne peut pas être vide
+            if (!$plainPassword || !$confirmPassword) {
+                $this->addFlash('error', 'Les champs mot de passe et confirmation ne peuvent pas être vides.');
+                return $this->render(self::REGISTRATION_TEMPLATE, [
+                    'registrationForm' => $form->createView(),
+                ]);
+            }
+
+            // Vérification : les deux mots de passe doivent correspondre
+            if ($plainPassword !== $confirmPassword) {
+                $this->addFlash('error', 'Les mots de passe ne correspondent pas.');
+                return $this->render(self::REGISTRATION_TEMPLATE, [
+                    'registrationForm' => $form->createView(),
+                ]);
+            }
 
             // Hachage du mot de passe
-            $hashedPassword = $userPasswordHasher->hashPassword(
-                $user,
-                $plainPassword
-            );
+            $hashedPassword = $userPasswordHasher->hashPassword($user, $plainPassword);
             $user->setPassword($hashedPassword);
+
+            // Effacer le plainPassword pour des raisons de sécurité
+            $user->eraseCredentials();
 
             // Persister les données de l'utilisateur dans la base de données
             $entityManager->persist($user);
             $entityManager->flush();
 
-            // Générer un email de confirmation et l'envoyer à l'utilisateur
+            // Envoyer un email de confirmation
             $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user,
                 (new TemplatedEmail())
                     ->from(new Address('test@example.com', 'Gamestore Mail Bot'))
@@ -67,7 +86,7 @@ class RegistrationController extends AbstractController
         }
 
         // Affichage du formulaire d'inscription
-        return $this->render('registration/register.html.twig', [
+        return $this->render(self::REGISTRATION_TEMPLATE, [
             'registrationForm' => $form->createView(),
         ]);
     }

@@ -1,6 +1,11 @@
 doctrine_migrations:
+    storage:
+        table_storage:
+            table_name: 'doctrine_migration_versions'
+            version_column_length: 191 # Optionnel, peut aider à résoudre des problèmes avec des colonnes longues dans certaines bases
     migrations_paths:
-        # namespace is arbitrary but should be different from App\Migrations
-        # as migrations classes should NOT be autoloaded
         'DoctrineMigrations': '%kernel.project_dir%/migrations'
-    enable_profiler: false
+    all_or_nothing: true  # Si une migration échoue, toutes les modifications sont annulées
+    check_database_platform: true  # Assure que les migrations ne sont exécutées que sur la plateforme cible
+    organize_migrations: none  # Optionnel, peut organiser les migrations dans des sous-dossiers basés sur les namespaces
+    transactional: true  # Garde les migrations dans des transactions pour plus de sécurité

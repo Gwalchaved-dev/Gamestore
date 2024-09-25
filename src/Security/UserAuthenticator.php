@@ -22,37 +22,69 @@ class UserAuthenticator extends AbstractLoginFormAuthenticator
 
     public const LOGIN_ROUTE = 'app_login';
 
-    public function __construct(private UrlGeneratorInterface $urlGenerator)
+    private UrlGeneratorInterface $urlGenerator;
+
+    public function __construct(UrlGeneratorInterface $urlGenerator)
     {
+        $this->urlGenerator = $urlGenerator;
     }
 
+    /**
+     * Méthode pour vérifier si l'authentificateur doit gérer cette requête
+     */
+    public function supports(Request $request): bool
+    {
+        // Vérifie que la route est bien celle du login et que la méthode est POST
+        return $request->attributes->get('_route') === self::LOGIN_ROUTE
+            && $request->isMethod('POST');
+    }
+
+    /**
+     * Récupération des informations de connexion et construction du Passport pour l'authentification
+     */
     public function authenticate(Request $request): Passport
     {
-        $email = $request->getPayload()->getString('email');
+        // Récupère l'email et le mot de passe depuis le formulaire POST
+        $email = $request->request->get('email');
+        $password = $request->request->get('password');
 
+        // Enregistre l'email dans la session pour réafficher le dernier utilisateur
         $request->getSession()->set(SecurityRequestAttributes::LAST_USERNAME, $email);
 
         return new Passport(
-            new UserBadge($email),
-            new PasswordCredentials($request->getPayload()->getString('password')),
+            new UserBadge($email), // Récupère l'utilisateur en fonction de l'email
+            new PasswordCredentials($password), // Vérifie les identifiants
             [
-                new CsrfTokenBadge('authenticate', $request->getPayload()->getString('_csrf_token')),
-                new RememberMeBadge(),
+                new CsrfTokenBadge('authenticate', $request->request->get('_csrf_token')), // Protection CSRF
+                new RememberMeBadge(), // Option "se souvenir de moi"
             ]
         );
     }
 
+    /**
+     * Gestion de la redirection après un succès d'authentification
+     */
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
     {
+        // Si une page cible était stockée, y rediriger l'utilisateur
         if ($targetPath = $this->getTargetPath($request->getSession(), $firewallName)) {
             return new RedirectResponse($targetPath);
         }
 
-        // For example:
-        // return new RedirectResponse($this->urlGenerator->generate('some_route'));
-        throw new \Exception('TODO: provide a valid redirect inside '.__FILE__);
+        // Rediriger selon le rôle de l'utilisateur après la connexion
+        $user = $token->getUser();
+        if (in_array('ROLE_ADMIN', $user->getRoles(), true)) {
+            // Rediriger l'administrateur vers la page d'administration
+            return new RedirectResponse($this->urlGenerator->generate('app_admin'));
+        }
+
+        // Redirige par défaut vers la page d'accueil après la connexion
+        return new RedirectResponse($this->urlGenerator->generate('app_homepage'));
     }
 
+    /**
+     * Définit l'URL de la page de connexion
+     */
     protected function getLoginUrl(Request $request): string
     {
         return $this->urlGenerator->generate(self::LOGIN_ROUTE);

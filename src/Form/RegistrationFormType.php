@@ -7,7 +7,6 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -31,8 +30,12 @@ class RegistrationFormType extends AbstractType
             ])
             ->add('plainPassword', PasswordType::class, [
                 'label' => 'Mot de passe',
-                'mapped' => false,  // Indique que ce champ ne doit pas être mappé à l'entité
-                'attr' => ['autocomplete' => 'new-password'],
+                'mapped' => false, // Ce champ ne doit pas être mappé directement à l'entité User
+                'attr' => [
+                    'autocomplete' => 'new-password',
+                    'required' => true,
+                    'placeholder' => 'Entrez votre mot de passe', // Facultatif
+                ],
                 'help' => 'Le mot de passe doit contenir au moins 6 caractères',
                 'constraints' => [
                     new Assert\NotBlank([
@@ -41,8 +44,23 @@ class RegistrationFormType extends AbstractType
                     new Assert\Length([
                         'min' => 6,
                         'minMessage' => 'Votre mot de passe doit contenir au moins {{ limit }} caractères.',
-                        'max' => 4096, // Symfony limite la longueur du mot de passe par sécurité
+                        'max' => 4096, // Limite de sécurité de Symfony
                     ]),
+                ],
+            ])
+            ->add('confirmPassword', PasswordType::class, [
+                'label' => 'Confirmez le mot de passe',
+                'mapped' => false,
+                'attr' => [
+                    'autocomplete' => 'new-password',
+                    'required' => true,
+                    'placeholder' => 'Confirmez votre mot de passe',
+                ],
+                'constraints' => [
+                    new Assert\NotBlank([
+                        'message' => 'Merci de confirmer votre mot de passe.',
+                    ]),
+                    // La logique de validation se fait dans le contrôleur pour comparer avec plainPassword
                 ],
             ])
             ->add('nom', TextType::class, [
@@ -85,21 +103,9 @@ class RegistrationFormType extends AbstractType
                     ]),
                 ],
             ])
-            ->add('dateAnniversaire', DateType::class, [
-                'label' => 'Date de naissance',
-                'widget' => 'single_text',
-                'constraints' => [
-                    new Assert\NotBlank([
-                        'message' => 'Merci de renseigner votre date de naissance.',
-                    ]),
-                    new Assert\Date([
-                        'message' => 'Merci de renseigner une date valide.',
-                    ]),
-                ],
-            ])
             ->add('agreeTerms', CheckboxType::class, [
                 'label' => 'Accepter les conditions',
-                'mapped' => false,  // Pas mappé à l'entité car ce n'est pas une propriété persistée
+                'mapped' => false,  // Ce champ n'est pas mappé à l'entité
                 'constraints' => [
                     new Assert\IsTrue([
                         'message' => 'Vous devez accepter les conditions pour vous inscrire.',
