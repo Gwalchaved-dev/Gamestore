@@ -3,6 +3,7 @@
 {% block title %}Inscription à Gamestore{% endblock %}
 
 {% block body %}
+    {# Affiche les erreurs spécifiques liées à la vérification d'email #}
     {% for flash_error in app.flashes('verify_email_error') %}
         <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
     {% endfor %}
@@ -11,48 +12,83 @@
         <div class="form-container">
             <h1 class="sarpanch-semibold">Inscription</h1>
 
+            {# Affiche les erreurs globales du formulaire #}
             {{ form_errors(registrationForm) }}
 
-            {{ form_start(registrationForm) }}
-                {{ form_row(registrationForm.email) }}
+            {# Démarre le formulaire #}
+            {{ form_start(registrationForm, {'attr': {'class': 'form'}}) }}
 
-                {{ form_row(registrationForm.nom, {
-                    label: 'Nom'
-                }) }}
+                {# Champ E-mail #}
+                <div class="form-group">
+                    {{ form_label(registrationForm.email) }}
+                    {{ form_widget(registrationForm.email, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_errors(registrationForm.email) }}
+                </div>
 
-                {{ form_row(registrationForm.prenom, {
-                    label: 'Prénom'
-                }) }}
+                {# Champ Nom #}
+                <div class="form-group">
+                    {{ form_label(registrationForm.nom) }}
+                    {{ form_widget(registrationForm.nom, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_errors(registrationForm.nom) }}
+                </div>
 
-                {{ form_row(registrationForm.adressePostale, {
-                    label: 'Adresse postale'
-                }) }}
+                {# Champ Prénom #}
+                <div class="form-group">
+                    {{ form_label(registrationForm.prenom) }}
+                    {{ form_widget(registrationForm.prenom, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_errors(registrationForm.prenom) }}
+                </div>
 
-                {{ form_row(registrationForm.codePostal, {
-                    label: 'Code postal'
-                }) }}
+                {# Champ Adresse Postale #}
+                <div class="form-group">
+                    {{ form_label(registrationForm.adressePostale) }}
+                    {{ form_widget(registrationForm.adressePostale, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_errors(registrationForm.adressePostale) }}
+                </div>
 
-                {{ form_row(registrationForm.ville, {
-                    label: 'Ville'
-                }) }}
+                {# Champ Code Postal #}
+                <div class="form-group">
+                    {{ form_label(registrationForm.codePostal) }}
+                    {{ form_widget(registrationForm.codePostal, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_errors(registrationForm.codePostal) }}
+                </div>
 
-                {{ form_row(registrationForm.plainPassword, {
-                    label: 'Mot de passe'
-                }) }}
+                {# Champ Ville #}
+                <div class="form-group">
+                    {{ form_label(registrationForm.ville) }}
+                    {{ form_widget(registrationForm.ville, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_errors(registrationForm.ville) }}
+                </div>
 
-                {{ form_row(registrationForm.confirmPassword, {
-                    label: 'Confirmez le mot de passe'
-                }) }}
+                {# Champ Mot de Passe #}
+                <div class="form-group">
+                    {{ form_label(registrationForm.plainPassword) }}
+                    {{ form_widget(registrationForm.plainPassword, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_errors(registrationForm.plainPassword) }}
+                </div>
 
-                {{ form_row(registrationForm.agreeTerms, {
-                    label: 'Accepter les conditions'
-                }) }}
+                {# Champ Confirmation du Mot de Passe #}
+                <div class="form-group">
+                    {{ form_label(registrationForm.confirmPassword) }}
+                    {{ form_widget(registrationForm.confirmPassword, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_errors(registrationForm.confirmPassword) }}
+                </div>
 
-                {# Ajout explicite du token CSRF si nécessaire #}
-                {{ form_row(registrationForm._token) }}
+                {# Champ d'acceptation des conditions #}
+                <div class="form-group">
+                    {{ form_widget(registrationForm.agreeTerms, {'attr': {'class': 'form-check-input'}}) }}
+                    {{ form_label(registrationForm.agreeTerms, null, {'label_attr': {'class': 'form-check-label'}}) }}
+                    {{ form_errors(registrationForm.agreeTerms) }}
+                </div>
 
                 <button type="submit" class="btn btn-primary sarpanch-semibold">S'enregistrer</button>
+
+            {# Ferme le formulaire #}
             {{ form_end(registrationForm) }}
         </div>
+    </div>
+
+    <div>
+        <a href="{{ path('app_homepage') }}">Retour à l'accueil</a>
     </div>
 {% endblock %}

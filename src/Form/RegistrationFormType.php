@@ -34,17 +34,17 @@ class RegistrationFormType extends AbstractType
                 'attr' => [
                     'autocomplete' => 'new-password',
                     'required' => true,
-                    'placeholder' => 'Entrez votre mot de passe', // Facultatif
+                    'placeholder' => 'Entrez votre mot de passe',
                 ],
-                'help' => 'Le mot de passe doit contenir au moins 6 caractères',
+                'help' => 'Le mot de passe doit contenir au moins 8 caractères',
                 'constraints' => [
                     new Assert\NotBlank([
                         'message' => 'Merci de renseigner un mot de passe.',
                     ]),
                     new Assert\Length([
-                        'min' => 6,
+                        'min' => 8,
                         'minMessage' => 'Votre mot de passe doit contenir au moins {{ limit }} caractères.',
-                        'max' => 4096, // Limite de sécurité de Symfony
+                        'max' => 4096,
                     ]),
                 ],
             ])
@@ -60,7 +60,6 @@ class RegistrationFormType extends AbstractType
                     new Assert\NotBlank([
                         'message' => 'Merci de confirmer votre mot de passe.',
                     ]),
-                    // La logique de validation se fait dans le contrôleur pour comparer avec plainPassword
                 ],
             ])
             ->add('nom', TextType::class, [
@@ -105,7 +104,7 @@ class RegistrationFormType extends AbstractType
             ])
             ->add('agreeTerms', CheckboxType::class, [
                 'label' => 'Accepter les conditions',
-                'mapped' => false,  // Ce champ n'est pas mappé à l'entité
+                'mapped' => false,
                 'constraints' => [
                     new Assert\IsTrue([
                         'message' => 'Vous devez accepter les conditions pour vous inscrire.',

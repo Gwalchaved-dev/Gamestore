@@ -10,7 +10,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
-#[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_EMAIL', fields: ['email'])]
+#[ORM\Table(name: 'user')]  // Ajout d'une table pour plus de clarté
 #[UniqueEntity(fields: ['email'], message: 'Il existe déjà un compte avec cet email.')]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
@@ -39,7 +39,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Assert\NotBlank(message: "La ville ne doit pas être vide.")]
     private string $ville;
 
-    #[ORM\Column(length: 180)]
+    #[ORM\Column(length: 180, unique: true)]
     #[Assert\NotBlank(message: "L'adresse e-mail ne doit pas être vide.")]
     #[Assert\Email(message: 'L\'adresse e-mail "{{ value }}" n\'est pas valide.')]
     private ?string $email = null;
@@ -53,12 +53,29 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private bool $isVerified = false;
 
-    // Champ non persisté, utilisé uniquement dans le formulaire pour la saisie du mot de passe en clair
+    // Ce champ ne sera pas persisté en base, il est seulement utilisé pour la validation du mot de passe en clair
     #[Assert\NotBlank(message: "Le mot de passe ne doit pas être vide.")]
-    #[Assert\Length(min: 6, minMessage: "Le mot de passe doit contenir au moins {{ limit }} caractères.")]
+    #[Assert\Length(min: 8, minMessage: "Le mot de passe doit contenir au moins {{ limit }} caractères.")]
+    #[Assert\Regex(
+        pattern: "/[A-Z]/",
+        message: "Le mot de passe doit contenir au moins une lettre majuscule."
+    )]
+    #[Assert\Regex(
+        pattern: "/[a-z]/",
+        message: "Le mot de passe doit contenir au moins une lettre minuscule."
+    )]
+    #[Assert\Regex(
+        pattern: "/[0-9]/",
+        message: "Le mot de passe doit contenir au moins un chiffre."
+    )]
+    #[Assert\Regex(
+        pattern: "/[^\\w]/",
+        message: "Le mot de passe doit contenir au moins un caractère spécial."
+    )]
     private ?string $plainPassword = null;
 
     // Getters et Setters
+
     public function getId(): ?int
     {
         return $this->id;
@@ -161,6 +178,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function setPassword(?string $password): static
     {
+        // On s'assure que si le mot de passe est mis à jour, il est bien modifié
         if ($password) {
             $this->password = $password;
         }
@@ -172,7 +190,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->plainPassword;
     }
 
-    public function setPlainPassword(?string $plainPassword): self
+    public function setPlainPassword(string $plainPassword): self
     {
         $this->plainPassword = $plainPassword;
         return $this;
@@ -180,6 +198,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function eraseCredentials(): void
     {
+        // Cette méthode est utilisée pour nettoyer les données sensibles
         $this->plainPassword = null;
     }
 

@@ -27,13 +27,13 @@ class RegistrationController extends AbstractController
         $this->emailVerifier = $emailVerifier;
     }
 
-    private const REGISTRATION_TEMPLATE = 'registration/register.html.twig';
+    private const REGISTRATION_TEMPLATE = 'registration/register.html.twig'; // Définir le chemin du template
 
     #[Route('/register', name: 'app_register')]
     public function register(
-        Request $request, 
-        UserPasswordHasherInterface $userPasswordHasher, 
-        Security $security, 
+        Request $request,
+        UserPasswordHasherInterface $userPasswordHasher,
+        Security $security,
         EntityManagerInterface $entityManager
     ): Response {
         $user = new User();
@@ -41,32 +41,16 @@ class RegistrationController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // Récupérer les champs plainPassword et confirmPassword directement depuis le formulaire
+            // Récupérer les champs plainPassword et confirmPassword
             $plainPassword = $form->get('plainPassword')->getData();
             $confirmPassword = $form->get('confirmPassword')->getData();
 
-            // Vérification : le mot de passe ne peut pas être vide
-            if (!$plainPassword || !$confirmPassword) {
-                $this->addFlash('error', 'Les champs mot de passe et confirmation ne peuvent pas être vides.');
-                return $this->render(self::REGISTRATION_TEMPLATE, [
-                    'registrationForm' => $form->createView(),
-                ]);
-            }
-
-            // Vérification : les deux mots de passe doivent correspondre
-            if ($plainPassword !== $confirmPassword) {
-                $this->addFlash('error', 'Les mots de passe ne correspondent pas.');
-                return $this->render(self::REGISTRATION_TEMPLATE, [
-                    'registrationForm' => $form->createView(),
-                ]);
-            }
-
             // Hachage du mot de passe
-            $hashedPassword = $userPasswordHasher->hashPassword($user, $plainPassword);
-            $user->setPassword($hashedPassword);
+            $user->setPassword($userPasswordHasher->hashPassword($user, $plainPassword)); // Assurez-vous que User implémente PasswordAuthenticatedUserInterface
 
-            // Effacer le plainPassword pour des raisons de sécurité
-            $user->eraseCredentials();
+            $user->setPassword(
+                $userPasswordHasher->hashPassword($user, $plainPassword)
+            );
 
             // Persister les données de l'utilisateur dans la base de données
             $entityManager->persist($user);

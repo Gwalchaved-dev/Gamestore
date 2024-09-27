@@ -9,6 +9,8 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Constraints\File;
 
 class JeuxVideosFormType extends AbstractType
 {
@@ -17,18 +19,78 @@ class JeuxVideosFormType extends AbstractType
         $builder
             ->add('titre', TextType::class, [
                 'label' => 'Titre du jeu',
+                'attr' => [
+                    'class' => 'form-control',
+                ],
+                'constraints' => [
+                    new Assert\NotBlank([
+                        'message' => 'Le titre ne doit pas être vide.',
+                    ]),
+                ],
             ])
             ->add('description', TextType::class, [
                 'label' => 'Description',
+                'attr' => [
+                    'class' => 'form-control',
+                ],
+                'constraints' => [
+                    new Assert\NotBlank([
+                        'message' => 'La description ne doit pas être vide.',
+                    ]),
+                ],
             ])
             ->add('prix', MoneyType::class, [
-                'label' => 'Prix',
-                'currency' => 'EUR',
+                'currency' => 'EUR', // ou autre devise
+                'scale' => 2, // Pour forcer à accepter des valeurs avec deux décimales
+                'attr' => [
+                    'class' => 'form-control',
+                ],
+                'constraints' => [
+                    new Assert\NotBlank([
+                        'message' => 'Le prix ne doit pas être vide.',
+                    ]),
+                    new Assert\Positive([
+                        'message' => 'Le prix doit être un nombre positif.',
+                    ]),
+                ],
             ])
             ->add('image', FileType::class, [
-                'label' => 'Image du jeu',
-                'mapped' => false,
+                'label' => 'Image principale (JPEG, PNG)',
+                'mapped' => false, // Ce champ ne doit pas être mappé directement à l'entité
+                'required' => true, // L'image principale est obligatoire
+                'attr' => [
+                    'class' => 'form-control',
+                ],
+                'constraints' => [
+                    new File([
+                        'maxSize' => '2500k',
+                        'mimeTypes' => [
+                            'image/jpeg',
+                            'image/png',
+                        ],
+                        'mimeTypesMessage' => 'Veuillez télécharger une image valide (JPEG ou PNG).',
+                    ])
+                ],
+            ])
+            ->add('images', FileType::class, [
+                'label' => 'Autres images du jeu (JPEG, PNG)',
+                'mapped' => false, // Ce champ ne doit pas être mappé directement à l'entité
                 'required' => false,
+                'multiple' => true, // Pour permettre plusieurs fichiers
+                'attr' => [
+                    'multiple' => 'multiple', // Permettre la sélection multiple dans le formulaire
+                    'class' => 'form-control',
+                ],
+                'constraints' => [
+                    new File([
+                        'maxSize' => '2500k',
+                        'mimeTypes' => [
+                            'image/jpeg',
+                            'image/png',
+                        ],
+                        'mimeTypesMessage' => 'Veuillez télécharger des images valides (JPEG ou PNG).',
+                    ])
+                ],
             ]);
     }
 

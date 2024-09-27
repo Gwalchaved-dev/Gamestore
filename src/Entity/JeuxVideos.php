@@ -5,6 +5,8 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Repository\JeuxVideosRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 
 #[ORM\Entity(repositoryClass: JeuxVideosRepository::class)]
 class JeuxVideos
@@ -26,9 +28,17 @@ class JeuxVideos
     #[Assert\Positive(message: "Le prix doit être un nombre positif.")]
     private ?float $prix = null;
 
+    // Ce champ stockera le nom du fichier une fois téléchargé
     #[ORM\Column(type: 'string', length: 255)]
-    #[Assert\NotBlank(message: "L'image ne doit pas être vide.")]
     private ?string $image = null;
+
+    #[ORM\OneToMany(mappedBy: 'jeu', targetEntity: JeuxImages::class, cascade: ['persist', 'remove'])]
+    private Collection $images;
+
+    public function __construct()
+    {
+        $this->images = new ArrayCollection();
+    }
 
     // Getters et Setters
 
@@ -73,14 +83,44 @@ class JeuxVideos
         return $this;
     }
 
+    // Cette méthode retourne le nom du fichier de l'image principale
     public function getImage(): ?string
     {
         return $this->image;
     }
 
+    // Cette méthode est appelée après l'upload pour enregistrer le nom du fichier
     public function setImage(?string $image): self
     {
         $this->image = $image;
+
+        return $this;
+    }
+
+    // Gestion des images supplémentaires
+    public function getImages(): Collection
+    {
+        return $this->images;
+    }
+
+    public function addImage(JeuxImages $image): self
+    {
+        if (!$this->images->contains($image)) {
+            $this->images[] = $image;
+            $image->setJeu($this);
+        }
+
+        return $this;
+    }
+
+    public function removeImage(JeuxImages $image): self
+    {
+        if ($this->images->removeElement($image)) {
+            // set the owning side to null (unless already changed)
+            if ($image->getJeu() === $this) {
+                $image->setJeu(null);
+            }
+        }
 
         return $this;
     }

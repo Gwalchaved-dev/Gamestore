@@ -15,7 +15,8 @@ class JeuxVideosRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, JeuxVideos::class);
     }
-/**
+
+    /**
      * Récupérer les jeux en fonction des filtres de genre et de prix.
      */
     public function findByFilters($genre, $minPrice, $maxPrice)
@@ -39,28 +40,27 @@ class JeuxVideosRepository extends ServiceEntityRepository
 
         return $qb->getQuery()->getResult();
     }
-    //    /**
-    //     * @return JeuxVideos[] Returns an array of JeuxVideos objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('j')
-    //            ->andWhere('j.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('j.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
 
-    //    public function findOneBySomeField($value): ?JeuxVideos
-    //    {
-    //        return $this->createQueryBuilder('j')
-    //            ->andWhere('j.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
+    /**
+     * Récupérer tous les jeux pour les afficher dans le stock.
+     */
+    public function findAllJeux()
+    {
+        return $this->createQueryBuilder('j')
+            ->orderBy('j.titre', 'ASC') // Trie les jeux par titre
+            ->getQuery()
+            ->getResult();
+    }
+
+    /**
+     * Récupérer un jeu par son ID.
+     */
+    public function findById($id)
+    {
+        return $this->createQueryBuilder('j')
+            ->andWhere('j.id = :id')
+            ->setParameter('id', $id)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
 }

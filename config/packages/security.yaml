@@ -21,12 +21,14 @@ security:
             custom_authenticator: App\Security\UserAuthenticator
             logout:
                 path: app_logout
+                target: app_homepage # Redirige vers la page d'accueil après déconnexion
             remember_me:
                 secret: '%kernel.secret%'
                 lifetime: 604800 # 7 jours
                 path: /
-                # active_user_provider correspond au provider si tu utilises le "remember_me"
                 always_remember_me: true
+                secure: auto # Utilise 'true' si l'application fonctionne en HTTPS
+                httponly: true # Assure que le cookie n'est pas accessible par JavaScript
 
     access_control:
         # Pages publiques accessibles à tous

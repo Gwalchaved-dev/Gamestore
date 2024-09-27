@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajouter un Jeu Vidéo{% endblock %}
+
+{% block body %}
+    <h1>Ajouter un Nouveau Jeu Vidéo</h1>
+
+    {{ form_start(form, {'attr': {'enctype': 'multipart/form-data'}}) }} 
+    {# Ajout de 'enctype' pour permettre l'upload de fichiers #}
+
+    <div class="form-group">
+        {{ form_label(form.titre) }}
+        {{ form_widget(form.titre, {'attr': {'class': 'form-control'}}) }}
+        {{ form_errors(form.titre) }}
+    </div>
+
+    <div class="form-group">
+        {{ form_label(form.description) }}
+        {{ form_widget(form.description, {'attr': {'class': 'form-control'}}) }}
+        {{ form_errors(form.description) }}
+    </div>
+
+    <div class="form-group">
+        {{ form_label(form.prix) }}
+        {{ form_widget(form.prix, {'attr': {'class': 'form-control'}}) }}
+        {{ form_errors(form.prix) }}
+    </div>
+
+    <div class="form-group">
+        {{ form_label(form.image) }}
+        {{ form_widget(form.image, {'attr': {'class': 'form-control-file'}}) }}
+        {{ form_errors(form.image) }}
+        <small class="form-text text-muted">L'image principale du jeu doit être au format JPEG ou PNG.</small>
+    </div>
+
+    <div class="form-group">
+        {{ form_label(form.images) }}
+        {{ form_widget(form.images, {'attr': {'class': 'form-control-file', 'multiple': 'multiple'}}) }}
+        {{ form_errors(form.images) }}
+        <small class="form-text text-muted">Vous pouvez sélectionner plusieurs images supplémentaires (JPEG, PNG).</small>
+    </div>
+
+    <div class="form-group">
+        <button class="btn btn-success">{{ button_label|default('Ajouter le jeu') }}</button>
+    </div>
+
+    {{ form_end(form) }}
+
+    <div>
+        <a href="{{ path('admin_jeux_stock') }}">Retour au stock</a>
+    </div>
+{% endblock %}
