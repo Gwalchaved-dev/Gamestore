@@ -7,7 +7,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface; // Ajoute cette ligne
 use Symfony\Component\Security\Http\Authenticator\AbstractLoginFormAuthenticator;
 use Symfony\Component\Security\Http\Authenticator\Passport\Badge\CsrfTokenBadge;
 use Symfony\Component\Security\Http\Authenticator\Passport\Badge\RememberMeBadge;
@@ -15,7 +14,7 @@ use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
 use Symfony\Component\Security\Http\Authenticator\Passport\Credentials\PasswordCredentials;
 use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
 use Symfony\Component\Security\Http\Util\TargetPathTrait;
-use Symfony\Bundle\SecurityBundle\Security; // Ajoute cette ligne pour résoudre l'erreur
+use Symfony\Bundle\SecurityBundle\Security;
 
 class UserAuthenticator extends AbstractLoginFormAuthenticator
 {
@@ -25,17 +24,16 @@ class UserAuthenticator extends AbstractLoginFormAuthenticator
 
     private UrlGeneratorInterface $urlGenerator;
     private Security $security;
-    private TokenStorageInterface $tokenStorage; // Ajoute cette propriété
 
-    public function __construct(UrlGeneratorInterface $urlGenerator, Security $security, TokenStorageInterface $tokenStorage) // Modifie le constructeur
+    public function __construct(UrlGeneratorInterface $urlGenerator, Security $security)
     {
         $this->urlGenerator = $urlGenerator;
         $this->security = $security;
-        $this->tokenStorage = $tokenStorage; // Initialise la propriété
     }
 
     public function supports(Request $request): bool
     {
+        // Vérifie si la requête est liée à la route de connexion et si elle est de type POST
         return $request->attributes->get('_route') === self::LOGIN_ROUTE
             && $request->isMethod('POST');
     }
@@ -45,7 +43,10 @@ class UserAuthenticator extends AbstractLoginFormAuthenticator
         $email = $request->request->get('email', '');
         $password = $request->request->get('password', '');
 
-        $request->getSession()->set('_security_main', $email); // Remplace Security::LAST_USERNAME par '_security_main'
+        // Vérification si l'email ou le mot de passe sont vides, peut-être utile pour le débogage
+        if (empty($email) || empty($password)) {
+            throw new \InvalidArgumentException('Email ou mot de passe manquant.');
+        }
 
         return new Passport(
             new UserBadge($email),
@@ -59,13 +60,17 @@ class UserAuthenticator extends AbstractLoginFormAuthenticator
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
     {
-        if ($targetPath = $this->getTargetPath($request->getSession(), $firewallName)) {
-            return new RedirectResponse($targetPath);
-        }
-
+        // Redirection personnalisée en fonction du rôle de l'utilisateur
         $user = $token->getUser();
+
+        // Si l'utilisateur est un admin, redirige vers l'espace admin
         if (in_array('ROLE_ADMIN', $user->getRoles(), true)) {
             return new RedirectResponse($this->urlGenerator->generate('app_admin'));
+        }
+
+        // Sinon, redirige vers la page d'accueil par défaut
+        if ($targetPath = $this->getTargetPath($request->getSession(), $firewallName)) {
+            return new RedirectResponse($targetPath);
         }
 
         return new RedirectResponse($this->urlGenerator->generate('app_homepage'));
@@ -73,6 +78,7 @@ class UserAuthenticator extends AbstractLoginFormAuthenticator
 
     protected function getLoginUrl(Request $request): string
     {
+        // Génère l'URL de la page de connexion
         return $this->urlGenerator->generate(self::LOGIN_ROUTE);
     }
 }

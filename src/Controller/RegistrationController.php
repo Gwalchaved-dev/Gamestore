@@ -27,8 +27,6 @@ class RegistrationController extends AbstractController
         $this->emailVerifier = $emailVerifier;
     }
 
-    private const REGISTRATION_TEMPLATE = 'registration/register.html.twig'; // Définir le chemin du template
-
     #[Route('/register', name: 'app_register')]
     public function register(
         Request $request,
@@ -41,22 +39,35 @@ class RegistrationController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // Récupérer les champs plainPassword et confirmPassword
+            // Récupération des mots de passe depuis le formulaire
             $plainPassword = $form->get('plainPassword')->getData();
             $confirmPassword = $form->get('confirmPassword')->getData();
 
+            // Vérification que les mots de passe ne sont pas vides
+            if (empty($plainPassword) || empty($confirmPassword)) {
+                $this->addFlash('error', 'Le mot de passe ne peut pas être vide.');
+                return $this->render('registration/register.html.twig', [
+                    'registrationForm' => $form->createView(),
+                ]);
+            }
+
+            // Vérification de la correspondance des mots de passe
+            if ($plainPassword !== $confirmPassword) {
+                $this->addFlash('error', 'Les mots de passe ne correspondent pas.');
+                return $this->render('registration/register.html.twig', [
+                    'registrationForm' => $form->createView(),
+                ]);
+            }
+
             // Hachage du mot de passe
-            $user->setPassword($userPasswordHasher->hashPassword($user, $plainPassword)); // Assurez-vous que User implémente PasswordAuthenticatedUserInterface
+            $hashedPassword = $userPasswordHasher->hashPassword($user, $plainPassword);
+            $user->setPassword($hashedPassword);
 
-            $user->setPassword(
-                $userPasswordHasher->hashPassword($user, $plainPassword)
-            );
-
-            // Persister les données de l'utilisateur dans la base de données
+            // Persistance des données utilisateur dans la base de données
             $entityManager->persist($user);
             $entityManager->flush();
 
-            // Envoyer un email de confirmation
+            // Envoi de l'email de confirmation
             $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user,
                 (new TemplatedEmail())
                     ->from(new Address('test@example.com', 'Gamestore Mail Bot'))
@@ -65,12 +76,12 @@ class RegistrationController extends AbstractController
                     ->htmlTemplate('registration/confirmation_email.html.twig')
             );
 
-            // Connecter automatiquement l'utilisateur après inscription
+            // Connexion automatique de l'utilisateur après l'inscription
             return $security->login($user, UserAuthenticator::class, 'main');
         }
 
         // Affichage du formulaire d'inscription
-        return $this->render(self::REGISTRATION_TEMPLATE, [
+        return $this->render('registration/register.html.twig', [
             'registrationForm' => $form->createView(),
         ]);
     }
@@ -80,9 +91,7 @@ class RegistrationController extends AbstractController
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
 
-        // Valider le lien de confirmation d'email
         try {
-            /** @var User $user */
             $user = $this->getUser();
             $this->emailVerifier->handleEmailConfirmation($request, $user);
         } catch (VerifyEmailExceptionInterface $exception) {
@@ -92,7 +101,6 @@ class RegistrationController extends AbstractController
         }
 
         $this->addFlash('success', 'Votre adresse email a été vérifiée.');
-
         return $this->redirectToRoute('app_register');
     }
 }

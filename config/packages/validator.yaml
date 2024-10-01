@@ -1,13 +1,11 @@
 framework:
     validation:
-        # Automapping va automatiquement appliquer des règles de validation sur les entités
         auto_mapping:
             App\Entity\: true
 
-        # Désactiver la vérification de mots de passe compromis pour l'environnement de test
         not_compromised_password: false
 
-        # Ajouter des chemins spécifiques pour les fichiers YAML de validation
+        # Ajouter un fichier de validation spécifique pour l'entité User
         mapping:
             paths:
-                - '%kernel.project_dir%/config/packages/validator.yaml'
+                - '%kernel.project_dir%/config/validation/user.yaml'

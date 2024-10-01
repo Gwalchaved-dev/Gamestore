@@ -2,6 +2,7 @@ framework:
     secret: '%env(APP_SECRET)%'
     router:
         utf8: true
+        enabled: true  # Garde cela pour que le router soit activé
     csrf_protection: true
     session:
         handler_id: null
@@ -10,5 +11,13 @@ framework:
     form: true
     http_method_override: true
     assets: true
- # Définit un fallback statique au lieu de '%locale%'
-    default_locale: 'en'  # Utilise une locale par défaut comme 'en' ou 'fr'
+    default_locale: 'en'
+    translator:
+        default_path: '%kernel.project_dir%/translations'
+        fallbacks:
+            - en
+    validation: true
+    # Retirer cette partie car les annotations via doctrine ne sont plus supportées
+    # annotations:
+    #     enabled: true
+    serializer: true

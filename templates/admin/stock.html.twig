@@ -1,32 +1,36 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>Stock des Jeux Vidéo</h1>
-    
-    <table>
-        <thead>
-            <tr>
-                <th>Titre</th>
-                <th>Description</th>
-                <th>Prix</th>
-                <th>Image</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for jeu in jeux %}
+    <div class="stock-container">
+        <h1>Stock des Jeux Vidéo</h1>
+        
+        <table class="styled-table">
+            <thead>
                 <tr>
-                    <td>{{ jeu.titre }}</td>
-                    <td>{{ jeu.description }}</td>
-                    <td>{{ jeu.prix }}€</td>
-                    <td><img src="{{ asset('uploads/images/' ~ jeu.image) }}" alt="{{ jeu.titre }}" width="100"></td>
-                    <td>
-                        <a href="{{ path('admin_modifier_jeu', {id: jeu.id}) }}">Modifier</a>
-                    </td>
+                    <th>Titre</th>
+                    <th>Description</th>
+                    <th>Prix</th>
+                    <th>Image</th>
+                    <th>Actions</th>
                 </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                {% for jeu in jeux %}
+                    <tr>
+                        <td>{{ jeu.titre }}</td>
+                        <td>{{ jeu.description }}</td>
+                        <td>{{ jeu.prix }}€</td>
+                        <td><img src="{{ asset('uploads/images/' ~ jeu.image) }}" alt="{{ jeu.titre }}" width="100"></td>
+                        <td>
+                            <a href="{{ path('admin_modifier_jeu', {id: jeu.id}) }}" class="btn-modifier">Modifier</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
 
-    <a href="{{ path('admin_ajouter_jeu') }}">Ajouter un nouveau jeu</a>
+        <div class="add-game-btn">
+            <a href="{{ path('admin_ajouter_jeu') }}" class="btn-ajouter">Ajouter un nouveau jeu</a>
+        </div>
+    </div>
 {% endblock %}

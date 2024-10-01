@@ -3,87 +3,79 @@
 {% block title %}Inscription à Gamestore{% endblock %}
 
 {% block body %}
-    {# Affiche les erreurs spécifiques liées à la vérification d'email #}
     {% for flash_error in app.flashes('verify_email_error') %}
         <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
+    {% endfor %}
+
+    {% for error in app.flashes('error') %}
+        <div class="alert alert-danger" role="alert">{{ error }}</div>
     {% endfor %}
     
     <div class="centered-container">
         <div class="form-container">
             <h1 class="sarpanch-semibold">Inscription</h1>
 
-            {# Affiche les erreurs globales du formulaire #}
-            {{ form_errors(registrationForm) }}
-
-            {# Démarre le formulaire #}
             {{ form_start(registrationForm, {'attr': {'class': 'form'}}) }}
 
-                {# Champ E-mail #}
-                <div class="form-group">
-                    {{ form_label(registrationForm.email) }}
-                    {{ form_widget(registrationForm.email, {'attr': {'class': 'form-control'}}) }}
-                    {{ form_errors(registrationForm.email) }}
-                </div>
+            <div class="form-group">
+                {{ form_label(registrationForm.email) }}
+                {{ form_widget(registrationForm.email, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(registrationForm.email) }}
+            </div>
 
-                {# Champ Nom #}
-                <div class="form-group">
-                    {{ form_label(registrationForm.nom) }}
-                    {{ form_widget(registrationForm.nom, {'attr': {'class': 'form-control'}}) }}
-                    {{ form_errors(registrationForm.nom) }}
-                </div>
+            <div class="form-group">
+                {{ form_label(registrationForm.nom) }}
+                {{ form_widget(registrationForm.nom, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(registrationForm.nom) }}
+            </div>
 
-                {# Champ Prénom #}
-                <div class="form-group">
-                    {{ form_label(registrationForm.prenom) }}
-                    {{ form_widget(registrationForm.prenom, {'attr': {'class': 'form-control'}}) }}
-                    {{ form_errors(registrationForm.prenom) }}
-                </div>
+            <div class="form-group">
+                {{ form_label(registrationForm.prenom) }}
+                {{ form_widget(registrationForm.prenom, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(registrationForm.prenom) }}
+            </div>
 
-                {# Champ Adresse Postale #}
-                <div class="form-group">
-                    {{ form_label(registrationForm.adressePostale) }}
-                    {{ form_widget(registrationForm.adressePostale, {'attr': {'class': 'form-control'}}) }}
-                    {{ form_errors(registrationForm.adressePostale) }}
-                </div>
+            <div class="form-group">
+                {{ form_label(registrationForm.adressePostale) }}
+                {{ form_widget(registrationForm.adressePostale, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(registrationForm.adressePostale) }}
+            </div>
 
-                {# Champ Code Postal #}
-                <div class="form-group">
-                    {{ form_label(registrationForm.codePostal) }}
-                    {{ form_widget(registrationForm.codePostal, {'attr': {'class': 'form-control'}}) }}
-                    {{ form_errors(registrationForm.codePostal) }}
-                </div>
+            <div class="form-group">
+                {{ form_label(registrationForm.codePostal) }}
+                {{ form_widget(registrationForm.codePostal, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(registrationForm.codePostal) }}
+            </div>
 
-                {# Champ Ville #}
-                <div class="form-group">
-                    {{ form_label(registrationForm.ville) }}
-                    {{ form_widget(registrationForm.ville, {'attr': {'class': 'form-control'}}) }}
-                    {{ form_errors(registrationForm.ville) }}
-                </div>
+            <div class="form-group">
+                {{ form_label(registrationForm.ville) }}
+                {{ form_widget(registrationForm.ville, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(registrationForm.ville) }}
+            </div>
 
-                {# Champ Mot de Passe #}
-                <div class="form-group">
-                    {{ form_label(registrationForm.plainPassword) }}
-                    {{ form_widget(registrationForm.plainPassword, {'attr': {'class': 'form-control'}}) }}
-                    {{ form_errors(registrationForm.plainPassword) }}
-                </div>
+            <div class="form-group">
+                {{ form_label(registrationForm.plainPassword) }}
+                {{ form_widget(registrationForm.plainPassword, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(registrationForm.plainPassword) }}
+            </div>
 
-                {# Champ Confirmation du Mot de Passe #}
-                <div class="form-group">
-                    {{ form_label(registrationForm.confirmPassword) }}
-                    {{ form_widget(registrationForm.confirmPassword, {'attr': {'class': 'form-control'}}) }}
-                    {{ form_errors(registrationForm.confirmPassword) }}
-                </div>
+            <div class="form-group">
+                {{ form_label(registrationForm.confirmPassword) }}
+                {{ form_widget(registrationForm.confirmPassword, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(registrationForm.confirmPassword) }}
+            </div>
 
-                {# Champ d'acceptation des conditions #}
-                <div class="form-group">
-                    {{ form_widget(registrationForm.agreeTerms, {'attr': {'class': 'form-check-input'}}) }}
-                    {{ form_label(registrationForm.agreeTerms, null, {'label_attr': {'class': 'form-check-label'}}) }}
-                    {{ form_errors(registrationForm.agreeTerms) }}
-                </div>
+            <div class="form-group">
+                {{ form_widget(registrationForm.agreeTerms, {'attr': {'class': 'form-check-input'}}) }}
+                {{ form_label(registrationForm.agreeTerms, null, {'label_attr': {'class': 'form-check-label'}}) }}
+                {{ form_errors(registrationForm.agreeTerms) }}
+            </div>
 
-                <button type="submit" class="btn btn-primary sarpanch-semibold">S'enregistrer</button>
+            {# Champ CSRF pour protéger le formulaire contre les attaques CSRF #}
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
 
-            {# Ferme le formulaire #}
+            <button type="submit" class="btn btn-primary sarpanch-semibold">S'enregistrer</button>
+
             {{ form_end(registrationForm) }}
         </div>
     </div>

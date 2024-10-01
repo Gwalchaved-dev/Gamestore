@@ -30,7 +30,7 @@ class RegistrationFormType extends AbstractType
             ])
             ->add('plainPassword', PasswordType::class, [
                 'label' => 'Mot de passe',
-                'mapped' => false, // Ce champ ne doit pas être mappé directement à l'entité User
+                'mapped' => false,
                 'attr' => [
                     'autocomplete' => 'new-password',
                     'required' => true,

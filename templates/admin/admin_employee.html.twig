@@ -1,0 +1,80 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Gestion des Employés et Utilisateurs{% endblock %}
+
+{% block body %}
+    <div class="admin-container">
+        <h1>Gestion des Employés et Utilisateurs</h1>
+
+        <!-- Formulaire pour ajouter un nouvel employé -->
+        <div class="employee-form">
+            <h2>Ajouter un Nouvel Employé</h2>
+
+            {{ form_start(form, {'attr': {'enctype': 'multipart/form-data'}}) }}
+
+            <div class="form-group">
+                {{ form_label(form.nom) }}
+                {{ form_widget(form.nom, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.nom) }}
+            </div>
+
+            <div class="form-group">
+                {{ form_label(form.prenom) }}
+                {{ form_widget(form.prenom, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.prenom) }}
+            </div>
+
+            <div class="form-group">
+                {{ form_label(form.adresse) }}
+                {{ form_widget(form.adresse, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.adresse) }}
+            </div>
+
+            <div class="form-group">
+                {{ form_label(form.ville) }}
+                {{ form_widget(form.ville, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.ville) }}
+            </div>
+
+            <div class="form-group">
+                <button class="btn btn-success">{{ button_label|default('Ajouter l\'employé') }}</button>
+            </div>
+
+            {{ form_end(form) }}
+        </div>
+
+        <!-- Tableau listant les employés inscrits -->
+        <div class="user-list">
+            <h2>Liste des Employés Inscrits</h2>
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Nom</th>
+                        <th>Prénom</th>
+                        <th>Adresse</th>
+                        <th>Ville</th>
+                        <th>Rôle</th>
+                        <th>Date d'inscription</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for employee in employees %}
+                        <tr>
+                            <td>{{ employee.nom }}</td>
+                            <td>{{ employee.prenom }}</td>
+                            <td>{{ employee.adresse }}</td>
+                            <td>{{ employee.ville }}</td>
+                            <td>{{ employee.roles | join(', ') }}</td> <!-- Affiche les rôles -->
+                            <td>{{ employee.createdAt|date('d/m/Y') }}</td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="6">Aucun employé n'est inscrit pour le moment.</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

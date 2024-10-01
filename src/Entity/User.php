@@ -7,7 +7,6 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
-use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: 'user')]  // Ajout d'une table pour plus de clarté
@@ -20,28 +19,21 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?int $id = null;
 
     #[ORM\Column(type: 'string', length: 255)]
-    #[Assert\NotBlank(message: "Le nom ne doit pas être vide.")]
     private string $nom;
 
     #[ORM\Column(type: 'string', length: 255)]
-    #[Assert\NotBlank(message: "Le prénom ne doit pas être vide.")]
     private string $prenom;
 
     #[ORM\Column(type: 'string', length: 255)]
-    #[Assert\NotBlank(message: "L'adresse postale ne doit pas être vide.")]
     private string $adressePostale;
 
     #[ORM\Column(type: 'string', length: 10)]
-    #[Assert\NotBlank(message: "Le code postal ne doit pas être vide.")]
     private string $codePostal;
 
     #[ORM\Column(type: 'string', length: 255)]
-    #[Assert\NotBlank(message: "La ville ne doit pas être vide.")]
     private string $ville;
 
     #[ORM\Column(length: 180, unique: true)]
-    #[Assert\NotBlank(message: "L'adresse e-mail ne doit pas être vide.")]
-    #[Assert\Email(message: 'L\'adresse e-mail "{{ value }}" n\'est pas valide.')]
     private ?string $email = null;
 
     #[ORM\Column]
@@ -54,24 +46,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private bool $isVerified = false;
 
     // Ce champ ne sera pas persisté en base, il est seulement utilisé pour la validation du mot de passe en clair
-    #[Assert\NotBlank(message: "Le mot de passe ne doit pas être vide.")]
-    #[Assert\Length(min: 8, minMessage: "Le mot de passe doit contenir au moins {{ limit }} caractères.")]
-    #[Assert\Regex(
-        pattern: "/[A-Z]/",
-        message: "Le mot de passe doit contenir au moins une lettre majuscule."
-    )]
-    #[Assert\Regex(
-        pattern: "/[a-z]/",
-        message: "Le mot de passe doit contenir au moins une lettre minuscule."
-    )]
-    #[Assert\Regex(
-        pattern: "/[0-9]/",
-        message: "Le mot de passe doit contenir au moins un chiffre."
-    )]
-    #[Assert\Regex(
-        pattern: "/[^\\w]/",
-        message: "Le mot de passe doit contenir au moins un caractère spécial."
-    )]
     private ?string $plainPassword = null;
 
     // Getters et Setters
