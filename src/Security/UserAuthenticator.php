@@ -33,7 +33,7 @@ class UserAuthenticator extends AbstractLoginFormAuthenticator
 
     public function supports(Request $request): bool
     {
-        // Vérifie si la requête est liée à la route de connexion et si elle est de type POST
+        // Vérifie uniquement la route de connexion
         return $request->attributes->get('_route') === self::LOGIN_ROUTE
             && $request->isMethod('POST');
     }

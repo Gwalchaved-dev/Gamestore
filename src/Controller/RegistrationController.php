@@ -17,6 +17,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
 use Symfony\Bundle\SecurityBundle\Security;
+use Symfony\Component\VarDumper\VarDumper;
 
 class RegistrationController extends AbstractController
 {
@@ -39,9 +40,15 @@ class RegistrationController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            // Débogage : voir le contenu du formulaire soumis
+            VarDumper::dump($form->getData());
+
             // Récupération des mots de passe depuis le formulaire
             $plainPassword = $form->get('plainPassword')->getData();
             $confirmPassword = $form->get('confirmPassword')->getData();
+
+            // Débogage : voir si les mots de passe sont bien récupérés
+            VarDumper::dump('PlainPassword:', $plainPassword, 'ConfirmPassword:', $confirmPassword);
 
             // Vérification que les mots de passe ne sont pas vides
             if (empty($plainPassword) || empty($confirmPassword)) {
@@ -61,11 +68,18 @@ class RegistrationController extends AbstractController
 
             // Hachage du mot de passe
             $hashedPassword = $userPasswordHasher->hashPassword($user, $plainPassword);
+
+            // Débogage : vérifier le mot de passe haché
+            VarDumper::dump('HashedPassword:', $hashedPassword);
+
             $user->setPassword($hashedPassword);
 
             // Persistance des données utilisateur dans la base de données
             $entityManager->persist($user);
             $entityManager->flush();
+
+            // Débogage : vérifier si l'utilisateur est bien persisté
+            VarDumper::dump('User Persisted:', $user->getUserIdentifier()); // Correction ici
 
             // Envoi de l'email de confirmation
             $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user,
