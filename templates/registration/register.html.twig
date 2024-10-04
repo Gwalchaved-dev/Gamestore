@@ -3,84 +3,93 @@
 {% block title %}Inscription à Gamestore{% endblock %}
 
 {% block body %}
+    {# Gestion des erreurs liées à la confirmation d'email #}
     {% for flash_error in app.flashes('verify_email_error') %}
         <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
     {% endfor %}
 
+    {# Gestion des erreurs générales #}
     {% for error in app.flashes('error') %}
         <div class="alert alert-danger" role="alert">{{ error }}</div>
     {% endfor %}
-    
+
     <div class="centered-container">
         <div class="form-container">
             <h1 class="sarpanch-semibold">Inscription</h1>
 
             {{ form_start(registrationForm, {'attr': {'class': 'form'}}) }}
 
+            {# Email #}
             <div class="form-group">
-                {{ form_label(registrationForm.email) }}
-                {{ form_widget(registrationForm.email, {'attr': {'class': 'form-control', 'name': 'registration_form[email]'}}) }}
-                {{ form_errors(registrationForm.email) }}
+                {{ form_row(registrationForm.email, {'attr': {'class': 'form-control', 'placeholder': 'Entrez votre email'}}) }}
             </div>
 
+            {# Mot de passe #}
             <div class="form-group">
-                {{ form_label(registrationForm.nom) }}
-                {{ form_widget(registrationForm.nom, {'attr': {'class': 'form-control', 'name': 'registration_form[nom]'}}) }}
-                {{ form_errors(registrationForm.nom) }}
+                {{ form_row(registrationForm.password, {'attr': {'class': 'form-control', 'placeholder': 'Entrez votre mot de passe'}}) }}
             </div>
 
+            {# Confirmation du mot de passe #}
             <div class="form-group">
-                {{ form_label(registrationForm.prenom) }}
-                {{ form_widget(registrationForm.prenom, {'attr': {'class': 'form-control', 'name': 'registration_form[prenom]'}}) }}
-                {{ form_errors(registrationForm.prenom) }}
+                {{ form_row(registrationForm.confirmPassword, {'attr': {'class': 'form-control', 'placeholder': 'Confirmez votre mot de passe'}}) }}
             </div>
 
+            {# Nom #}
             <div class="form-group">
-                {{ form_label(registrationForm.adressePostale) }}
-                {{ form_widget(registrationForm.adressePostale, {'attr': {'class': 'form-control', 'name': 'registration_form[adressePostale]'}}) }}
-                {{ form_errors(registrationForm.adressePostale) }}
+                {{ form_row(registrationForm.nom, {'attr': {'class': 'form-control', 'placeholder': 'Entrez votre nom'}}) }}
             </div>
 
+            {# Prénom #}
             <div class="form-group">
-                {{ form_label(registrationForm.codePostal) }}
-                {{ form_widget(registrationForm.codePostal, {'attr': {'class': 'form-control', 'name': 'registration_form[codePostal]'}}) }}
-                {{ form_errors(registrationForm.codePostal) }}
+                {{ form_row(registrationForm.prenom, {'attr': {'class': 'form-control', 'placeholder': 'Entrez votre prénom'}}) }}
             </div>
 
+            {# Adresse postale #}
             <div class="form-group">
-                {{ form_label(registrationForm.ville) }}
-                {{ form_widget(registrationForm.ville, {'attr': {'class': 'form-control', 'name': 'registration_form[ville]'}}) }}
-                {{ form_errors(registrationForm.ville) }}
+                {{ form_row(registrationForm.adressePostale, {'attr': {'class': 'form-control', 'placeholder': 'Entrez votre adresse postale'}}) }}
             </div>
 
+            {# Code postal #}
             <div class="form-group">
-                {{ form_label(registrationForm.plainPassword) }}
-                {{ form_widget(registrationForm.plainPassword, {'attr': {'class': 'form-control', 'name': 'registration_form[plainPassword]'}}) }}
-                {{ form_errors(registrationForm.plainPassword) }}
+                {{ form_row(registrationForm.codePostal, {'attr': {'class': 'form-control', 'placeholder': 'Entrez votre code postal'}}) }}
             </div>
 
+            {# Ville #}
             <div class="form-group">
-                {{ form_label(registrationForm.confirmPassword) }}
-                {{ form_widget(registrationForm.confirmPassword, {'attr': {'class': 'form-control', 'name': 'registration_form[confirmPassword]'}}) }}
-                {{ form_errors(registrationForm.confirmPassword) }}
+                {{ form_row(registrationForm.ville, {'attr': {'class': 'form-control', 'placeholder': 'Entrez votre ville'}}) }}
             </div>
 
+            {# Conditions générales #}
             <div class="form-group">
-                {{ form_widget(registrationForm.agreeTerms, {'attr': {'class': 'form-check-input', 'name': 'registration_form[agreeTerms]'}}) }}
-                {{ form_label(registrationForm.agreeTerms, null, {'label_attr': {'class': 'form-check-label'}}) }}
-                {{ form_errors(registrationForm.agreeTerms) }}
+                {{ form_row(registrationForm.agreeTerms, {'attr': {'class': 'form-check-input'}}) }}
             </div>
 
             {# Champ CSRF pour protéger le formulaire contre les attaques CSRF #}
             <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
 
+            {# Bouton d'enregistrement #}
             <button type="submit" class="btn btn-primary sarpanch-semibold">S'enregistrer</button>
 
             {{ form_end(registrationForm) }}
         </div>
     </div>
 
+    {# Lien retour à la page d'accueil #}
     <div>
         <a href="{{ path('app_homepage') }}">Retour à l'accueil</a>
     </div>
+
+    {# Script pour voir/cacher le mot de passe #}
+    <script>
+        document.querySelectorAll('.form-control[type="password"]').forEach(function(input) {
+            const eyeIcon = document.createElement('span');
+            eyeIcon.innerHTML = '👁️';
+            eyeIcon.style.cursor = 'pointer';
+            eyeIcon.addEventListener('click', function() {
+                const type = input.getAttribute('type') === 'password' ? 'text' : 'password';
+                input.setAttribute('type', type);
+            });
+            input.parentNode.appendChild(eyeIcon);
+        });
+    </script>
 {% endblock %}

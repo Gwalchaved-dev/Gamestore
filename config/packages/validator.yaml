@@ -8,4 +8,4 @@ framework:
         # Ajouter un fichier de validation spécifique pour l'entité User
         mapping:
             paths:
-                - '%kernel.project_dir%/config/validation/user.yaml'
+                - '%kernel.project_dir%/config/validation/'

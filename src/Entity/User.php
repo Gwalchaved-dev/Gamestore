@@ -9,7 +9,6 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
-#[ORM\Table(name: 'user')]  // Ajout d'une table pour plus de clarté
 #[UniqueEntity(fields: ['email'], message: 'Il existe déjà un compte avec cet email.')]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
@@ -44,9 +43,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column]
     private bool $isVerified = false;
-
-    // Ce champ ne sera pas persisté en base, il est seulement utilisé pour la validation du mot de passe en clair
-    private ?string $plainPassword = null;
 
     // Getters et Setters
 
@@ -128,19 +124,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function getRoles(): array
     {
-        $roles = $this->roles;
-        // Ajoute toujours ROLE_USER par défaut
-        if (!in_array('ROLE_USER', $roles)) {
-            $roles[] = 'ROLE_USER';
+        // Ajoute ROLE_USER par défaut si non présent
+        if (!in_array('ROLE_USER', $this->roles, true)) {
+            $this->roles[] = 'ROLE_USER';
         }
-        return array_unique($roles);
+        return array_unique($this->roles);
     }
 
     public function setRoles(array $roles): static
     {
-        if (!in_array('ROLE_USER', $roles)) {
-            $roles[] = 'ROLE_USER'; // Toujours ajouter ROLE_USER si non présent
-        }
         $this->roles = array_unique($roles);
         return $this;
     }
@@ -152,28 +144,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function setPassword(?string $password): static
     {
-        // On s'assure que si le mot de passe est mis à jour, il est bien modifié
-        if ($password) {
-            $this->password = $password;
-        }
-        return $this;
-    }
-
-    public function getPlainPassword(): ?string
-    {
-        return $this->plainPassword;
-    }
-
-    public function setPlainPassword(string $plainPassword): self
-    {
-        $this->plainPassword = $plainPassword;
+        $this->password = $password;
         return $this;
     }
 
     public function eraseCredentials(): void
     {
-        // Cette méthode est utilisée pour nettoyer les données sensibles
-        $this->plainPassword = null;
+        // Si des informations sensibles doivent être effacées après l'authentification
     }
 
     public function isVerified(): bool

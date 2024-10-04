@@ -4,7 +4,7 @@ App\Entity\User:
             - NotBlank: { message: "L'adresse e-mail ne peut pas être vide." }
             - Email: { message: "L'adresse e-mail '{{ value }}' n'est pas valide." }
 
-        plainPassword:
+        password:
             - NotBlank: { message: "Le mot de passe ne peut pas être vide." }
             - Length:
                 min: 8

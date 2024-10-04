@@ -20,27 +20,48 @@ class RegistrationFormType extends AbstractType
             ->add('email', EmailType::class, [
                 'label' => 'E-mail',
                 'constraints' => [
-                    new Assert\NotBlank([
-                        'message' => 'Merci de renseigner une adresse e-mail.',
-                    ]),
-                    new Assert\Email([
-                        'message' => 'L\'adresse e-mail "{{ value }}" n\'est pas valide.',
-                    ]),
+                    new Assert\NotBlank(['message' => 'Merci de renseigner une adresse e-mail.']),
+                    new Assert\Email(['message' => 'L\'adresse e-mail "{{ value }}" n\'est pas valide.']),
                 ],
             ])
-            ->add('plainPassword', PasswordType::class, [
+            ->add('nom', TextType::class, [
+                'label' => 'Nom',
+                'constraints' => [
+                    new Assert\NotBlank(['message' => 'Merci de renseigner votre nom.']),
+                ],
+            ])
+            ->add('prenom', TextType::class, [
+                'label' => 'Prénom',
+                'constraints' => [
+                    new Assert\NotBlank(['message' => 'Merci de renseigner votre prénom.']),
+                ],
+            ])
+            ->add('adressePostale', TextType::class, [
+                'label' => 'Adresse postale',
+                'constraints' => [
+                    new Assert\NotBlank(['message' => 'Merci de renseigner votre adresse postale.']),
+                ],
+            ])
+            ->add('codePostal', TextType::class, [
+                'label' => 'Code postal',
+                'constraints' => [
+                    new Assert\NotBlank(['message' => 'Merci de renseigner votre code postal.']),
+                ],
+            ])
+            ->add('ville', TextType::class, [
+                'label' => 'Ville',
+                'constraints' => [
+                    new Assert\NotBlank(['message' => 'Merci de renseigner votre ville.']),
+                ],
+            ])
+            ->add('password', PasswordType::class, [
                 'label' => 'Mot de passe',
-                'mapped' => false,
                 'attr' => [
                     'autocomplete' => 'new-password',
-                    'required' => true,
                     'placeholder' => 'Entrez votre mot de passe',
                 ],
-                'help' => 'Le mot de passe doit contenir au moins 8 caractères',
                 'constraints' => [
-                    new Assert\NotBlank([
-                        'message' => 'Merci de renseigner un mot de passe.',
-                    ]),
+                    new Assert\NotBlank(['message' => 'Merci de renseigner un mot de passe.']),
                     new Assert\Length([
                         'min' => 8,
                         'minMessage' => 'Votre mot de passe doit contenir au moins {{ limit }} caractères.',
@@ -53,62 +74,17 @@ class RegistrationFormType extends AbstractType
                 'mapped' => false,
                 'attr' => [
                     'autocomplete' => 'new-password',
-                    'required' => true,
                     'placeholder' => 'Confirmez votre mot de passe',
                 ],
                 'constraints' => [
-                    new Assert\NotBlank([
-                        'message' => 'Merci de confirmer votre mot de passe.',
-                    ]),
-                ],
-            ])
-            ->add('nom', TextType::class, [
-                'label' => 'Nom',
-                'constraints' => [
-                    new Assert\NotBlank([
-                        'message' => 'Merci de renseigner votre nom.',
-                    ]),
-                ],
-            ])
-            ->add('prenom', TextType::class, [
-                'label' => 'Prénom',
-                'constraints' => [
-                    new Assert\NotBlank([
-                        'message' => 'Merci de renseigner votre prénom.',
-                    ]),
-                ],
-            ])
-            ->add('adressePostale', TextType::class, [
-                'label' => 'Adresse postale',
-                'constraints' => [
-                    new Assert\NotBlank([
-                        'message' => 'Merci de renseigner votre adresse postale.',
-                    ]),
-                ],
-            ])
-            ->add('codePostal', TextType::class, [
-                'label' => 'Code postal',
-                'constraints' => [
-                    new Assert\NotBlank([
-                        'message' => 'Merci de renseigner votre code postal.',
-                    ]),
-                ],
-            ])
-            ->add('ville', TextType::class, [
-                'label' => 'Ville',
-                'constraints' => [
-                    new Assert\NotBlank([
-                        'message' => 'Merci de renseigner votre ville.',
-                    ]),
+                    new Assert\NotBlank(['message' => 'Merci de confirmer votre mot de passe.']),
                 ],
             ])
             ->add('agreeTerms', CheckboxType::class, [
                 'label' => 'Accepter les conditions',
                 'mapped' => false,
                 'constraints' => [
-                    new Assert\IsTrue([
-                        'message' => 'Vous devez accepter les conditions pour vous inscrire.',
-                    ]),
+                    new Assert\IsTrue(['message' => 'Vous devez accepter les conditions pour vous inscrire.']),
                 ],
             ]);
     }
