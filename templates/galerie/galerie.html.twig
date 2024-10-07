@@ -1,140 +1,61 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-    Galerie
-{% endblock %}
-
-{% block head %}
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Tous nos jeux, magasins de jeux vidéos présent en France à Lille, Paris, Bordeaux, Toulouse et Nantes. Retrouvez tous types de jeux vidéos : FPS, RPG, BUILDER, PLATFORM.">
-    <meta name="author" content="Gwalchaved-Dev" />
-    
-    <!-- Appel du CSS compilé via Webpack Encore avec versionnement pour éviter la mise en cache -->
-    {{ encore_entry_link_tags('app') }}
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
+    Nos Jeux Vidéos
 {% endblock %}
 
 {% block body %}
-   
     <section>
-    <section id="filter-section" class="my-4">
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-md-8">
-                    <form method="GET" class="filter-form" action="{{ path('galerie') }}">
-                        <div class="filter-controls d-flex flex-column flex-md-row align-items-center justify-content-center gap-3">
-                            <!-- Menu déroulant pour choisir le type de filtrage -->
-                            <select id="filter-type" name="filter-type" class="form-select pt-mono-regular">
-                                <option value="">Choisir le type de filtre</option>
-                                <option value="genre">Genre</option>
-                                <option value="price">Prix</option>
-                            </select>
-
-                            <!-- Input pour filtrer par prix minimum -->
-                            <input type="number" name="min_price" class="form-control pt-mono-regular" placeholder="Prix minimum" id="min_price" style="display:none;">
-                            
-                            <!-- Input pour filtrer par prix maximum -->
-                            <input type="number" name="max_price" class="form-control pt-mono-regular" placeholder="Prix maximum" id="max_price" style="display:none;">
-                            
-                            <!-- Input pour filtrer par genre -->
-                            <select name="genre" class="form-select pt-mono-regular" id="genre" style="display:none;">
-                                <option value="">Sélectionner un genre</option>
-                                <option value="fps">FPS</option>
-                                <option value="rpg">RPG</option>
-                                <option value="builder">Builder</option>
-                                <option value="platform">Platform</option>
-                            </select>
-
-                            <!-- Bouton de filtrage -->
-                            <button type="submit" class="btn btn-primary sarpanch-semibold">Filtrer</button>
+        <div class="container my-4">
+            <div class="row">
+                {# Parcours les jeux depuis la base de données #}
+                {% for jeu in jeux %}
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100">
+                        <img src="{{ asset('uploads/images/' ~ jeu.image) }}" class="card-img-top" alt="{{ jeu.titre }}">
+                        <div class="card-body">
+                            <h5 class="card-title sarpanch-semibold">{{ jeu.titre }}</h5>
+                            <p class="card-text pt-mono-regular">{{ jeu.description|slice(0, 100) }}...</p>
+                            <button type="button" class="btn btn-primary sarpanch-semibold" data-bs-toggle="modal" data-bs-target="#gameModal{{ jeu.id }}">Voir fiche</button>
                         </div>
-                    </form>
+                    </div>
                 </div>
+
+                {# Modal pour chaque jeu #}
+                <div class="modal fade" id="gameModal{{ jeu.id }}" tabindex="-1" aria-labelledby="gameModalLabel{{ jeu.id }}" aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title sarpanch-semibold" id="gameModalLabel{{ jeu.id }}">{{ jeu.titre }}</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body d-flex">
+                                <div class="main-image" style="flex: 1;">
+                                    <img src="{{ asset('uploads/images/' ~ jeu.image) }}" class="img-fluid modal-img" alt="Image du jeu">
+                                </div>
+                                <div class="details" style="flex: 1; padding-left: 20px;">
+                                    <div class="image-gallery d-flex justify-content-center mb-3">
+                                        {# Si tu as des images supplémentaires, parcours-les ici #}
+                                        {% if jeu.secondImage %}
+                                            <img src="{{ asset('uploads/images/' ~ jeu.secondImage) }}" class="img-thumbnail" alt="{{ jeu.titre }}" style="width: 50px;">
+                                        {% endif %}
+                                        {% if jeu.thirdImage %}
+                                            <img src="{{ asset('uploads/images/' ~ jeu.thirdImage) }}" class="img-thumbnail" alt="{{ jeu.titre }}" style="width: 50px;">
+                                        {% endif %}
+                                    </div>
+                                    <p class="game-description pt-mono-regular">{{ jeu.description }}</p>
+                                    <p class="game-price sarpanch-semibold">Prix : {{ jeu.prix }}€</p>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                                <button type="button" class="btn btn-primary">Acheter</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
             </div>
         </div>
     </section>
-
-
-<!-- Card Galerie system Bootstrap-->
-        <div class="container my-4">
-            <div class="row">
-                <!-- Première carte -->
-                <div class="col-md-4 mb-4">
-                    <div class="card h-100">
-                        <img src="{{ asset('build/images/fps/fpsGameplay.png') }}" class="card-img-top" alt="carte_fps">
-                        <div class="card-body">
-                            <h5 class="card-title sarpanch-semibold">BattleRoyal War</h5>
-                            <p class="card-text pt-mono-regular">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                            <button type="button" class="btn btn-primary sarpanch-semibold" data-bs-toggle="modal" data-bs-target="#gameModal">Voir fiche</button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Deuxième carte -->
-                <div class="col-md-4 mb-4">
-                    <div class="card h-100">
-                        <img src="{{ asset('build/images/rpg/rpgGameplay.png') }}" class="card-img-top" alt="carte_rpg">
-                        <div class="card-body">
-                            <h5 class="card-title sarpanch-semibold">Mystic Dragon</h5>
-                            <p class="card-text pt-mono-regular">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                            <a href="#" class="btn btn-primary sarpanch-semibold">Voir fiche</a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Troisième carte -->
-                <div class="col-md-4 mb-4">
-                    <div class="card h-100">
-                        <img src="{{ asset('build/images/builder/builderGameplay.png') }}" class="card-img-top" alt="carte_builder">
-                        <div class="card-body">
-                            <h5 class="card-title sarpanch-semibold">CivilBuild</h5>
-                            <p class="card-text pt-mono-regular">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                            <a href="#" class="btn btn-primary sarpanch-semibold">Voir fiche</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-</section>
-    {{ encore_entry_script_tags('filtre') }}
-  
-<!-- Modal pour les jeux avec galerie d'images -->
-<div class="modal fade" id="gameModal" tabindex="-1" aria-labelledby="gameModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title sarpanch-semibold" id="gameModalLabel">Titre du jeu</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body d-flex">
-        <!-- Section image principale -->
-        <div class="main-image" style="flex: 1;">
-          <img src="{{ asset('build/images/fps/fpsGameplay.png') }}" class="img-fluid modal-img" alt="Image du jeu">
-        </div>
-        
-        <!-- Section galerie et description -->
-        <div class="details" style="flex: 1; padding-left: 20px;">
-          <!-- Galerie de miniatures -->
-          <div class="image-gallery d-flex justify-content-center mb-3">
-            <img src="{{ asset('build/images/fps/fpsGameplay.png') }}" class="img-thumbnail" alt="Image du jeu" style="width: 50px;">
-            <img src="{{ asset('build/images/fps/fpsMenu.png') }}" class="img-thumbnail" alt="Image du jeu" style="width: 50px;">
-            <img src="{{ asset('build/images/fps/fpsCine.png') }}" class="img-thumbnail" alt="Image du jeu" style="width: 50px;">
-          </div>
-          
-          <!-- Description du jeu -->
-          <p class="game-description pt-mono-regular">Lorem ipsum dolor sit amet. Qui aliquid sunt vel debitis alias non officia quisquam quo saepe fugit est minima eveniet. Et enim quasi in quia Quis eos quaerat illo ut sint rerum sit voluptatum animi 33 laborum totam aut neque voluptatem. Sit amet quibusdam non obcaecati quia et cupiditate consectetur.</p>
-          
-          <!-- Prix du jeu -->
-          <p class="game-price sarpanch-semibold">Prix : 59,99€</p>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
-        <button type="button" class="btn btn-primary">Acheter</button>
-      </div>
-    </div>
-  </div>
-</div>
-{{ encore_entry_script_tags('galerieModal') }}
 {% endblock %}

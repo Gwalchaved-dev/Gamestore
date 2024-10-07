@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Ajouter un Jeu Vidéo au stock{% endblock %}
+{% block title %}Ajouter un Jeu Vidéo{% endblock %}
 
 {% block body %}
     <div class="form-container">
@@ -27,6 +27,13 @@
             {{ form_errors(form.prix) }}
         </div>
 
+        {# Ajout du champ déroulant pour le genre #}
+        <div class="form-group">
+            {{ form_label(form.genre, 'Genre du jeu') }}
+            {{ form_widget(form.genre, {'attr': {'class': 'form-control'}}) }}
+            {{ form_errors(form.genre) }}
+        </div>
+
         <div class="form-group">
             {{ form_label(form.image) }}
             {{ form_widget(form.image, {'attr': {'class': 'form-control-file'}}) }}
@@ -34,17 +41,15 @@
             <small class="form-text text-muted">L'image principale du jeu doit être au format JPEG ou PNG.</small>
         </div>
 
-        {# Gestion de la seconde image supplémentaire #}
         <div class="form-group">
             {{ form_label(form.secondImage) }}
             {{ form_widget(form.secondImage, {'attr': {'class': 'form-control-file'}}) }}
             {{ form_errors(form.secondImage) }}
-            <small class="form-text text-muted">Ajoutez une seconde image (JPEG, PNG).</small>
+            <small class="form-text text-muted">Ajoutez une deuxième image (JPEG, PNG).</small>
         </div>
 
-        {# Ajout d'une troisième image #}
         <div class="form-group">
-            {{ form_label(form.thirdImage) }}
+            {{ form_label(form.thirdImage, 'Troisième image') }}
             {{ form_widget(form.thirdImage, {'attr': {'class': 'form-control-file'}}) }}
             {{ form_errors(form.thirdImage) }}
             <small class="form-text text-muted">Ajoutez une troisième image (JPEG, PNG).</small>

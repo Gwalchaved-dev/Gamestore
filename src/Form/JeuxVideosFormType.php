@@ -7,6 +7,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -53,6 +54,20 @@ class JeuxVideosFormType extends AbstractType
                         'message' => 'Le prix doit être un nombre positif.',
                     ]),
                 ],
+            ])
+            ->add('genre', ChoiceType::class, [
+                'label' => 'Genre du jeu',
+                'choices' => [
+                    'RPG' => 'rpg',
+                    'FPS' => 'fps',
+                    'MOBA' => 'moba',
+                    'Builder' => 'builder',
+                    'Platform' => 'platform',
+                ],
+                'attr' => [
+                    'class' => 'form-control',
+                ],
+                'placeholder' => 'Sélectionner un genre', // Pour avoir une option par défaut vide
             ])
             ->add('image', FileType::class, [
                 'label' => 'Image principale (JPEG, PNG)',

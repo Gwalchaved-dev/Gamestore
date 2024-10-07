@@ -76,6 +76,12 @@ class AdminJeuxController extends AbstractController
                 }
             }
 
+            // Gérer le genre
+            $genre = $form->get('genre')->getData();
+            if ($genre) {
+                $jeu->setGenre($genre); // Enregistrer le genre sélectionné
+            }
+
             $entityManager->persist($jeu);
             $entityManager->flush();
 
@@ -121,6 +127,12 @@ class AdminJeuxController extends AbstractController
                 if ($thirdImageFilename) {
                     $jeu->setThirdImage($thirdImageFilename);
                 }
+            }
+
+            // Gérer le genre
+            $genre = $form->get('genre')->getData();
+            if ($genre) {
+                $jeu->setGenre($genre); // Mise à jour du genre
             }
 
             $entityManager->flush();

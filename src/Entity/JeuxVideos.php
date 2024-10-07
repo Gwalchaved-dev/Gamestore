@@ -28,6 +28,11 @@ class JeuxVideos
     #[Assert\Positive(message: "Le prix doit être un nombre positif.")]
     private ?float $prix = null;
 
+    // Ajout de la propriété genre
+    #[ORM\Column(type: 'string', length: 50)]
+    #[Assert\NotBlank(message: "Le genre ne doit pas être vide.")]
+    private ?string $genre = null;
+
     // Ce champ stockera le nom du fichier de l'image principale
     #[ORM\Column(type: 'string', length: 255)]
     private ?string $image = null;
@@ -87,6 +92,19 @@ class JeuxVideos
     public function setPrix(float $prix): self
     {
         $this->prix = $prix;
+
+        return $this;
+    }
+
+    // Ajout des méthodes pour genre
+    public function getGenre(): ?string
+    {
+        return $this->genre;
+    }
+
+    public function setGenre(string $genre): self
+    {
+        $this->genre = $genre;
 
         return $this;
     }
