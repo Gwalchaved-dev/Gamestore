@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use App\Repository\JeuxImagesRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: JeuxImagesRepository::class)]
 class JeuxImages
@@ -16,11 +18,22 @@ class JeuxImages
     #[ORM\Column(length: 255)]
     private ?string $imagePath = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $altText = null;
 
     #[ORM\ManyToOne(inversedBy: 'jeuxImages')]
     private ?JeuxVideos $jeu = null;
+
+    /**
+     * Propriété temporaire pour stocker le fichier UploadedFile.
+     * Non persisté en base de données.
+     */
+    #[Assert\File(
+        maxSize: '5M',
+        mimeTypes: ['image/jpeg', 'image/png', 'image/gif'],
+        mimeTypesMessage: 'Veuillez uploader une image valide (jpeg, png, gif).'
+    )]
+    private ?UploadedFile $imageFile = null;
 
     public function getId(): ?int
     {
@@ -32,7 +45,7 @@ class JeuxImages
         return $this->imagePath;
     }
 
-    public function setImagePath(string $imagePath): static
+    public function setImagePath(?string $imagePath): static
     {
         $this->imagePath = $imagePath;
 
@@ -44,7 +57,7 @@ class JeuxImages
         return $this->altText;
     }
 
-    public function setAltText(string $altText): static
+    public function setAltText(?string $altText): static
     {
         $this->altText = $altText;
 
@@ -59,6 +72,24 @@ class JeuxImages
     public function setJeu(?JeuxVideos $jeu): static
     {
         $this->jeu = $jeu;
+
+        return $this;
+    }
+
+    /**
+     * Retourne le fichier image temporaire.
+     */
+    public function getImageFile(): ?UploadedFile
+    {
+        return $this->imageFile;
+    }
+
+    /**
+     * Définit le fichier image temporaire.
+     */
+    public function setImageFile(?UploadedFile $imageFile): static
+    {
+        $this->imageFile = $imageFile;
 
         return $this;
     }

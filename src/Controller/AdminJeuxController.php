@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Entity\JeuxVideos;
-use App\Entity\JeuxImages;
 use App\Form\JeuxVideosFormType;
 use App\Repository\JeuxVideosRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -13,6 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class AdminJeuxController extends AbstractController
 {
@@ -35,15 +35,11 @@ class AdminJeuxController extends AbstractController
         $form = $this->createForm(JeuxVideosFormType::class, $jeu);
         $form->handleRequest($request);
 
-        // Vérification des données du formulaire avant soumission
-        dump($form->getData());
-
         if ($form->isSubmitted() && $form->isValid()) {
             // Gérer l'image principale
             $imageFile = $form->get('image')->getData();
             if ($imageFile) {
-                // On appelle la méthode pour gérer l'upload de l'image principale
-                $newFilename = $this->handleImageUpload($imageFile, $jeu, $slugger);
+                $newFilename = $this->handleImageUpload($imageFile, $slugger);
                 if (!$newFilename) {
                     $this->addFlash('error', 'L\'image principale est obligatoire.');
                     return $this->render('admin/ajouter_jeu.html.twig', [
@@ -58,16 +54,25 @@ class AdminJeuxController extends AbstractController
                 ]);
             }
 
-            // Gérer les autres images
-            $imageFiles = $form->get('images')->getData();
-            if ($imageFiles) {
-                foreach ($imageFiles as $imageFile) {
-                    $newFilename = $this->handleImageUpload($imageFile, $jeu, $slugger);
-                    if ($newFilename) {
-                        $image = new JeuxImages();
-                        $image->setImagePath($newFilename);
-                        $jeu->addImage($image); // Associer les images supplémentaires au jeu
-                    }
+            // Gérer la deuxième image
+            $secondImageFile = $form->get('secondImage')->getData();
+            if ($secondImageFile) {
+                $secondImageFilename = $this->handleImageUpload($secondImageFile, $slugger);
+                if ($secondImageFilename) {
+                    $jeu->setSecondImage($secondImageFilename);
+                } else {
+                    $this->addFlash('error', 'Une erreur est survenue lors du téléchargement de la deuxième image.');
+                }
+            }
+
+            // Gérer la troisième image
+            $thirdImageFile = $form->get('thirdImage')->getData();
+            if ($thirdImageFile) {
+                $thirdImageFilename = $this->handleImageUpload($thirdImageFile, $slugger);
+                if ($thirdImageFilename) {
+                    $jeu->setThirdImage($thirdImageFilename);
+                } else {
+                    $this->addFlash('error', 'Une erreur est survenue lors du téléchargement de la troisième image.');
                 }
             }
 
@@ -76,15 +81,7 @@ class AdminJeuxController extends AbstractController
 
             $this->addFlash('success', 'Le jeu a bien été ajouté avec ses images.');
 
-            // Redirection vers la page d'affichage du stock après l'ajout d'un jeu
-            return $this->redirectToRoute('admin_jeux_stock'); 
-        } else {
-            dump('Erreurs de validation détectées:');
-            // Récupération et affichage détaillé des erreurs
-            foreach ($form->getErrors(true) as $error) {
-                dump('Champ : ' . $error->getOrigin()->getName());
-                dump('Message : ' . $error->getMessage());
-            }
+            return $this->redirectToRoute('admin_jeux_stock');
         }
 
         return $this->render('admin/ajouter_jeu.html.twig', [
@@ -98,19 +95,31 @@ class AdminJeuxController extends AbstractController
         $form = $this->createForm(JeuxVideosFormType::class, $jeu);
         $form->handleRequest($request);
 
-        dump($form->getData()); // Vérification des données du formulaire après modification
-
         if ($form->isSubmitted() && $form->isValid()) {
-            // Gérer les images uploadées si elles ont été modifiées
-            $imageFiles = $form->get('images')->getData();
-            if ($imageFiles) {
-                foreach ($imageFiles as $imageFile) {
-                    $newFilename = $this->handleImageUpload($imageFile, $jeu, $slugger);
-                    if ($newFilename) {
-                        $image = new JeuxImages();
-                        $image->setImagePath($newFilename);
-                        $jeu->addImage($image); // Ajouter les nouvelles images si nécessaire
-                    }
+            // Gérer l'image principale
+            $imageFile = $form->get('image')->getData();
+            if ($imageFile) {
+                $newFilename = $this->handleImageUpload($imageFile, $slugger);
+                if ($newFilename) {
+                    $jeu->setImage($newFilename);
+                }
+            }
+
+            // Gérer la deuxième image
+            $secondImageFile = $form->get('secondImage')->getData();
+            if ($secondImageFile) {
+                $secondImageFilename = $this->handleImageUpload($secondImageFile, $slugger);
+                if ($secondImageFilename) {
+                    $jeu->setSecondImage($secondImageFilename);
+                }
+            }
+
+            // Gérer la troisième image
+            $thirdImageFile = $form->get('thirdImage')->getData();
+            if ($thirdImageFile) {
+                $thirdImageFilename = $this->handleImageUpload($thirdImageFile, $slugger);
+                if ($thirdImageFilename) {
+                    $jeu->setThirdImage($thirdImageFilename);
                 }
             }
 
@@ -118,15 +127,7 @@ class AdminJeuxController extends AbstractController
 
             $this->addFlash('success', 'Le jeu a bien été modifié avec ses images.');
 
-            // Redirection vers la page d'affichage du stock après la modification d'un jeu
             return $this->redirectToRoute('admin_jeux_stock');
-        } else {
-            dump('Erreurs de validation détectées:');
-            // Récupération et affichage détaillé des erreurs
-            foreach ($form->getErrors(true) as $error) {
-                dump('Champ : ' . $error->getOrigin()->getName());
-                dump('Message : ' . $error->getMessage());
-            }
         }
 
         return $this->render('admin/modifier_jeu.html.twig', [
@@ -137,12 +138,13 @@ class AdminJeuxController extends AbstractController
     /**
      * Gérer l'upload de l'image pour un jeu.
      */
-    private function handleImageUpload($imageFile, JeuxVideos $jeu, SluggerInterface $slugger): ?string
+    private function handleImageUpload($imageFile, SluggerInterface $slugger): ?string
     {
-        if ($imageFile) {
+        // Vérifie que l'image est bien un fichier UploadedFile
+        if ($imageFile instanceof UploadedFile) {
             $originalFilename = pathinfo($imageFile->getClientOriginalName(), PATHINFO_FILENAME);
             $safeFilename = $slugger->slug($originalFilename);
-            $newFilename = $safeFilename.'-'.uniqid().'.'.$imageFile->guessExtension();
+            $newFilename = $safeFilename . '-' . uniqid() . '.' . $imageFile->guessExtension();
 
             try {
                 // Déplace l'image dans le répertoire configuré
@@ -152,7 +154,6 @@ class AdminJeuxController extends AbstractController
                 );
 
                 return $newFilename;
-
             } catch (FileException $e) {
                 $this->addFlash('error', 'Une erreur est survenue lors du téléchargement de l\'image.');
                 return null;

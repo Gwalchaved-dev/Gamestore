@@ -1,7 +1,28 @@
-# Création de la Base de donnée pour l'ECF - GAMESTORE
+<h1 align="center">Welcome to Gamestore - ECF BJ HNT 👋</h1>
+<p>
+  <a href="#" target="_blank">
+    <img alt="License: UNLICENSED" src="https://img.shields.io/badge/License-UNLICENSED-yellow.svg" />
+  </a>
+</p>
 
-## BASE DE DONNEE MYSQL RELATIONNELLE
+> ECF - Studi janv-fev 2025 - BJ HNT
 
-***Structure des données***
+## Install
 
-CREATE USER 'demo@'localhost' IDENTIFIED BY '1D3Q5S';
+```sh
+npm install
+```
+
+## Author
+
+👤 **Benjamin Hunault**
+
+* Website: BJ HNT
+* Github: [@Gwalchaved-dev](https://github.com/Gwalchaved-dev)
+
+## Show your support
+
+Give a ⭐️ if this project helped you!
+
+***
+_This README was generated with ❤️ by [readme-md-generator](https://github.com/kefranabg/readme-md-generator)_

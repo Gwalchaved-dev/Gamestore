@@ -63,7 +63,7 @@ class JeuxVideosFormType extends AbstractType
                 ],
                 'constraints' => [
                     new File([
-                        'maxSize' => '2500k',
+                        'maxSize' => '5M',
                         'mimeTypes' => [
                             'image/jpeg',
                             'image/png',
@@ -72,23 +72,39 @@ class JeuxVideosFormType extends AbstractType
                     ])
                 ],
             ])
-            ->add('images', FileType::class, [
-                'label' => 'Autres images du jeu (JPEG, PNG)',
+            ->add('secondImage', FileType::class, [
+                'label' => 'Deuxième image (JPEG, PNG)',
                 'mapped' => false, // Ce champ ne doit pas être mappé directement à l'entité
                 'required' => false,
-                'multiple' => true, // Pour permettre plusieurs fichiers
                 'attr' => [
-                    'multiple' => 'multiple', // Permettre la sélection multiple dans le formulaire
                     'class' => 'form-control',
                 ],
                 'constraints' => [
                     new File([
-                        'maxSize' => '2500k',
+                        'maxSize' => '5M',
                         'mimeTypes' => [
                             'image/jpeg',
                             'image/png',
                         ],
-                        'mimeTypesMessage' => 'Veuillez télécharger des images valides (JPEG ou PNG).',
+                        'mimeTypesMessage' => 'Veuillez télécharger une image valide (JPEG ou PNG).',
+                    ])
+                ],
+            ])
+            ->add('thirdImage', FileType::class, [
+                'label' => 'Troisième image (JPEG, PNG)',
+                'mapped' => false, // Ce champ ne doit pas être mappé directement à l'entité
+                'required' => false,
+                'attr' => [
+                    'class' => 'form-control',
+                ],
+                'constraints' => [
+                    new File([
+                        'maxSize' => '5M',
+                        'mimeTypes' => [
+                            'image/jpeg',
+                            'image/png',
+                        ],
+                        'mimeTypesMessage' => 'Veuillez télécharger une image valide (JPEG ou PNG).',
                     ])
                 ],
             ]);

@@ -6,7 +6,7 @@ doctrine:
         server_version: '8.0' # Change en fonction de ta version de base de données
 
         profiling_collect_backtrace: '%kernel.debug%'
-        use_savepoints: false
+        use_savepoints: true
         
     orm:
         auto_generate_proxy_classes: true

@@ -28,9 +28,17 @@ class JeuxVideos
     #[Assert\Positive(message: "Le prix doit être un nombre positif.")]
     private ?float $prix = null;
 
-    // Ce champ stockera le nom du fichier une fois téléchargé
+    // Ce champ stockera le nom du fichier de l'image principale
     #[ORM\Column(type: 'string', length: 255)]
     private ?string $image = null;
+
+    // Ce champ stockera le nom du fichier de la deuxième image
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private ?string $secondImage = null;
+
+    // Ce champ stockera le nom du fichier de la troisième image
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private ?string $thirdImage = null;
 
     #[ORM\OneToMany(mappedBy: 'jeu', targetEntity: JeuxImages::class, cascade: ['persist', 'remove'])]
     private Collection $images;
@@ -83,16 +91,41 @@ class JeuxVideos
         return $this;
     }
 
-    // Cette méthode retourne le nom du fichier de l'image principale
+    // Image principale
     public function getImage(): ?string
     {
         return $this->image;
     }
 
-    // Cette méthode est appelée après l'upload pour enregistrer le nom du fichier
     public function setImage(?string $image): self
     {
         $this->image = $image;
+
+        return $this;
+    }
+
+    // Deuxième image
+    public function getSecondImage(): ?string
+    {
+        return $this->secondImage;
+    }
+
+    public function setSecondImage(?string $secondImage): self
+    {
+        $this->secondImage = $secondImage;
+
+        return $this;
+    }
+
+    // Troisième image
+    public function getThirdImage(): ?string
+    {
+        return $this->thirdImage;
+    }
+
+    public function setThirdImage(?string $thirdImage): self
+    {
+        $this->thirdImage = $thirdImage;
 
         return $this;
     }

@@ -34,11 +34,20 @@
             <small class="form-text text-muted">L'image principale du jeu doit être au format JPEG ou PNG.</small>
         </div>
 
+        {# Gestion de la seconde image supplémentaire #}
         <div class="form-group">
-            {{ form_label(form.images) }}
-            {{ form_widget(form.images, {'attr': {'class': 'form-control-file', 'multiple': 'multiple'}}) }}
-            {{ form_errors(form.images) }}
-            <small class="form-text text-muted">Vous pouvez sélectionner plusieurs images supplémentaires (JPEG, PNG).</small>
+            {{ form_label(form.secondImage) }}
+            {{ form_widget(form.secondImage, {'attr': {'class': 'form-control-file'}}) }}
+            {{ form_errors(form.secondImage) }}
+            <small class="form-text text-muted">Ajoutez une seconde image (JPEG, PNG).</small>
+        </div>
+
+        {# Ajout d'une troisième image #}
+        <div class="form-group">
+            {{ form_label(form.thirdImage) }}
+            {{ form_widget(form.thirdImage, {'attr': {'class': 'form-control-file'}}) }}
+            {{ form_errors(form.thirdImage) }}
+            <small class="form-text text-muted">Ajoutez une troisième image (JPEG, PNG).</small>
         </div>
 
         <div class="form-group">
