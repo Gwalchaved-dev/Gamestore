@@ -1,0 +1,39 @@
+{
+  "entrypoints": {
+    "filtre": {
+      "js": [
+        "/build/runtime.js",
+        "/build/filtre.js"
+      ]
+    },
+    "galerieModal": {
+      "js": [
+        "/build/runtime.js",
+        "/build/galerieModal.js"
+      ]
+    },
+    "carousel": {
+      "js": [
+        "/build/runtime.js",
+        "/build/carousel.js"
+      ]
+    },
+    "app": {
+      "js": [
+        "/build/runtime.js",
+        "/build/app.js"
+      ],
+      "css": [
+        "/build/app.css"
+      ]
+    },
+    "styles/app_css": {
+      "js": [
+        "/build/runtime.js"
+      ],
+      "css": [
+        "/build/styles/app_css.css"
+      ]
+    }
+  }
+}

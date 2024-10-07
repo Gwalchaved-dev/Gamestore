@@ -8,29 +8,4 @@
 /var/
 /vendor/
 ###< symfony/framework-bundle ###
-
-# Fichiers système macOS
-.DS_Store
-.Trash/
-.Spotlight-V100/
-.DocumentRevisions-V100/
-.fseventsd/
-.TemporaryItems/
-.AppleDouble/
-.AppleDB/
-
-# Configurations personnelles
-.vscode/
-.zsh_sessions/
-.zshrc
-###> symfony/webpack-encore-bundle ###
-/node_modules/
-/public/build/
-npm-debug.log
-yarn-error.log
-###< symfony/webpack-encore-bundle ###
-
-###> phpunit/phpunit ###
-/phpunit.xml
-.phpunit.result.cache
-###< phpunit/phpunit ###
+node_modules
