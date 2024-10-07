@@ -31,16 +31,16 @@
                             </div>
                             <div class="modal-body d-flex">
                                 <div class="main-image" style="flex: 1;">
-                                    <img src="{{ asset('uploads/images/' ~ jeu.image) }}" class="img-fluid modal-img" alt="Image du jeu">
+                                    <img id="mainImage{{ jeu.id }}" src="{{ asset('uploads/images/' ~ jeu.image) }}" class="img-fluid modal-img" alt="Image du jeu">
                                 </div>
                                 <div class="details" style="flex: 1; padding-left: 20px;">
                                     <div class="image-gallery d-flex justify-content-center mb-3">
-                                        {# Si tu as des images supplémentaires, parcours-les ici #}
+                                        {# Images supplémentaires avec la possibilité de changer l'image principale #}
                                         {% if jeu.secondImage %}
-                                            <img src="{{ asset('uploads/images/' ~ jeu.secondImage) }}" class="img-thumbnail" alt="{{ jeu.titre }}" style="width: 50px;">
+                                            <img src="{{ asset('uploads/images/' ~ jeu.secondImage) }}" class="img-thumbnail selectable-img" alt="{{ jeu.titre }}" data-main-image="#mainImage{{ jeu.id }}" style="width: 50px;">
                                         {% endif %}
                                         {% if jeu.thirdImage %}
-                                            <img src="{{ asset('uploads/images/' ~ jeu.thirdImage) }}" class="img-thumbnail" alt="{{ jeu.titre }}" style="width: 50px;">
+                                            <img src="{{ asset('uploads/images/' ~ jeu.thirdImage) }}" class="img-thumbnail selectable-img" alt="{{ jeu.titre }}" data-main-image="#mainImage{{ jeu.id }}" style="width: 50px;">
                                         {% endif %}
                                     </div>
                                     <p class="game-description pt-mono-regular">{{ jeu.description }}</p>
@@ -49,7 +49,17 @@
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
-                                <button type="button" class="btn btn-primary">Acheter</button>
+
+                                {# Vérifier si l'utilisateur est authentifié ou non #}
+                                {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                                    {# Si l'utilisateur est connecté, afficher le bouton "Acheter" #}
+                                    <form method="post" action="{{ path('ajouter_panier', {id: jeu.id}) }}">
+                                        <button type="submit" class="btn btn-primary">Acheter</button>
+                                    </form>
+                                {% else %}
+                                    {# Si l'utilisateur n'est pas connecté, afficher le bouton "S'inscrire" #}
+                                    <a href="{{ path('app_register') }}" class="btn btn-primary">S'inscrire</a>
+                                {% endif %}
                             </div>
                         </div>
                     </div>
@@ -58,4 +68,7 @@
             </div>
         </div>
     </section>
+
+    {# Inclusion du script JavaScript pour gérer le changement d'image dans la modal #}
+    <script src="{{ asset('build/galerieModal.js') }}"></script>
 {% endblock %}
