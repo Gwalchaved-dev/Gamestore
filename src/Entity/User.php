@@ -7,6 +7,8 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Doctrine\ORM\Mapping\OneToOne;
+use App\Entity\ShoppingCart;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[UniqueEntity(fields: ['email'], message: 'Il existe déjà un compte avec cet email.')]
@@ -43,6 +45,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column]
     private bool $isVerified = false;
+
+    // Relation OneToOne avec ShoppingCart
+    #[OneToOne(mappedBy: 'user', targetEntity: ShoppingCart::class, cascade: ['persist', 'remove'])]
+    private ?ShoppingCart $shoppingCart = null;
 
     // Getters et Setters
 
@@ -161,6 +167,24 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setVerified(bool $isVerified): static
     {
         $this->isVerified = $isVerified;
+        return $this;
+    }
+
+    // Méthodes pour ShoppingCart
+    public function getShoppingCart(): ?ShoppingCart
+    {
+        return $this->shoppingCart;
+    }
+
+    public function setShoppingCart(?ShoppingCart $shoppingCart): self
+    {
+        // Associer le panier à l'utilisateur
+        if ($shoppingCart && $shoppingCart->getUser() !== $this) {
+            $shoppingCart->setUser($this);
+        }
+
+        $this->shoppingCart = $shoppingCart;
+
         return $this;
     }
 }

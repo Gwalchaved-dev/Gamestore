@@ -55,6 +55,14 @@
             <small class="form-text text-muted">Ajoutez une troisième image (JPEG, PNG).</small>
         </div>
 
+        {# Nouveau champ pour le stock #}
+        <div class="form-group">
+            {{ form_label(form.stock, 'Quantité disponible (Stock)') }}
+            {{ form_widget(form.stock, {'attr': {'class': 'form-control', 'min': 0}}) }}
+            {{ form_errors(form.stock) }}
+            <small class="form-text text-muted">Indiquez le nombre de jeux disponibles en stock.</small>
+        </div>
+
         <div class="form-group">
             <button class="btn btn-success">{{ button_label|default('Ajouter le jeu') }}</button>
         </div>

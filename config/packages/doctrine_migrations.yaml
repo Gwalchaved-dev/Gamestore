@@ -5,7 +5,7 @@ doctrine_migrations:
             version_column_length: 191 # Optionnel, peut aider à résoudre des problèmes avec des colonnes longues dans certaines bases
     migrations_paths:
         'DoctrineMigrations': '%kernel.project_dir%/migrations'
-    all_or_nothing: true  # Si une migration échoue, toutes les modifications sont annulées
+    all_or_nothing: false # Si une migration échoue, toutes les modifications sont annulées
     check_database_platform: true  # Assure que les migrations ne sont exécutées que sur la plateforme cible
     organize_migrations: none  # Optionnel, peut organiser les migrations dans des sous-dossiers basés sur les namespaces
     transactional: true  # Garde les migrations dans des transactions pour plus de sécurité

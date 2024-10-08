@@ -13,53 +13,57 @@ class CartJeuxVideos
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column]
-    private ?int $ShoppingCartID = null;
+    // Relation ManyToOne avec le panier (ShoppingCart)
+    #[ORM\ManyToOne(targetEntity: ShoppingCart::class, inversedBy: 'cartJeuxVideos')] // Utiliser 'cartJeuxVideos' défini dans ShoppingCart
+    #[ORM\JoinColumn(nullable: false)]
+    private ?ShoppingCart $shoppingCart = null;
 
-    #[ORM\Column]
-    private ?int $JeuxVideosID = null;
+    // Relation ManyToOne avec JeuxVideos
+    #[ORM\ManyToOne(targetEntity: JeuxVideos::class)]
+    #[ORM\JoinColumn(name: 'jeux_video_id', referencedColumnName: 'id', nullable: false)] // Correction ici avec 'jeux_video_id'
+    private ?JeuxVideos $jeuxVideo = null;
 
-    #[ORM\Column]
-    private ?int $Quantite = null;
+    #[ORM\Column(type: 'integer')]
+    private ?int $quantite = null;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getShoppingCartID(): ?int
+    // Getters et Setters pour ShoppingCart
+    public function getShoppingCart(): ?ShoppingCart
     {
-        return $this->ShoppingCartID;
+        return $this->shoppingCart;
     }
 
-    public function setShoppingCartID(int $ShoppingCartID): static
+    public function setShoppingCart(?ShoppingCart $shoppingCart): static
     {
-        $this->ShoppingCartID = $ShoppingCartID;
-
+        $this->shoppingCart = $shoppingCart;
         return $this;
     }
 
-    public function getJeuxVideosID(): ?int
+    // Getters et Setters pour JeuxVideos
+    public function getJeuxVideo(): ?JeuxVideos
     {
-        return $this->JeuxVideosID;
+        return $this->jeuxVideo;
     }
 
-    public function setJeuxVideosID(int $JeuxVideosID): static
+    public function setJeuxVideo(?JeuxVideos $jeuxVideo): static
     {
-        $this->JeuxVideosID = $JeuxVideosID;
-
+        $this->jeuxVideo = $jeuxVideo;
         return $this;
     }
 
+    // Getters et Setters pour Quantité
     public function getQuantite(): ?int
     {
-        return $this->Quantite;
+        return $this->quantite;
     }
 
-    public function setQuantite(int $Quantite): static
+    public function setQuantite(int $quantite): static
     {
-        $this->Quantite = $Quantite;
-
+        $this->quantite = $quantite;
         return $this;
     }
 }

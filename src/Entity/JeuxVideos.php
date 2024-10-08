@@ -48,6 +48,11 @@ class JeuxVideos
     #[ORM\OneToMany(mappedBy: 'jeu', targetEntity: JeuxImages::class, cascade: ['persist', 'remove'])]
     private Collection $images;
 
+    // Ajout de la propriété stock
+    #[ORM\Column(type: 'integer')]
+    #[Assert\PositiveOrZero(message: "Le stock doit être un nombre positif ou zéro.")]
+    private ?int $stock = null;
+
     public function __construct()
     {
         $this->images = new ArrayCollection();
@@ -172,6 +177,19 @@ class JeuxVideos
                 $image->setJeu(null);
             }
         }
+
+        return $this;
+    }
+
+    // Ajout des méthodes pour stock
+    public function getStock(): ?int
+    {
+        return $this->stock;
+    }
+
+    public function setStock(int $stock): self
+    {
+        $this->stock = $stock;
 
         return $this;
     }
