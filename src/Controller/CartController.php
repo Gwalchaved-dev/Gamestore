@@ -14,6 +14,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\SecurityBundle\Security;
+use App\Entity\User;
 
 class CartController extends AbstractController
 {
@@ -22,7 +23,8 @@ class CartController extends AbstractController
     {
         $user = $security->getUser();
 
-        if (!$user) {
+        // Vérification si l'utilisateur est connecté et de type User
+        if (!$user || !($user instanceof User)) {
             return $this->redirectToRoute('app_login');
         }
 
@@ -53,7 +55,8 @@ class CartController extends AbstractController
     {
         $user = $security->getUser();
 
-        if (!$user) {
+        // Vérification si l'utilisateur est connecté et de type User
+        if (!$user || !($user instanceof User)) {
             return $this->redirectToRoute('app_login');
         }
 
@@ -86,7 +89,7 @@ class CartController extends AbstractController
     {
         // Récupérer l'utilisateur connecté
         $user = $security->getUser();
-        if (!$user) {
+        if (!$user || !($user instanceof User)) {
             return $this->redirectToRoute('app_login');
         }
 
@@ -150,7 +153,7 @@ class CartController extends AbstractController
     {
         // Récupérer l'utilisateur connecté
         $user = $security->getUser();
-        if (!$user) {
+        if (!$user || !($user instanceof User)) {
             return $this->json(['error' => 'User not logged in'], 403);
         }
 

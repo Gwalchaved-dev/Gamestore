@@ -16,7 +16,6 @@
 
 <body>
     <header id="navbar-container">
-        <!-- Wrapper pour le logo hors de la zone clip-path -->
         <div class="logo-container">
             <img src="{{ asset('build/images/logoGamestore.png') }}" alt="Gamestore logo" class="logo">
         </div>
@@ -33,14 +32,12 @@
                     <li class="nav-item">
                         <a class="sarpanch-regular nav-link" href="{{ path('galerie') }}">Nos jeux vidéos</a>
                     </li>
-                    <!-- Ajout des icônes de connexion et caddie dans la navbar -->
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ path('app_login') }}"><i class="bi bi-person-circle"></i></a> <!-- Icone connexion/mon compte -->
+                        <a class="nav-link" href="{{ path('app_login') }}"><i class="bi bi-person-circle"></i></a>
                     </li>
                     <li class="nav-item position-relative">
                         <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#cartModal">
                             <i class="bi bi-cart4"></i>
-                            {# Affichage du nombre d'articles dans le panier #}
                             {% if app.user and cart_items_count > 0 %}
                                 <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
                                     {{ cart_items_count }}
@@ -74,9 +71,9 @@
                                         {{ item.jeuxVideo.titre }}
                                         <div>
                                             <button type="button" class="btn btn-sm btn-outline-secondary btn-minus" data-id="{{ item.jeuxVideo.id }}">-</button>
-                                            <input type="number" class="input-quantity" value="{{ item.quantite }}" min="1" max="{{ item.jeuxVideo.stock }}" data-id="{{ item.jeuxVideo.id }}" readonly>
+                                            <input type="number" class="input-quantity" value="{{ item.quantite }}" min="1" max="{{ item.jeuxVideo.stock }}" data-id="{{ item.jeuxVideo.id }}">
                                             <button type="button" class="btn btn-sm btn-outline-secondary btn-plus" data-id="{{ item.jeuxVideo.id }}">+</button>
-                                            <span>{{ item.jeuxVideo.prix * item.quantite }}€</span>
+                                            <span class="item-price">{{ item.jeuxVideo.prix * item.quantite }}€</span>
                                         </div>
                                     </li>
                                 {% endfor %}
@@ -99,7 +96,6 @@
                                 </select>
                             </div>
 
-                            <!-- Section pour afficher le total -->
                             <div class="mt-3">
                                 <h5>Total : <span id="total_price">{{ total_price }}€</span></h5>
                             </div>
@@ -157,12 +153,11 @@
 
         function updateTotal() {
             let total = 0;
-            document.querySelectorAll('.input-quantity').forEach(input => {
-                let quantity = parseInt(input.value);
-                let price = parseFloat(input.closest('li').querySelector('span').textContent.split('€')[0]) / quantity;
-                total += quantity * price;
+            document.querySelectorAll('.list-group-item').forEach(item => {
+                const price = parseFloat(item.querySelector('.item-price').textContent.split('€')[0]);
+                total += price; // Ajoute le prix de l'item au total
             });
-            document.getElementById('total_price').textContent = total.toFixed(2) + '€';
+            document.getElementById('total_price').textContent = total.toFixed(2) + '€'; // Met à jour l'affichage du total
         }
 
         function updateQuantity(itemId, quantite) {
@@ -172,9 +167,12 @@
                     'Content-Type': 'application/json',
                     'X-CSRF-TOKEN': '{{ csrf_token("update_cart_quantity") }}',
                 },
-                body: JSON.stringify({ itemId: itemId, quantite: quantitye })
+                body: JSON.stringify({ itemId: itemId, quantite: quantite })
             });
         }
+
+        // Calculer le total initial au chargement de la page
+        updateTotal();
     </script>
 
 </body>

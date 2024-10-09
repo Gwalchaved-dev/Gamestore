@@ -8,12 +8,13 @@ use Symfony\Component\HttpKernel\Event\ControllerEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Bundle\SecurityBundle\Security;
 use Twig\Environment;
+use App\Entity\User;
 
 class CartSubscriber implements EventSubscriberInterface
 {
-    private $security;
-    private $twig;
-    private $cartRepository;
+    private Security $security;
+    private Environment $twig;
+    private CartJeuxVideosRepository $cartRepository;
 
     public function __construct(Security $security, Environment $twig, CartJeuxVideosRepository $cartRepository)
     {
@@ -33,7 +34,8 @@ class CartSubscriber implements EventSubscriberInterface
     {
         $user = $this->security->getUser();
 
-        if ($user) {
+        // Vérification si l'utilisateur est bien une instance de User
+        if ($user instanceof User) {
             // Récupérer le panier de l'utilisateur
             $shoppingCart = $user->getShoppingCart();
 

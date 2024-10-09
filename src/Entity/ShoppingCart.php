@@ -15,12 +15,12 @@ class ShoppingCart
     #[ORM\Column]
     private ?int $id = null;
 
-    // Relation ManyToOne avec l'utilisateur
+    // Relation OneToOne avec l'utilisateur
     #[ORM\OneToOne(targetEntity: User::class, inversedBy: 'shoppingCart')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: false)] // Indiquer ici que l'utilisateur est requis
     private ?User $user = null;
 
-    #[ORM\Column(type: 'date')]
+    #[ORM\Column(type: 'datetime')]
     private ?\DateTimeInterface $dateCreation = null;
 
     // Relation OneToMany avec CartJeuxVideos
@@ -30,7 +30,7 @@ class ShoppingCart
     public function __construct()
     {
         $this->cartJeuxVideos = new ArrayCollection();
-        $this->dateCreation = new \DateTime();
+        $this->dateCreation = new \DateTime(); // Initialise la date de création à maintenant
     }
 
     public function getId(): ?int
@@ -44,9 +44,13 @@ class ShoppingCart
         return $this->user;
     }
 
-    public function setUser(User $user): static
+    public function setUser(?User $user): static
     {
+        // Assurer la relation bidirectionnelle
         $this->user = $user;
+        if ($user && $user->getShoppingCart() !== $this) {
+            $user->setShoppingCart($this);
+        }
         return $this;
     }
 
@@ -88,5 +92,11 @@ class ShoppingCart
         }
 
         return $this;
+    }
+
+    // Nouvelle méthode pour vérifier si le panier est vide
+    public function isEmpty(): bool
+    {
+        return $this->cartJeuxVideos->isEmpty();
     }
 }
