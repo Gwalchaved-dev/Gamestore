@@ -13,13 +13,13 @@ class OrderItem
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\ManyToOne(targetEntity: Order::class, inversedBy: 'items')]
-    private ?Order $order = null;
+    #[ORM\ManyToOne(targetEntity: Command::class, inversedBy: 'items')] // Changer Order à Command
+    private ?Command $command = null; // Changer Order à Command
 
     #[ORM\ManyToOne(targetEntity: CartJeuxVideos::class)]
     private ?CartJeuxVideos $cartJeuxVideo = null;
 
-    #[ORM\Column(type: 'integer')]
+    #[ORM\Column(name: 'quantite', type: 'integer')] // Utiliser 'quantite' au lieu de 'quantity'
     private int $quantity;
 
     public function getId(): ?int
@@ -27,14 +27,14 @@ class OrderItem
         return $this->id;
     }
 
-    public function getOrder(): ?Order
+    public function getCommand(): ?Command // Changer Order à Command
     {
-        return $this->order;
+        return $this->command; // Changer order à command
     }
 
-    public function setOrder(?Order $order): self
+    public function setCommand(?Command $command): self // Changer Order à Command
     {
-        $this->order = $order;
+        $this->command = $command; // Changer order à command
         return $this;
     }
 

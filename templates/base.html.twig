@@ -7,10 +7,8 @@
     <meta name="description" content="Page d'accueil de Gamestore, magasins de jeux vidéos présent en France à Lille, Paris, Bordeaux, Toulouse et Nantes. Retrouvez tous types de jeux vidéos : FPS, RPG, BUILDER, PLATFORM.">
     <meta name="author" content="Gwalchaved-Dev" />
     
-    <!-- Appel du CSS compilé via Webpack Encore avec versionnement pour éviter la mise en cache -->
     {{ encore_entry_link_tags('app') }}
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.5.0/font/bootstrap-icons.min.css" rel="stylesheet">
-
     <title>Gamestore : magasins de jeux vidéos, rpg, fps, builder...</title>
 </head>
 
@@ -32,16 +30,18 @@
                     <li class="nav-item">
                         <a class="sarpanch-regular nav-link" href="{{ path('galerie') }}">Nos jeux vidéos</a>
                     </li>
-                    <li class="nav-item">
-                        {% if app.user %}
-                            <a class="nav-link" href="{{ path('account') }}">
-                                <i class="bi bi-person-circle"></i> Mon Compte
-                            </a>
-                        {% else %}
-                            <a class="nav-link" href="{{ path('app_login') }}">
-                                <i class="bi bi-person-circle"></i> Connexion
-                            </a>
-                        {% endif %}
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="bi bi-person-circle"></i> Mon Compte
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            {% if app.user %}
+                                <li><a class="dropdown-item" href="{{ path('account') }}">Mon Compte</a></li>
+                                <li><a class="dropdown-item" href="{{ path('app_logout') }}">Se déconnecter</a></li>
+                            {% else %}
+                                <li><a class="dropdown-item" href="{{ path('app_login') }}">Connexion</a></li>
+                            {% endif %}
+                        </ul>
                     </li>
                     <li class="nav-item position-relative">
                         <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#cartModal">
@@ -181,6 +181,13 @@
 
         // Calculer le total initial au chargement de la page
         updateTotal();
+
+        // Gérer l'événement pour maintenir le dropdown ouvert après le clic
+        document.querySelectorAll('.dropdown-menu').forEach(menu => {
+            menu.addEventListener('click', function(event) {
+                event.stopPropagation();
+            });
+        });
     </script>
 
 </body>

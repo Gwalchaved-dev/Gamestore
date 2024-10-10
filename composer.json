@@ -9,6 +9,7 @@
         "ext-iconv": "*",
         "doctrine/doctrine-bundle": "*",
         "doctrine/doctrine-migrations-bundle": "*",
+        "doctrine/mongodb-odm-bundle": "^5.0",
         "doctrine/orm": "*",
         "nelmio/api-doc-bundle": "*",
         "symfony/console": "7.1.*",

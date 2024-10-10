@@ -2,16 +2,16 @@
 
 namespace App\Repository;
 
-use App\Entity\Order;
+use App\Entity\Command;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
-class OrderRepository extends ServiceEntityRepository
+class CommandRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Order::class);
+        parent::__construct($registry, Command::class);
     }
 
-    // Ajouter mes méthodes personnalisées ici si nécessaire.
+    // Ajoutez des méthodes personnalisées si nécessaire
 }

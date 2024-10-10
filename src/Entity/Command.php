@@ -2,32 +2,32 @@
 
 namespace App\Entity;
 
-use App\Repository\OrderRepository;
+use App\Repository\CommandRepository; // Changer pour le nouveau nom
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 
-#[ORM\Entity(repositoryClass: OrderRepository::class)]
-class Order
+#[ORM\Entity(repositoryClass: CommandRepository::class)]
+class Command
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'orders')]
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'commands')] // Changer 'orders' à 'commands'
     private ?User $user = null;
 
     #[ORM\Column(type: 'datetime')]
     private \DateTimeInterface $date;
 
-    #[ORM\Column(type: 'decimal', precision: 10, scale: 2)] // Correction ici
+    #[ORM\Column(type: 'decimal', precision: 10, scale: 2)]
     private float $total;
 
     #[ORM\Column(type: 'string')]
     private string $status;
 
-    #[ORM\OneToMany(mappedBy: 'order', targetEntity: OrderItem::class, cascade: ['persist', 'remove'])]
+    #[ORM\OneToMany(mappedBy: 'command', targetEntity: OrderItem::class, cascade: ['persist', 'remove'])] // Changer 'order' à 'command'
     private Collection $items;
 
     public function __construct()
@@ -90,7 +90,7 @@ class Order
     {
         if (!$this->items->contains($item)) {
             $this->items[] = $item;
-            $item->setOrder($this);
+            $item->setCommand($this); // Changer 'order' à 'command'
         }
 
         return $this;
@@ -100,8 +100,8 @@ class Order
     {
         if ($this->items->removeElement($item)) {
             // Set the owning side to null (unless already changed)
-            if ($item->getOrder() === $this) {
-                $item->setOrder(null);
+            if ($item->getCommand() === $this) { // Changer 'order' à 'command'
+                $item->setCommand(null);
             }
         }
 

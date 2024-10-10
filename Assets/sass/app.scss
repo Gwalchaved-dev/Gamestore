@@ -63,7 +63,7 @@ header {
   justify-content: space-between;
   align-items: center;
   padding: 0 20px;
-  clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 85%, 0% 100%);
+  /*clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 85%, 0% 100%);*/
   z-index: 10;
   overflow: visible;
   border: 2px solid #00bfff;
@@ -96,23 +96,43 @@ header {
 .navbar-nav .nav-link {
   color: white;
   padding-right: 20px;
+  position: relative; /* Nécessaire pour le dropdown */
 }
 
 .navbar-nav .nav-link:hover {
   color: #ccc;
 }
 
-/* Style pour les icônes de connexion et de caddie */
-.navbar-nav .icon-link {
-  display: flex;
-  align-items: center;
-  color: white;
-  font-size: 1.5rem;
-  padding-left: 20px;
+/* Ajout de styles pour le dropdown */
+.nav-item.dropdown {
+  position: relative; /* Nécessaire pour que le dropdown-menu soit positionné par rapport à l'item */
 }
 
-.navbar-nav .icon-link:hover {
-  color: #ccc;
+.dropdown-menu {
+  display: none; /* Cache le menu par défaut */
+  position: absolute; /* Positionnement absolu pour le menu */
+  background-color: #ffffff; /* Couleur de fond du menu */
+  border: 1px solid #ddd; /* Bordure du menu */
+  z-index: 1100; /* S'assurer que le menu s'affiche au-dessus */
+  top: 100%; /* Positionné juste en dessous de l'élément parent */
+  left: 0; /* Aligne le dropdown avec le début de l'élément parent */
+  margin-top: 10px; /* Ajoute un espacement pour éviter le contact direct avec la navbar */
+  padding: 10px 0; /* Ajoute un espacement vertical pour le dropdown */
+  box-shadow: 0 4px 8px rgba(1, 94, 155, 0.746); /* Ajoute une ombre au dropdown */
+}
+
+.nav-item.dropdown:hover .dropdown-menu {
+  display: block; /* Affiche le menu lors du survol */
+}
+
+.dropdown-item {
+  color: #333; /* Couleur des éléments du menu */
+  padding: 10px 15px; /* Espacement pour les éléments du menu */
+  text-decoration: none; /* Supprime le soulignement */
+}
+
+.dropdown-item:hover {
+  background-color: #f8f9fa; /* Couleur d'arrière-plan au survol */
 }
 
 /* Boutons de contrôle du carousel */
@@ -510,3 +530,4 @@ h1 {
 .btn:hover {
   background-color: #218838;
 }
+

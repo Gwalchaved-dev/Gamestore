@@ -7,7 +7,8 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
-use Doctrine\ORM\Mapping\OneToOne;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[UniqueEntity(fields: ['email'], message: 'Il existe déjà un compte avec cet email.')]
@@ -48,6 +49,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     // Relation OneToOne avec ShoppingCart
     #[ORM\OneToOne(targetEntity: ShoppingCart::class, mappedBy: 'user', cascade: ['persist', 'remove'])]
     private ?ShoppingCart $shoppingCart = null;
+
+    // Relation OneToMany avec Command
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Command::class)]
+    private Collection $commands; // Changer Order à Command
+
+    public function __construct()
+    {
+        $this->commands = new ArrayCollection(); // Changer Order à Command
+    }
 
     // Getters et Setters
 
@@ -183,6 +193,34 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         }
 
         $this->shoppingCart = $shoppingCart;
+
+        return $this;
+    }
+
+    // Méthodes pour Command
+    public function getCommands(): Collection // Changer Order à Command
+    {
+        return $this->commands; // Changer orders à commands
+    }
+
+    public function addCommand(Command $command): self // Changer Order à Command
+    {
+        if (!$this->commands->contains($command)) {
+            $this->commands[] = $command;
+            $command->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCommand(Command $command): self // Changer Order à Command
+    {
+        if ($this->commands->removeElement($command)) {
+            // Assurez-vous que la commande est dissociée de l'utilisateur
+            if ($command->getUser() === $this) {
+                $command->setUser(null);
+            }
+        }
 
         return $this;
     }
