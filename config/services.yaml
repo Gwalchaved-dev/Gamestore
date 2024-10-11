@@ -26,3 +26,31 @@ services:
             $cartRepository: '@App\Repository\CartJeuxVideosRepository'
         tags:
             - { name: 'kernel.event_subscriber' }
+
+    # Ajout de la connexion MongoDB
+    doctrine_mongodb.odm.document_manager:
+        class: Doctrine\ODM\MongoDB\DocumentManager
+        factory: ['@doctrine_mongodb', 'getManager']  # On n'utilise pas de nom d'arguments ici
+        arguments:
+            - '@doctrine_mongodb.odm.connection'
+            - '@doctrine_mongodb.odm.configuration'
+            - '@doctrine_mongodb.odm.event_manager'
+
+    doctrine_mongodb.odm.connection:
+        class: Doctrine\ODM\MongoDB\Connection
+        arguments:
+            - '%env(MONGODB_URL)%' # URL de connexion MongoDB
+
+    doctrine_mongodb.odm.configuration:
+        class: Doctrine\ODM\MongoDB\Configuration
+        calls:
+            - [setDefaultDB, ['%env(MONGODB_DB)%']] # Correct usage for setting default DB
+            - [setMetadataDriverImpl, ['@doctrine_mongodb.odm.metadata_driver']]  # Ajout du driver de métadonnées
+
+    doctrine_mongodb.odm.metadata_driver:
+        class: Doctrine\ODM\MongoDB\Mapping\Driver\AnnotationDriver
+        arguments:
+            - ['%kernel.project_dir%/src/Document']  # Répertoire des documents MongoDB
+
+    doctrine_mongodb.odm.event_manager:
+        class: Doctrine\Common\EventManager
