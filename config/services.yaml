@@ -1,18 +1,12 @@
-# This file is the entry point to configure your own services.
-# Files in the packages/ subdirectory configure your dependencies.
-
 parameters:
-    images_directory: '%kernel.project_dir%/public/uploads/images' # Ajout du paramètre images_directory
+    images_directory: '%kernel.project_dir%/public/uploads/images'
 
 services:
-    # default configuration for services in *this* file
     _defaults:
-        autowire: true      # Automatically injects dependencies in your services.
-        autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
-        public: false       # Make services private by default
+        autowire: true
+        autoconfigure: true
+        public: false
 
-    # makes classes in src/ available to be used as services
-    # this creates a service per class whose id is the fully-qualified class name
     App\:
         resource: '../src/'
         exclude:
@@ -27,30 +21,38 @@ services:
         tags:
             - { name: 'kernel.event_subscriber' }
 
-    # Ajout de la connexion MongoDB
+    # Connexion MongoDB ODM
     doctrine_mongodb.odm.document_manager:
         class: Doctrine\ODM\MongoDB\DocumentManager
-        factory: ['@doctrine_mongodb', 'getManager']  # On n'utilise pas de nom d'arguments ici
+        factory: ['Doctrine\ODM\MongoDB\DocumentManager', 'create'] # Utilisation de la méthode 'create'
         arguments:
             - '@doctrine_mongodb.odm.connection'
             - '@doctrine_mongodb.odm.configuration'
             - '@doctrine_mongodb.odm.event_manager'
 
     doctrine_mongodb.odm.connection:
-        class: Doctrine\ODM\MongoDB\Connection
+        class: MongoDB\Client  # Utilisation de MongoDB\Client pour la connexion MongoDB
         arguments:
-            - '%env(MONGODB_URL)%' # URL de connexion MongoDB
+            - '%env(MONGODB_URL)%'
 
     doctrine_mongodb.odm.configuration:
         class: Doctrine\ODM\MongoDB\Configuration
         calls:
-            - [setDefaultDB, ['%env(MONGODB_DB)%']] # Correct usage for setting default DB
-            - [setMetadataDriverImpl, ['@doctrine_mongodb.odm.metadata_driver']]  # Ajout du driver de métadonnées
+            - [setDefaultDB, ['%env(MONGODB_DB)%']]
+            - [setMetadataDriverImpl, ['@doctrine_mongodb.odm.metadata_driver']]
+            - [setHydratorDir, ['%kernel.cache_dir%/doctrine/odm/hydrators']]  # Répertoire pour les hydrators
+            - [setHydratorNamespace, ['Hydrators']]  # Namespace pour les hydrators
 
+    # Pour l'utilisation des attributes (correspondant à ta configuration dans doctrine_mongodb.yaml)
     doctrine_mongodb.odm.metadata_driver:
-        class: Doctrine\ODM\MongoDB\Mapping\Driver\AnnotationDriver
+        class: Doctrine\ODM\MongoDB\Mapping\Driver\AttributeDriver
         arguments:
             - ['%kernel.project_dir%/src/Document']  # Répertoire des documents MongoDB
 
     doctrine_mongodb.odm.event_manager:
         class: Doctrine\Common\EventManager
+
+    # Exemple d'Event Manager pour MongoDB si nécessaire
+    App\EventSubscriber\SomeOtherSubscriber:
+        tags:
+            - { name: 'doctrine_mongodb.odm.event_subscriber', event: 'some_event' }

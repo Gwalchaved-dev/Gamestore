@@ -4,9 +4,13 @@ doctrine_mongodb:
             server: "%env(MONGODB_URL)%"
             options: {}
     default_database: "%env(MONGODB_DB)%"
+
     document_managers:
         default:
             auto_mapping: true
+            # Cache de métadonnées
+            metadata_cache_driver:
+                type: array
             mappings:
                 App:
                     is_bundle: false
@@ -14,3 +18,30 @@ doctrine_mongodb:
                     dir: '%kernel.project_dir%/src/Document'
                     prefix: 'App\Document'
                     alias: App
+
+when@test:
+    doctrine_mongodb:
+        connections:
+            default:
+                server: "%env(MONGODB_URL)%"
+                options: {}
+        default_database: "%env(MONGODB_DB)%_test"
+        document_managers:
+            default:
+                auto_mapping: true
+                metadata_cache_driver:
+                    type: array
+
+when@prod:
+    doctrine_mongodb:
+        document_managers:
+            default:
+                auto_generate_proxy_classes: false
+                metadata_cache_driver:
+                    type: redis
+                    host: "%env(REDIS_HOST)%"
+                    port: "%env(REDIS_PORT)%"
+                proxy_dir: '%kernel.cache_dir%/doctrine/odm/proxies'
+                query_cache_driver:
+                    type: pool
+                    pool: doctrine.system_cache_pool
