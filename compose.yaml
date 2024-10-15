@@ -19,7 +19,7 @@ services:
       timeout: 2s
       start_period: 30s
     networks:
-     - app-network
+      - app-network
 
   # PhpMyAdmin service for managing the database
   phpmyadmin:
@@ -48,13 +48,15 @@ services:
       - "8081:80"
     depends_on:
       - database
+      - mongodb
     environment:
       - APP_ENV=dev
       - APP_DEBUG=1
       - DATABASE_URL=mysql://${MYSQL_USER}:${MYSQL_PASSWORD}@database:3306/${MYSQL_DATABASE}?serverVersion=8.0
+      - MONGODB_URL=mongodb://mongodb:27017
     networks:
      - app-network
-    command: /bin/bash -c "tail -f /dev/null"
+    command: /usr/sbin/apache2ctl -D FOREGROUND  # Lancer Apache pour que le conteneur fonctionne
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost"]
       interval: 10s
@@ -68,6 +70,7 @@ services:
     ports:
       - "27017:27017"
     volumes:
+      - ./docker/mongodb/mongod.conf:/etc/mongod.conf  # Montre ton fichier local vers le conteneur
       - mongo_data:/data/db
     networks:
       - app-network

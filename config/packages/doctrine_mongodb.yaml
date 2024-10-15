@@ -1,9 +1,9 @@
 doctrine_mongodb:
     connections:
         default:
-            server: "%env(MONGODB_URL)%"
+            server: "mongodb://mongodb:27017" # Utilise l'adresse du conteneur MongoDB
             options: {}
-    default_database: "%env(MONGODB_DB)%"
+    default_database: "db_gamestore" # Assure-toi que le nom de la BDD est bien défini
 
     document_managers:
         default:
@@ -19,19 +19,21 @@ doctrine_mongodb:
                     prefix: 'App\Document'
                     alias: App
 
+# Configuration pour l'environnement de test
 when@test:
     doctrine_mongodb:
         connections:
             default:
-                server: "%env(MONGODB_URL)%"
+                server: "mongodb://mongodb:27017"
                 options: {}
-        default_database: "%env(MONGODB_DB)%_test"
+        default_database: "db_gamestore_test" # BDD pour les tests
         document_managers:
             default:
                 auto_mapping: true
                 metadata_cache_driver:
                     type: array
 
+# Configuration pour l'environnement de production
 when@prod:
     doctrine_mongodb:
         document_managers:

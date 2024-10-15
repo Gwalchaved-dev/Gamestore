@@ -20,8 +20,14 @@ class AccountController extends AbstractController
     {
         $user = $security->getUser();
 
+        // Redirection vers la page de connexion si l'utilisateur n'est pas connecté
         if (!$user || !$user instanceof User) {
             return $this->redirectToRoute('app_login');
+        }
+
+        // Redirige les administrateurs vers la page admin
+        if ($this->isGranted('ROLE_ADMIN')) {
+            return $this->redirectToRoute('app_admin'); // Redirection vers la route de l'espace admin
         }
 
         // Création du formulaire à partir de RegistrationFormType

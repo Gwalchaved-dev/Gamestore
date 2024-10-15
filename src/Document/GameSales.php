@@ -11,7 +11,7 @@ class GameSales
     private $id;
 
     #[ODM\Field(type: "string")]
-    private $gameName; // Nom du jeu vidéo pour référence depuis MySQL
+    private $gameId; // Référence à l'entité Game (jeu vidéo) dans MySQL
 
     #[ODM\Field(type: "string")]
     private $genre; // Genre du jeu (par exemple, RPG, FPS)
@@ -25,21 +25,22 @@ class GameSales
     #[ODM\Field(type: "date")]
     private $saleDate; // Date de la vente
 
-    // Getters et Setters
+    // Getters et setters...
 
     public function getId(): ?string
     {
         return $this->id;
     }
 
-    public function getGameName(): ?string
+    public function getGameId(): ?string
     {
-        return $this->gameName;
+        return $this->gameId;
     }
 
-    public function setGameName(string $gameName): self
+    public function setGameId(string $gameId): self
     {
-        $this->gameName = $gameName;
+        $this->gameId = $gameId;
+
         return $this;
     }
 
@@ -51,6 +52,7 @@ class GameSales
     public function setGenre(string $genre): self
     {
         $this->genre = $genre;
+
         return $this;
     }
 
@@ -62,6 +64,7 @@ class GameSales
     public function setCopiesSold(int $copiesSold): self
     {
         $this->copiesSold = $copiesSold;
+
         return $this;
     }
 
@@ -73,17 +76,19 @@ class GameSales
     public function setTotalRevenue(float $totalRevenue): self
     {
         $this->totalRevenue = $totalRevenue;
+
         return $this;
     }
 
-    public function getSaleDate(): ?\DateTimeInterface
+    public function getSaleDate(): ?\DateTime
     {
         return $this->saleDate;
     }
 
-    public function setSaleDate(\DateTimeInterface $saleDate): self
+    public function setSaleDate(\DateTime $saleDate): self
     {
         $this->saleDate = $saleDate;
+
         return $this;
     }
 }

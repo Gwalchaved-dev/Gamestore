@@ -11,8 +11,8 @@
                 <div class="col-md-6">
                     <label for="filter-type">Filter by:</label>
                     <select id="filter-type" name="filter_type" class="form-control">
-                        <option value="game">Game</option>
-                        <option value="genre">Genre</option>
+                        <option value="game" {% if filter_type == 'game' %}selected{% endif %}>Game</option>
+                        <option value="genre" {% if filter_type == 'genre' %}selected{% endif %}>Genre</option>
                     </select>
                 </div>
                 <div class="col-md-6">
@@ -20,11 +20,11 @@
                     <select id="filter-value" name="filter_value" class="form-control">
                         {% if filter_type == 'game' %}
                             {% for game in games %}
-                                <option value="{{ game.name }}">{{ game.name }}</option>
+                                <option value="{{ game.titre }}" {% if filter_value == game.titre %}selected{% endif %}>{{ game.titre }}</option>
                             {% endfor %}
                         {% elseif filter_type == 'genre' %}
                             {% for genre in genres %}
-                                <option value="{{ genre }}">{{ genre }}</option>
+                                <option value="{{ genre }}" {% if filter_value == genre %}selected{% endif %}>{{ genre }}</option>
                             {% endfor %}
                         {% endif %}
                     </select>
