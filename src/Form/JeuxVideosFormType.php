@@ -8,6 +8,7 @@ use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType; // Ajout du type Integer
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -41,8 +42,8 @@ class JeuxVideosFormType extends AbstractType
                 ],
             ])
             ->add('prix', MoneyType::class, [
-                'currency' => 'EUR', // ou autre devise
-                'scale' => 2, // Pour forcer à accepter des valeurs avec deux décimales
+                'currency' => 'EUR',
+                'scale' => 2,
                 'attr' => [
                     'class' => 'form-control',
                 ],
@@ -67,12 +68,27 @@ class JeuxVideosFormType extends AbstractType
                 'attr' => [
                     'class' => 'form-control',
                 ],
-                'placeholder' => 'Sélectionner un genre', // Pour avoir une option par défaut vide
+                'placeholder' => 'Sélectionner un genre',
+            ])
+            ->add('stock', IntegerType::class, [ // Ajout du champ de gestion du stock
+                'label' => 'Quantité disponible (Stock)',
+                'attr' => [
+                    'class' => 'form-control',
+                    'min' => 0, // Pour forcer un nombre positif ou nul
+                ],
+                'constraints' => [
+                    new Assert\NotBlank([
+                        'message' => 'Le stock ne doit pas être vide.',
+                    ]),
+                    new Assert\PositiveOrZero([
+                        'message' => 'Le stock doit être un nombre positif ou zéro.',
+                    ]),
+                ],
             ])
             ->add('image', FileType::class, [
                 'label' => 'Image principale (JPEG, PNG)',
-                'mapped' => false, // Ce champ ne doit pas être mappé directement à l'entité
-                'required' => true, // L'image principale est obligatoire
+                'mapped' => false,
+                'required' => true,
                 'attr' => [
                     'class' => 'form-control',
                 ],
@@ -89,7 +105,7 @@ class JeuxVideosFormType extends AbstractType
             ])
             ->add('secondImage', FileType::class, [
                 'label' => 'Deuxième image (JPEG, PNG)',
-                'mapped' => false, // Ce champ ne doit pas être mappé directement à l'entité
+                'mapped' => false,
                 'required' => false,
                 'attr' => [
                     'class' => 'form-control',
@@ -107,7 +123,7 @@ class JeuxVideosFormType extends AbstractType
             ])
             ->add('thirdImage', FileType::class, [
                 'label' => 'Troisième image (JPEG, PNG)',
-                'mapped' => false, // Ce champ ne doit pas être mappé directement à l'entité
+                'mapped' => false,
                 'required' => false,
                 'attr' => [
                     'class' => 'form-control',
