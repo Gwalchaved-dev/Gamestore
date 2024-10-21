@@ -2,26 +2,24 @@
 
 namespace App\Entity;
 
-use App\Repository\CartJeuxVideosRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: CartJeuxVideosRepository::class)]
+#[ORM\Entity]
 class CartJeuxVideos
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column]
+    #[ORM\Column(type: 'integer')]
     private ?int $id = null;
 
-    // Relation ManyToOne avec le panier (ShoppingCart)
-    #[ORM\ManyToOne(targetEntity: ShoppingCart::class, inversedBy: 'cartJeuxVideos')] // Utiliser 'cartJeuxVideos' défini dans ShoppingCart
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\ManyToOne(targetEntity: JeuxVideos::class)]
+    private ?JeuxVideos $jeuxVideo = null;
+
+    #[ORM\ManyToOne(targetEntity: ShoppingCart::class, inversedBy: 'cartJeuxVideos')]
     private ?ShoppingCart $shoppingCart = null;
 
-    // Relation ManyToOne avec JeuxVideos
-    #[ORM\ManyToOne(targetEntity: JeuxVideos::class)]
-    #[ORM\JoinColumn(name: 'jeux_video_id', referencedColumnName: 'id', nullable: false)] // Correction ici avec 'jeux_video_id'
-    private ?JeuxVideos $jeuxVideo = null;
+    #[ORM\ManyToOne(targetEntity: Command::class, inversedBy: 'cartJeuxVideos')]  // Ajout de la relation avec Command
+    private ?Command $command = null;
 
     #[ORM\Column(type: 'integer')]
     private ?int $quantite = null;
@@ -31,39 +29,52 @@ class CartJeuxVideos
         return $this->id;
     }
 
-    // Getters et Setters pour ShoppingCart
-    public function getShoppingCart(): ?ShoppingCart
-    {
-        return $this->shoppingCart;
-    }
-
-    public function setShoppingCart(?ShoppingCart $shoppingCart): static
-    {
-        $this->shoppingCart = $shoppingCart;
-        return $this;
-    }
-
-    // Getters et Setters pour JeuxVideos
     public function getJeuxVideo(): ?JeuxVideos
     {
         return $this->jeuxVideo;
     }
 
-    public function setJeuxVideo(?JeuxVideos $jeuxVideo): static
+    public function setJeuxVideo(?JeuxVideos $jeuxVideo): self
     {
         $this->jeuxVideo = $jeuxVideo;
+
         return $this;
     }
 
-    // Getters et Setters pour Quantité
+    public function getShoppingCart(): ?ShoppingCart
+    {
+        return $this->shoppingCart;
+    }
+
+    public function setShoppingCart(?ShoppingCart $shoppingCart): self
+    {
+        $this->shoppingCart = $shoppingCart;
+
+        return $this;
+    }
+
     public function getQuantite(): ?int
     {
         return $this->quantite;
     }
 
-    public function setQuantite(int $quantite): static
+    public function setQuantite(int $quantite): self
     {
         $this->quantite = $quantite;
+
+        return $this;
+    }
+
+    // Ajout des méthodes setCommand et getCommand
+    public function getCommand(): ?Command
+    {
+        return $this->command;
+    }
+
+    public function setCommand(?Command $command): self
+    {
+        $this->command = $command;
+
         return $this;
     }
 }

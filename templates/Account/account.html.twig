@@ -27,7 +27,7 @@
     <h2>Historique des commandes</h2>
     <ul>
         {% for command in user.commands %}
-            <li>{{ command.date }} - {{ command.total }}€</li>
+            <li>{{ command.date|date('d/m/Y H:i') }} - {{ command.total }}€</li>
         {% else %}
             <li>Aucune commande.</li>
         {% endfor %}

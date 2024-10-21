@@ -1,0 +1,19 @@
+<h2>Confirmation de commande</h2>
+<p>Bonjour {{ user.prenom }} {{ user.nom }}</p>
+
+<p>Nous avons bien reçu votre commande. Voici un récapitulatif :</p>
+
+<ul>
+    {% for item in cartItems %}
+        <li>
+            Jeu : {{ item.jeuxVideo.titre }} - Quantité : {{ item.quantite }} - Prix unitaire : {{ item.jeuxVideo.prix }} €
+        </li>
+    {% endfor %}
+</ul>
+
+<p>Total : {{ totalPrice }} €</p>
+
+<p>Mode de retrait : {{ agence.nom }}</p>
+
+<p>Merci pour votre commande et à bientôt sur GameStore !</p>
+

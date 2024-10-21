@@ -2,7 +2,7 @@
 
 namespace App\Entity;
 
-use App\Repository\CommandRepository; // Changer pour le nouveau nom
+use App\Repository\CommandRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -15,34 +15,38 @@ class Command
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'commands')] // Changer 'orders' à 'commands'
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'commands')] 
     private ?User $user = null;
 
     #[ORM\Column(type: 'datetime')]
-    private \DateTimeInterface $date;
+    private ?\DateTimeInterface $date = null;
 
     #[ORM\Column(type: 'decimal', precision: 10, scale: 2)]
-    private float $total;
+    private ?float $total = null;
 
-    #[ORM\Column(type: 'string')]
+    #[ORM\Column(type: 'string', length: 50)]
     private string $status;
 
-    #[ORM\OneToMany(mappedBy: 'command', targetEntity: OrderItem::class, cascade: ['persist', 'remove'])] // Changer 'order' à 'command'
-    private Collection $items;
+    #[ORM\ManyToOne(targetEntity: Agence::class)] 
+    private ?Agence $agence = null;
+
+    #[ORM\OneToMany(mappedBy: 'command', targetEntity: CartJeuxVideos::class, cascade: ['persist', 'remove'])]
+    private Collection $cartJeuxVideos;
 
     public function __construct()
     {
-        $this->date = new \DateTime();
-        $this->status = 'New';
-        $this->items = new ArrayCollection();
+        $this->date = new \DateTime(); // Par défaut la date actuelle
+        $this->status = 'New'; // Par défaut le statut de la commande est "New"
+        $this->cartJeuxVideos = new ArrayCollection();
     }
 
-    // Getters et Setters
+    // Getter et Setter pour $id
     public function getId(): ?int
     {
         return $this->id;
     }
 
+    // Getter et Setter pour $user
     public function getUser(): ?User
     {
         return $this->user;
@@ -51,15 +55,25 @@ class Command
     public function setUser(?User $user): self
     {
         $this->user = $user;
+
         return $this;
     }
 
-    public function getDate(): \DateTimeInterface
+    // Getter et Setter pour $date
+    public function getDate(): ?\DateTimeInterface
     {
         return $this->date;
     }
 
-    public function getTotal(): float
+    public function setDate(\DateTimeInterface $date): self
+    {
+        $this->date = $date;
+
+        return $this;
+    }
+
+    // Getter et Setter pour $total
+    public function getTotal(): ?float
     {
         return $this->total;
     }
@@ -67,9 +81,11 @@ class Command
     public function setTotal(float $total): self
     {
         $this->total = $total;
+
         return $this;
     }
 
+    // Getter et Setter pour $status
     public function getStatus(): string
     {
         return $this->status;
@@ -78,30 +94,44 @@ class Command
     public function setStatus(string $status): self
     {
         $this->status = $status;
+
         return $this;
     }
 
-    public function getItems(): Collection
+    // Getter et Setter pour $agence
+    public function getAgence(): ?Agence
     {
-        return $this->items;
+        return $this->agence;
     }
 
-    public function addItem(OrderItem $item): self
+    public function setAgence(?Agence $agence): self
     {
-        if (!$this->items->contains($item)) {
-            $this->items[] = $item;
-            $item->setCommand($this); // Changer 'order' à 'command'
+        $this->agence = $agence;
+
+        return $this;
+    }
+
+    // Gestion des relations avec CartJeuxVideos
+    public function getCartJeuxVideos(): Collection
+    {
+        return $this->cartJeuxVideos;
+    }
+
+    public function addCartJeuxVideo(CartJeuxVideos $cartJeuxVideo): self
+    {
+        if (!$this->cartJeuxVideos->contains($cartJeuxVideo)) {
+            $this->cartJeuxVideos[] = $cartJeuxVideo;
+            $cartJeuxVideo->setCommand($this); 
         }
 
         return $this;
     }
 
-    public function removeItem(OrderItem $item): self
+    public function removeCartJeuxVideo(CartJeuxVideos $cartJeuxVideo): self
     {
-        if ($this->items->removeElement($item)) {
-            // Set the owning side to null (unless already changed)
-            if ($item->getCommand() === $this) { // Changer 'order' à 'command'
-                $item->setCommand(null);
+        if ($this->cartJeuxVideos->removeElement($cartJeuxVideo)) {
+            if ($cartJeuxVideo->getCommand() === $this) {
+                $cartJeuxVideo->setCommand(null);
             }
         }
 
