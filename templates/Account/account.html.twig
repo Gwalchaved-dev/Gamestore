@@ -1,35 +1,69 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>Informations de votre compte</h1>
+    <section class="account-container">
+        <h1>Informations de votre compte</h1>
 
-    <h2>Informations personnelles</h2>
-    <form action="{{ path('account') }}" method="post">
-        {{ form_start(form) }}
-        {{ form_widget(form) }}
-        <button type="submit" class="btn btn-primary">Modifier</button>
-        {{ form_end(form) }}
-    </form>
+        <ul class="list-group">
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                <strong>Prénom :</strong> {{ app.user.prenom }}
+                <a href="{{ path('account_edit', {'field': 'prenom'}) }}">Modifier</a>
+            </li>
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                <strong>Nom :</strong> {{ app.user.nom }}
+                <a href="{{ path('account_edit', {'field': 'nom'}) }}">Modifier</a>
+            </li>
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                <strong>E-mail :</strong> {{ app.user.email }}
+                <a href="{{ path('account_edit', {'field': 'email'}) }}">Modifier</a>
+            </li>
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                <strong>Adresse postale :</strong> {{ app.user.adressePostale }}
+                <a href="{{ path('account_edit', {'field': 'adresse_postale'}) }}">Modifier</a>
+            </li>
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                <strong>Code postal :</strong> {{ app.user.codepostal }}
+                <a href="{{ path('account_edit', {'field': 'codepostal'}) }}">Modifier</a>
+            </li>
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                <strong>Ville :</strong> {{ app.user.ville }}
+                <a href="{{ path('account_edit', {'field': 'ville'}) }}">Modifier</a>
+            </li>
+        </ul>
 
-    <h2>Changer le mot de passe</h2>
-    <form action="{{ path('change_password') }}" method="post">
-        <div class="mb-3">
-            <label for="new_password" class="form-label">Nouveau mot de passe</label>
-            <input type="password" class="form-control" id="new_password" name="new_password" required>
-        </div>
-        <div class="mb-3">
-            <label for="confirm_password" class="form-label">Confirmer le mot de passe</label>
-            <input type="password" class="form-control" id="confirm_password" name="confirm_password" required>
-        </div>
-        <button type="submit" class="btn btn-success">Enregistrer</button>
-    </form>
+        <h2 class="mt-4">Changer le mot de passe</h2>
+        <form action="{{ path('change_password') }}" method="post" class="mb-4">
+            <div class="mb-3">
+                <label for="new_password" class="form-label">Nouveau mot de passe</label>
+                <input type="password" class="form-control" id="new_password" name="new_password" required>
+            </div>
+            <div class="mb-3">
+                <label for="confirm_password" class="form-label">Confirmer le mot de passe</label>
+                <input type="password" class="form-control" id="confirm_password" name="confirm_password" required>
+            </div>
+            <button type="submit" class="btn btn-success">Enregistrer</button>
+        </form>
 
-    <h2>Historique des commandes</h2>
-    <ul>
-        {% for command in user.commands %}
-            <li>{{ command.date|date('d/m/Y H:i') }} - {{ command.total }}€</li>
-        {% else %}
-            <li>Aucune commande.</li>
-        {% endfor %}
-    </ul>
+        <h2>Historique des commandes</h2>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Montant</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for command in app.user.commands %}
+                    <tr>
+                        <td>{{ command.date|date('d/m/Y H:i') }}</td>
+                        <td>{{ command.total }}€</td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="2">Aucune commande.</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </section>
 {% endblock %}
