@@ -18,12 +18,11 @@ class GalerieController extends AbstractController
 
         // Récupérer les paramètres de filtrage depuis la requête
         $genre = $request->query->get('genre');
-        $minPrice = $request->query->get('min_price');
-        $maxPrice = $request->query->get('max_price');
+        $prix = $request->query->get('prix'); // Utilisation d'un seul paramètre pour le prix
 
         // Appeler la méthode de repository avec filtrage si nécessaire
-        if ($genre || $minPrice || $maxPrice) {
-            $jeux = $jeuxRepository->findByFilters($genre, $minPrice, $maxPrice);
+        if ($genre || $prix) {
+            $jeux = $jeuxRepository->findByFilters($genre, $prix);
         } else {
             // Si pas de filtre, récupérer tous les jeux
             $jeux = $jeuxRepository->findAll();

@@ -21,13 +21,13 @@ class JeuxVideosRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('j')
             ->select('DISTINCT j.genre')
             ->getQuery()
-            ->getScalarResult(); // Renvoie uniquement les genres comme des chaînes de caractères
+            ->getScalarResult(); // Renvoie uniquement les genres sous forme de chaînes
     }
 
     /**
      * Récupérer les jeux en fonction des filtres de genre et de prix.
      */
-    public function findByFilters($genre, $minPrice, $maxPrice)
+    public function findByFilters($genre, $prix)
     {
         $qb = $this->createQueryBuilder('j');
 
@@ -36,14 +36,24 @@ class JeuxVideosRepository extends ServiceEntityRepository
                ->setParameter('genre', $genre);
         }
 
-        if ($minPrice) {
-            $qb->andWhere('j.prix >= :minPrice')
-               ->setParameter('minPrice', $minPrice);
-        }
-
-        if ($maxPrice) {
-            $qb->andWhere('j.prix <= :maxPrice')
-               ->setParameter('maxPrice', $maxPrice);
+        // Gestion des filtres de prix
+        if ($prix) {
+            switch ($prix) {
+                case 'moins-20':
+                    $qb->andWhere('j.prix < :maxPrice')
+                       ->setParameter('maxPrice', 20);
+                    break;
+                case '20-50':
+                    $qb->andWhere('j.prix >= :minPrice')
+                       ->setParameter('minPrice', 20)
+                       ->andWhere('j.prix <= :maxPrice')
+                       ->setParameter('maxPrice', 50);
+                    break;
+                case 'plus-50':
+                    $qb->andWhere('j.prix > :minPrice')
+                       ->setParameter('minPrice', 50);
+                    break;
+            }
         }
 
         return $qb->getQuery()->getResult();
