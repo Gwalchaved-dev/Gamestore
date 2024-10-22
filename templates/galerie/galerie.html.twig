@@ -7,8 +7,52 @@
 {% block body %}
     <section>
         <div class="container my-4">
+
+            {# Système de filtres au-dessus des jeux #}
+            <div class="row justify-content-center mb-4">
+                <div class="col-md-8">
+                    <form method="get" action="{{ path('galerie') }}" class="d-flex justify-content-between">
+                        
+                        <div class="form-group me-3">
+                            <label for="genre" class="form-label sarpanch-semibold" style="color: #fff;">Genre</label>
+                            <select name="genre" id="genre" class="form-select">
+                                <option value="">Tous</option>
+                                {% for genre in genres %}
+                                    <option value="{{ genre.genre }}" {% if app.request.get('genre') == genre.genre %}selected{% endif %}>
+                                        {{ genre.genre|capitalize }}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <div class="form-group me-3">
+                            <label for="prix" class="form-label sarpanch-semibold" style="color: #fff;">Prix</label>
+                            <select name="prix" id="prix" class="form-select">
+                                <option value="">Tous</option>
+                                <option value="moins-20" {% if app.request.get('prix') == 'moins-20' %}selected{% endif %}>Moins de 20€</option>
+                                <option value="20-50" {% if app.request.get('prix') == '20-50' %}selected{% endif %}>Entre 20€ et 50€</option>
+                                <option value="plus-50" {% if app.request.get('prix') == 'plus-50' %}selected{% endif %}>Plus de 50€</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group me-3">
+                            <label for="promotion" class="form-label sarpanch-semibold" style="color: #fff;">Promotion</label>
+                            <select name="promotion" id="promotion" class="form-select">
+                                <option value="">Toutes</option>
+                                <option value="en-promo" {% if app.request.get('promotion') == 'en-promo' %}selected{% endif %}>En promotion</option>
+                                <option value="non-promo" {% if app.request.get('promotion') == 'non-promo' %}selected{% endif %}>Non en promotion</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group align-self-end">
+                            <button type="submit" class="btn btn-success sarpanch-semibold">Filtrer</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            {# Affichage des jeux filtrés #}
             <div class="row">
-                {# Parcours les jeux depuis la base de données #}
                 {% for jeu in jeux %}
                 <div class="col-md-4 mb-4">
                     <div class="card h-100">

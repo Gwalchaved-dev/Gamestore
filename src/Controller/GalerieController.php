@@ -13,6 +13,9 @@ class GalerieController extends AbstractController
     #[Route('/galerie', name: 'galerie')]
     public function index(Request $request, JeuxVideosRepository $jeuxRepository): Response
     {
+        // Récupérer les genres distincts à partir des jeux vidéos
+        $genres = $jeuxRepository->findDistinctGenres();
+
         // Récupérer les paramètres de filtrage depuis la requête
         $genre = $request->query->get('genre');
         $minPrice = $request->query->get('min_price');
@@ -29,6 +32,7 @@ class GalerieController extends AbstractController
         // Renvoyer la vue avec les jeux récupérés (filtrés ou non)
         return $this->render('galerie/galerie.html.twig', [
             'jeux' => $jeux,
+            'genres' => $genres, // Passer les genres à la vue
         ]);
     }
 }

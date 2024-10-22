@@ -6,14 +6,22 @@ use App\Entity\JeuxVideos;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
-/**
- * @extends ServiceEntityRepository<JeuxVideos>
- */
 class JeuxVideosRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, JeuxVideos::class);
+    }
+
+    /**
+     * Récupérer les genres distincts à partir des jeux vidéos.
+     */
+    public function findDistinctGenres()
+    {
+        return $this->createQueryBuilder('j')
+            ->select('DISTINCT j.genre')
+            ->getQuery()
+            ->getScalarResult(); // Renvoie uniquement les genres comme des chaînes de caractères
     }
 
     /**
@@ -39,28 +47,5 @@ class JeuxVideosRepository extends ServiceEntityRepository
         }
 
         return $qb->getQuery()->getResult();
-    }
-
-    /**
-     * Récupérer tous les jeux pour les afficher dans le stock.
-     */
-    public function findAllJeux()
-    {
-        return $this->createQueryBuilder('j')
-            ->orderBy('j.titre', 'ASC') // Trie les jeux par titre
-            ->getQuery()
-            ->getResult();
-    }
-
-    /**
-     * Récupérer un jeu par son ID.
-     */
-    public function findById($id)
-    {
-        return $this->createQueryBuilder('j')
-            ->andWhere('j.id = :id')
-            ->setParameter('id', $id)
-            ->getQuery()
-            ->getOneOrNullResult();
     }
 }
