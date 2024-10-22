@@ -51,14 +51,15 @@
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
 
                                 {# Vérifier si l'utilisateur est authentifié ou non #}
-                                {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                                {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
                                     {# Si l'utilisateur est connecté, afficher le bouton "Acheter" #}
                                     <form method="post" action="{{ path('ajouter_panier', {id: jeu.id}) }}">
                                         <button type="submit" class="btn btn-primary">Acheter</button>
                                     </form>
                                 {% else %}
-                                    {# Si l'utilisateur n'est pas connecté, afficher le bouton "S'inscrire" #}
-                                    <a href="{{ path('app_register') }}" class="btn btn-primary">S'inscrire</a>
+                                    {# Si l'utilisateur n'est pas connecté, proposer l'inscription ou connexion #}
+                                    <a href="{{ path('app_login') }}" class="btn btn-primary">Se connecter</a>
+                                    <a href="{{ path('app_register') }}" class="btn btn-secondary">S'inscrire</a>
                                 {% endif %}
                             </div>
                         </div>

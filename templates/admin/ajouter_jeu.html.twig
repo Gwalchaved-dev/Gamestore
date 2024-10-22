@@ -3,74 +3,74 @@
 {% block title %}Ajouter un Jeu Vidéo{% endblock %}
 
 {% block body %}
-    <div class="form-container">
-        <h1>Ajouter un Nouveau Jeu Vidéo</h1>
+    <div class="form-container" style="margin: 70px auto; max-width: 800px; padding: 20px; background-color: background-color: rgba(0, 0, 0, 0.8);; border-radius: 10px; box-shadow: 0px 4px 8px rgba(0,0,0,0.1);">
+        <h1 class="text-center sarpanch-semibold" style="color: #ffff;">Ajouter un Nouveau Jeu Vidéo</h1>
 
         {{ form_start(form, {'attr': {'enctype': 'multipart/form-data'}}) }} 
         {# Ajout de 'enctype' pour permettre l'upload de fichiers #}
 
         <div class="form-group">
-            {{ form_label(form.titre) }}
+            {{ form_label(form.titre, 'Titre du jeu', {'label_attr': {'class': 'form-label sarpanch-regular'}}) }}
             {{ form_widget(form.titre, {'attr': {'class': 'form-control'}}) }}
             {{ form_errors(form.titre) }}
         </div>
 
-        <div class="form-group">
-            {{ form_label(form.description) }}
+        <div class="form-group mt-3">
+            {{ form_label(form.description, 'Description', {'label_attr': {'class': 'form-label sarpanch-regular'}}) }}
             {{ form_widget(form.description, {'attr': {'class': 'form-control'}}) }}
             {{ form_errors(form.description) }}
         </div>
 
-        <div class="form-group">
-            {{ form_label(form.prix) }}
+        <div class="form-group mt-3">
+            {{ form_label(form.prix, 'Prix €', {'label_attr': {'class': 'form-label sarpanch-regular'}}) }}
             {{ form_widget(form.prix, {'attr': {'class': 'form-control'}}) }}
             {{ form_errors(form.prix) }}
         </div>
 
         {# Ajout du champ déroulant pour le genre #}
-        <div class="form-group">
-            {{ form_label(form.genre, 'Genre du jeu') }}
+        <div class="form-group mt-3">
+            {{ form_label(form.genre, 'Genre du jeu', {'label_attr': {'class': 'form-label sarpanch-regular'}}) }}
             {{ form_widget(form.genre, {'attr': {'class': 'form-control'}}) }}
             {{ form_errors(form.genre) }}
         </div>
 
-        <div class="form-group">
-            {{ form_label(form.image) }}
+        <div class="form-group mt-3">
+            {{ form_label(form.image, 'Image principale (JPEG, PNG)', {'label_attr': {'class': 'form-label sarpanch-regular'}}) }}
             {{ form_widget(form.image, {'attr': {'class': 'form-control-file'}}) }}
             {{ form_errors(form.image) }}
             <small class="form-text text-muted">L'image principale du jeu doit être au format JPEG ou PNG.</small>
         </div>
 
-        <div class="form-group">
-            {{ form_label(form.secondImage) }}
+        <div class="form-group mt-3">
+            {{ form_label(form.secondImage, 'Deuxième image (JPEG, PNG)', {'label_attr': {'class': 'form-label sarpanch-regular'}}) }}
             {{ form_widget(form.secondImage, {'attr': {'class': 'form-control-file'}}) }}
             {{ form_errors(form.secondImage) }}
             <small class="form-text text-muted">Ajoutez une deuxième image (JPEG, PNG).</small>
         </div>
 
-        <div class="form-group">
-            {{ form_label(form.thirdImage, 'Troisième image') }}
+        <div class="form-group mt-3">
+            {{ form_label(form.thirdImage, 'Troisième image (JPEG, PNG)', {'label_attr': {'class': 'form-label sarpanch-regular'}}) }}
             {{ form_widget(form.thirdImage, {'attr': {'class': 'form-control-file'}}) }}
             {{ form_errors(form.thirdImage) }}
             <small class="form-text text-muted">Ajoutez une troisième image (JPEG, PNG).</small>
         </div>
 
         {# Nouveau champ pour le stock #}
-        <div class="form-group">
-            {{ form_label(form.stock, 'Quantité disponible (Stock)') }}
+        <div class="form-group mt-3">
+            {{ form_label(form.stock, 'Quantité disponible (Stock)', {'label_attr': {'class': 'form-label sarpanch-regular'}}) }}
             {{ form_widget(form.stock, {'attr': {'class': 'form-control', 'min': 0}}) }}
             {{ form_errors(form.stock) }}
             <small class="form-text text-muted">Indiquez le nombre de jeux disponibles en stock.</small>
         </div>
 
-        <div class="form-group">
-            <button class="btn btn-success">{{ button_label|default('Ajouter le jeu') }}</button>
+        <div class="form-group mt-4">
+            <button class="btn btn-success sarpanch-semibold w-100" style="background-color: #007bff; border: none;">{{ button_label|default('Ajouter le jeu') }}</button>
         </div>
 
         {{ form_end(form) }}
 
-        <div class="form-footer">
-            <a href="{{ path('admin_jeux_stock') }}" class="btn-retour">Retour au stock</a>
+        <div class="form-footer mt-4 text-center">
+            <a href="{{ path('admin_jeux_stock') }}" class="btn-retour sarpanch-semibold" style="color: #007bff; text-decoration: none;">Retour au stock</a>
         </div>
     </div>
 {% endblock %}

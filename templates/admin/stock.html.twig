@@ -2,9 +2,11 @@
 
 {% block body %}
     <div class="stock-container">
-        <h1>Stock des Jeux Vidéo</h1>
+        <!-- Titre centré -->
+        <h1 class="text-center sarpanch-semibold">Stock des Jeux Vidéo</h1>
         
-        <table class="styled-table">
+        <!-- Table stylisée -->
+        <table class="styled-table mt-4">
             <thead>
                 <tr>
                     <th>Titre</th>
@@ -18,7 +20,7 @@
                 {% for jeu in jeux %}
                     <tr>
                         <td>{{ jeu.titre }}</td>
-                        <td>{{ jeu.description }}</td>
+                        <td>{{ jeu.description|slice(0, 150) }}...</td> <!-- Limite la description à 150 caractères -->
                         <td>{{ jeu.prix }}€</td>
                         <td><img src="{{ asset('uploads/images/' ~ jeu.image) }}" alt="{{ jeu.titre }}" width="100"></td>
                         <td>
@@ -29,8 +31,99 @@
             </tbody>
         </table>
 
-        <div class="add-game-btn">
-            <a href="{{ path('admin_ajouter_jeu') }}" class="btn-ajouter">Ajouter un nouveau jeu</a>
+        <!-- Bouton centré pour ajouter un nouveau jeu -->
+        <div class="add-game-btn text-center mt-4">
+            <a href="{{ path('admin_ajouter_jeu') }}" class="btn-ajouter btn-lg">Ajouter un nouveau jeu</a>
         </div>
     </div>
+
+    <!-- Style spécifique pour cette page -->
+    <style>
+        .stock-container {
+            padding: 40px;
+            background-color: rgba(0, 0, 0, 0.8); /* Couleur de fond */
+            border-radius: 8px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 1.15);
+            border: 1px solid #343a40;
+            margin-top: 70px;
+        }
+
+        /* Centrage du titre */
+        h1.text-center {
+            color: #ffffff;
+            margin-bottom: 30px;
+        }
+
+        /* Style de la table */
+        .styled-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 25px 0;
+            font-size: 1em;
+            font-family: 'Sarpanch', sans-serif;
+            background-color: #2c2c38;
+            color: #ffffff;
+        }
+
+        .styled-table th, .styled-table td {
+            padding: 12px 15px;
+        }
+
+        .styled-table thead th {
+            background-color: #3c3c50;
+            color: #ffffff;
+        }
+
+        .styled-table tbody tr:nth-child(even) {
+            background-color: #2c2c38;
+        }
+
+        .styled-table tbody tr:nth-child(odd) {
+            background-color: #24242f;
+        }
+
+        .styled-table tbody tr:hover {
+            background-color: #343a40;
+        }
+
+        .styled-table td img {
+            border-radius: 4px;
+        }
+
+        /* Bouton "Modifier" */
+        .btn-modifier {
+            background-color: #007bff;
+            color: #ffffff;
+            padding: 8px 12px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .btn-modifier:hover {
+            background-color: #0056b3;
+        }
+
+        /* Bouton "Ajouter un nouveau jeu" */
+        .btn-ajouter {
+            background-color: #007bff;
+            color: #ffffff;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 18px;
+            text-transform: uppercase;
+        }
+
+        .btn-ajouter:hover {
+            background-color: #0056b3;
+        }
+
+        /* Centrage du bouton ajouter */
+        .add-game-btn {
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
 {% endblock %}

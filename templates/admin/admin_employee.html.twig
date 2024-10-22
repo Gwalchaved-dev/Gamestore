@@ -1,80 +1,101 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Gestion des Employés et Utilisateurs{% endblock %}
-
 {% block body %}
-    <div class="admin-container">
-        <h1>Gestion des Employés et Utilisateurs</h1>
+    <div class="form-container" style="margin: 70px auto 50px auto; max-width: 1000px;">
+        <h1 class="text-center sarpanch-semibold" style="color: #ffff;">Ajouter un Nouvel Employé</h1>
 
-        <!-- Formulaire pour ajouter un nouvel employé -->
-        <div class="employee-form">
-            <h2>Ajouter un Nouvel Employé</h2>
-
-            {{ form_start(form, {'attr': {'enctype': 'multipart/form-data'}}) }}
-
-            <div class="form-group">
-                {{ form_label(form.nom) }}
-                {{ form_widget(form.nom, {'attr': {'class': 'form-control'}}) }}
-                {{ form_errors(form.nom) }}
+        {# Ajout des messages Flash pour afficher les erreurs et succès #}
+        {% for label, messages in app.flashes %}
+            <div class="alert alert-{{ label }}">
+                {% for message in messages %}
+                    <p>{{ message }}</p>
+                {% endfor %}
             </div>
+        {% endfor %}
 
-            <div class="form-group">
-                {{ form_label(form.prenom) }}
-                {{ form_widget(form.prenom, {'attr': {'class': 'form-control'}}) }}
-                {{ form_errors(form.prenom) }}
-            </div>
-
-            <div class="form-group">
-                {{ form_label(form.adresse) }}
-                {{ form_widget(form.adresse, {'attr': {'class': 'form-control'}}) }}
-                {{ form_errors(form.adresse) }}
-            </div>
-
-            <div class="form-group">
-                {{ form_label(form.ville) }}
-                {{ form_widget(form.ville, {'attr': {'class': 'form-control'}}) }}
-                {{ form_errors(form.ville) }}
-            </div>
-
-            <div class="form-group">
-                <button class="btn btn-success">{{ button_label|default('Ajouter l\'employé') }}</button>
-            </div>
-
-            {{ form_end(form) }}
+        {{ form_start(form) }}
+        
+        <div class="form-group">
+            {{ form_label(form.nom) }}
+            {{ form_widget(form.nom, {'attr': {'class': 'form-control'}}) }}
+            {{ form_errors(form.nom) }}
         </div>
 
-        <!-- Tableau listant les employés inscrits -->
-        <div class="user-list">
-            <h2>Liste des Employés Inscrits</h2>
+        <div class="form-group">
+            {{ form_label(form.prenom) }}
+            {{ form_widget(form.prenom, {'attr': {'class': 'form-control'}}) }}
+            {{ form_errors(form.prenom) }}
+        </div>
 
-            <table class="table">
-                <thead>
+        <div class="form-group">
+            {{ form_label(form.adresse) }}
+            {{ form_widget(form.adresse, {'attr': {'class': 'form-control'}}) }}
+            {{ form_errors(form.adresse) }}
+        </div>
+
+        <div class="form-group">
+            {{ form_label(form.codepostal) }}
+            {{ form_widget(form.codepostal, {'attr': {'class': 'form-control'}}) }}
+            {{ form_errors(form.codepostal) }}
+        </div>
+
+        <div class="form-group">
+            {{ form_label(form.ville) }}
+            {{ form_widget(form.ville, {'attr': {'class': 'form-control'}}) }}
+            {{ form_errors(form.ville) }}
+        </div>
+
+        <div class="form-group">
+            {{ form_label(form.plainPassword) }}
+            {{ form_widget(form.plainPassword, {'attr': {'class': 'form-control'}}) }}
+            {{ form_errors(form.plainPassword) }}
+        </div>
+
+        <div class="form-group">
+            {{ form_label(form.agence) }}
+            {{ form_widget(form.agence, {'attr': {'class': 'form-control'}}) }}
+            {{ form_errors(form.agence) }}
+        </div>
+
+        <div class="form-group text-center">
+            <button type="submit" class="btn btn-success">Ajouter l'employé</button>
+        </div>
+
+        {{ form_end(form) }}
+
+        <h2 class="mt-5 text-center">Liste des Employés Inscrits</h2>
+
+        <table class="table table-hover table-bordered mt-4">
+            <thead class="table-dark">
+                <tr>
+                    <th>Nom</th>
+                    <th>Prénom</th>
+                    <th>Adresse</th>
+                    <th>Ville</th>
+                    <th>Rôle</th>
+                    <th>Date d'inscription</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for employee in employees %}
                     <tr>
-                        <th>Nom</th>
-                        <th>Prénom</th>
-                        <th>Adresse</th>
-                        <th>Ville</th>
-                        <th>Rôle</th>
-                        <th>Date d'inscription</th>
+                        <td>{{ employee.nom }}</td>
+                        <td>{{ employee.prenom }}</td>
+                        <td>{{ employee.adresse }}</td>
+                        <td>{{ employee.ville }}</td>
+                        <td>{{ employee.roles[0] }}</td>
+                        <td>{{ employee.createdAt|date('d/m/Y') }}</td>
+                        <td>
+                            <a href="{{ path('admin_edit_employee', {id: employee.id}) }}" class="text-warning">Modifier</a> |
+                            <a href="{{ path('admin_delete_employee', {id: employee.id}) }}" class="text-danger">Supprimer</a>
+                        </td>
                     </tr>
-                </thead>
-                <tbody>
-                    {% for employee in employees %}
-                        <tr>
-                            <td>{{ employee.nom }}</td>
-                            <td>{{ employee.prenom }}</td>
-                            <td>{{ employee.adresse }}</td>
-                            <td>{{ employee.ville }}</td>
-                            <td>{{ employee.roles | join(', ') }}</td> <!-- Affiche les rôles -->
-                            <td>{{ employee.createdAt|date('d/m/Y') }}</td>
-                        </tr>
-                    {% else %}
-                        <tr>
-                            <td colspan="6">Aucun employé n'est inscrit pour le moment.</td>
-                        </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
+                {% endfor %}
+            </tbody>
+        </table>
     </div>
+
+    {# Ajout d'un margin-bottom de 50px pour espacer le container du footer #}
+    <div style="margin-bottom: 50px;"></div>
 {% endblock %}

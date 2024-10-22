@@ -124,26 +124,29 @@ class CartController extends AbstractController
     public function emptyCart(EntityManagerInterface $entityManager, Security $security): Response
     {
         $user = $security->getUser();
-
+    
         // Vérification si l'utilisateur est connecté et de type User
         if (!$user || !($user instanceof User)) {
-            return $this->json(['error' => 'User not logged in'], 403);  // Réponse JSON pour utilisateur non connecté
+            return $this->json(['success' => false, 'error' => 'User not logged in'], 403);
         }
-
-        // Récupérer ou créer le panier de l'utilisateur
+    
+        // Récupérer le panier de l'utilisateur
         $shoppingCart = $user->getShoppingCart();
-
-        if (!$shoppingCart || $shoppingCart->getCartJeuxVideos()->isEmpty()) {
-            return $this->json(['error' => 'No items in the cart to empty'], 404);  // Réponse JSON si le panier est déjà vide
+    
+        // S'assurer que le panier existe
+        if (!$shoppingCart) {
+            return $this->json(['success' => false, 'error' => 'No shopping cart found'], 404);
         }
-
-        // Vider le panier
-        $shoppingCart->getCartJeuxVideos()->clear();
-        $entityManager->persist($shoppingCart);
-        $entityManager->flush();
-
-        // Réponse JSON en cas de succès
-        return $this->json(['success' => true, 'message' => 'Cart has been emptied']);
+    
+        // Vider le panier (suppression des éléments du panier)
+        foreach ($shoppingCart->getCartJeuxVideos() as $cartItem) {
+            $entityManager->remove($cartItem); // Supprimer chaque élément du panier
+        }
+    
+        $entityManager->flush(); // Appliquer les modifications à la base de données
+    
+        // Envoyer une réponse JSON pour confirmer le succès de l'opération
+        return $this->json(['success' => true]);
     }
 
     private function calculateTotalPrice($cartItems): float
@@ -240,7 +243,7 @@ class CartController extends AbstractController
         // Récupérer le panier de l'utilisateur
         $shoppingCart = $user->getShoppingCart();
         if (!$shoppingCart) {
-            return $this->json(['error' => 'No shopping cart found for user'], 404);
+            return $this->json(['error' => 'Aucun panier trouvé pour l\'utilisateur'], 404);
         }
     
         // Récupérer l'article du panier correspondant

@@ -24,6 +24,7 @@ body {
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+  padding-bottom: 100px;
 }
 
 /* Wrapper du logo */
@@ -229,6 +230,7 @@ footer {
   border-top: 2px solid #00bfff;
   position: fixed;
   clip-path: polygon(50% 15%, 100% 0, 100% 100%, 0 100%, 0 0);
+  padding-top: 50px; /* Ajouter un espace de 50px en haut du footer */
 }
 
 footer::before {
@@ -385,6 +387,7 @@ h2{
   max-width: 600px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
   overflow-y: auto; /* Ajouter un défilement si le contenu dépasse */
+  padding-bottom: 100px;
 }
 
 .sarpanch-semibold {
@@ -427,8 +430,13 @@ button {
 
 /* Espace admin */
 .admin-container {
+  display: flex;
+  justify-content: center; /* Centre horizontalement */
+  align-items: center;     /* Centre verticalement */
+  min-height: calc(100vh - 200px); /* Ajuste la hauteur en fonction du header et du footer */
   text-align: center;
   padding: 50px;
+  background-color:  rgba(0, 0, 0, 0.8);
 }
 
 h1 {
@@ -440,6 +448,8 @@ h1 {
 .admin-sections {
   display: flex;
   justify-content: space-around;
+  max-width: 1200px;
+  width: 100%;
   margin: 20px 0;
 }
 
@@ -448,6 +458,9 @@ h1 {
   background-color: rgba(0, 13, 255, 0.248);
   border-radius: 10px;
   padding: 20px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.15);
+  flex: 1;
+  margin: 10px;
 }
 
 .admin-section a {
@@ -470,9 +483,13 @@ h1 {
   max-width: 1200px;
   margin: 50px auto;
   padding: 20px;
-  background-color: #f7f7f7;
+  background-color:  rgba(0, 0, 0, 0.8);;
   border-radius: 10px;
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: center; /* Centre horizontalement */
+  align-items: center;     /* Centre verticalement */
+  min-height: calc(100vh - 200px); /* Ajuste la hauteur en fonction du header et du footer */
 }
 
 /* Styles pour le formulaire d'employé */

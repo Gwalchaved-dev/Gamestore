@@ -62,4 +62,10 @@ class Agence
 
         return $this;
     }
+
+    // Ajout de la méthode __toString
+    public function __toString(): string
+    {
+        return $this->nom; // Représentation textuelle d'une agence (ici le nom de l'agence)
+    }
 }

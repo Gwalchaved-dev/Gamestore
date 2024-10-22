@@ -47,7 +47,7 @@
                         <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#cartModal">
                             <i class="bi bi-cart4"></i>
                             {% if app.user and cart_items_count > 0 %}
-                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="cart-badge">
                                     {{ cart_items_count }}
                                 </span>
                             {% endif %}
@@ -136,7 +136,7 @@
     {{ encore_entry_script_tags('app') }}
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
-    <!-- Script pour la gestion des quantités et le vidage du panier -->
+   <!-- Script pour la gestion des quantités et le vidage du panier -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
 
@@ -154,7 +154,8 @@
                 .then(data => {
                     if (data.success) {
                         // Mise à jour du prix total affiché
-                        document.getElementById('total_price').textContent = data.totalPrice.toFixed(2) + '€'; 
+                        document.getElementById('total_price').textContent = data.totalPrice.toFixed(2) + '€';
+                        updateCartBadge();  // Mise à jour du badge après modification
                     } else {
                         alert(data.error); // Afficher une alerte si une erreur survient
                     }
@@ -176,6 +177,35 @@
                     }
                 });
                 document.getElementById('total_price').textContent = total.toFixed(2) + '€';
+            }
+
+            // Fonction pour mettre à jour le badge du panier
+            function updateCartBadge() {
+                const quantities = document.querySelectorAll('.input-quantity');
+                let totalItems = 0;
+
+                quantities.forEach(input => {
+                    totalItems += parseInt(input.value);
+                });
+
+                const badge = document.getElementById('cart-badge');
+
+                if (totalItems === 0 && badge) {
+                    badge.remove();  // Supprimer le badge si le panier est vide
+                } else if (badge) {
+                    badge.textContent = totalItems;  // Mettre à jour le badge avec le nombre d'articles
+                } else if (totalItems > 0) {
+                    // Créer et ajouter le badge s'il n'existe pas
+                    const newBadge = document.createElement('span');
+                    newBadge.classList.add('position-absolute', 'top-0', 'start-100', 'translate-middle', 'badge', 'rounded-pill', 'bg-danger');
+                    newBadge.id = 'cart-badge';
+                    newBadge.textContent = totalItems;
+
+                    const cartIcon = document.querySelector('.bi-cart4');
+                    if (cartIcon) {
+                        cartIcon.parentElement.appendChild(newBadge);
+                    }
+                }
             }
 
             // Gestion des clics sur le bouton "-" (pour diminuer la quantité)
@@ -205,32 +235,30 @@
                 });
             });
 
-            // Fonction pour vider le panier avec AJAX
+            // Calculer le total initial au chargement de la page
+            updateTotal();
+
+            // Fonction pour vider le panier via AJAX
             document.getElementById('btn-empty-cart').addEventListener('click', function() {
                 fetch('{{ path('cart_empty') }}', {
                     method: 'POST',
                     headers: {
-                        'X-CSRF-TOKEN': '{{ csrf_token("cart_empty") }}'
-                    }
+                        'X-CSRF-TOKEN': '{{ csrf_token("cart_empty") }}',
+                    },
                 })
                 .then(response => response.json())
                 .then(data => {
                     if (data.success) {
-                        // Mise à jour de la vue après le vidage
-                        document.querySelector('.list-group').innerHTML = '<p>Votre panier est vide.</p>';
+                        // Vider le contenu du panier dans la modal
+                        document.querySelector('.list-group').innerHTML = '';
                         document.getElementById('total_price').textContent = '0.00€';
+                        updateCartBadge();  // Mettre à jour le badge du panier
                     } else {
-                        alert('Erreur lors du vidage du panier.');
+                        alert(data.error);
                     }
                 })
-                .catch(error => {
-                    console.error('Erreur lors du vidage du panier:', error);
-                    alert('Une erreur est survenue.');
-                });
+                .catch(error => console.error('Erreur lors du vidage du panier :', error));
             });
-
-            // Calculer le total initial au chargement de la page
-            updateTotal();
 
             // Empêcher le dropdown de se fermer après avoir cliqué sur un élément à l'intérieur
             document.querySelectorAll('.dropdown-menu').forEach(menu => {

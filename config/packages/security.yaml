@@ -3,6 +3,9 @@ security:
         App\Entity\User:
             algorithm: bcrypt
             cost: 12
+        App\Entity\Employee: # Ajout du hasher pour Employee
+            algorithm: bcrypt
+            cost: 12
 
     providers:
         app_user_provider:
