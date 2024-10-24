@@ -2,7 +2,7 @@
 
 {% block body %}
     <section class="account-container">
-        <h1>Informations de votre compte</h1>
+        <h1 class="text-center sarpanch-semibold" style="color: #ffff;">Informations de votre compte</h1>
 
         <ul class="list-group">
             <li class="list-group-item d-flex justify-content-between align-items-center">
@@ -31,7 +31,7 @@
             </li>
         </ul>
 
-        <h2 class="mt-4">Changer le mot de passe</h2>
+        <h2 class="mt-4 text-center sarpanch-semibold" style="color: #ffff;">Changer le mot de passe</h2>
         <form action="{{ path('change_password') }}" method="post" class="mb-4">
             <div class="mb-3">
                 <label for="new_password" class="form-label">Nouveau mot de passe</label>
@@ -44,7 +44,7 @@
             <button type="submit" class="btn btn-success">Enregistrer</button>
         </form>
 
-        <h2>Historique des commandes</h2>
+        <h2 class='mt-4 text-center sarpanch-semibold' style="color: #ffff";>Historique des commandes</h2>
         <table class="table table-striped">
             <thead>
                 <tr>

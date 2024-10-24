@@ -45,6 +45,10 @@ class AdminController extends AbstractController
             $employee->setRoles(['ROLE_EMPLOYEE']);
             $employee->setCreatedAt(new \DateTime());
 
+            // Gestion de l'email
+            $email = $form->get('email')->getData();
+            $employee->setEmail($email);
+
             // Vérifier si un mot de passe a été fourni
             if ($form->get('plainPassword')->getData()) {
                 // Hacher et définir le mot de passe
@@ -61,6 +65,7 @@ class AdminController extends AbstractController
             $em->flush();
 
             $this->addFlash('success', 'Employé ajouté avec succès.');
+            return $this->redirectToRoute('admin_employee');
         }
 
         // Récupérer tous les employés pour les afficher dans le tableau
@@ -107,6 +112,10 @@ class AdminController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            // Gestion de l'email
+            $email = $form->get('email')->getData();
+            $employee->setEmail($email);
+
             // Hash the password if it's being updated
             if ($form->get('plainPassword')->getData()) {
                 $hashedPassword = $passwordHasher->hashPassword($employee, $form->get('plainPassword')->getData());

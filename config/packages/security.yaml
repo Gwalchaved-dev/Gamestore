@@ -3,7 +3,7 @@ security:
         App\Entity\User:
             algorithm: bcrypt
             cost: 12
-        App\Entity\Employee: # Ajout du hasher pour Employee
+        App\Entity\Employee:
             algorithm: bcrypt
             cost: 12
 
@@ -11,6 +11,10 @@ security:
         app_user_provider:
             entity:
                 class: App\Entity\User
+                property: email
+        employee_provider:
+            entity:
+                class: App\Entity\Employee
                 property: email
 
     firewalls:
@@ -31,7 +35,21 @@ security:
                 always_remember_me: true
                 secure: auto
                 httponly: true
-            # default_target_path: app_homepage  # Redirection par défaut après connexion
+
+        employee_area:
+            provider: employee_provider  # Le bon provider pour l'Employee
+            pattern: ^/employee
+            custom_authenticator: App\Security\UserAuthenticator  # Utilisation du même authenticator pour l'Employee
+            logout:
+                path: employee_logout
+                target: employee_login
+            remember_me:
+                secret: '%kernel.secret%'
+                lifetime: 604800
+                path: /
+                always_remember_me: true
+                secure: auto
+                httponly: true
 
     access_control:
         - { path: ^/login$, roles: PUBLIC_ACCESS }
@@ -42,13 +60,7 @@ security:
         - { path: ^/$, roles: PUBLIC_ACCESS }
         - { path: ^/achat, roles: ROLE_USER }
         - { path: ^/admin, roles: ROLE_ADMIN }
+        - { path: ^/employee, roles: ROLE_EMPLOYEE }
 
     role_hierarchy:
         ROLE_ADMIN: ROLE_USER
-
-when@test:
-    security:
-        password_hashers:
-            Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface:
-                algorithm: bcrypt
-                cost: 4

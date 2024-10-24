@@ -13,39 +13,43 @@ use App\Document\GenreSales;
 use Doctrine\ODM\MongoDB\DocumentManager;
 use App\Repository\JeuxVideosRepository;
 
-#[Route('/admin')]
-#[IsGranted('ROLE_ADMIN')]
-class DashboardController extends AbstractController
+#[Route('/employee')]
+#[IsGranted('ROLE_EMPLOYEE')]
+class EmployeeController extends AbstractController
 {
-    #[Route('/sales_dashboard', name: 'sales_dashboard')]
-    public function salesDashboard(DocumentManager $dm, JeuxVideosRepository $jeuxRepository, Request $request): Response
+    #[Route('/', name: 'app_employee')]
+    public function employeeSpace(): Response
     {
-        // Récupérer le type de filtre sélectionné
+        return $this->render('Employee/employee_space.html.twig');
+    }
+
+    #[Route('/dashboard', name: 'employee_dashboard')]
+    public function dashboard(DocumentManager $dm, JeuxVideosRepository $jeuxRepository, Request $request): Response
+    {
         $filterType = $request->get('filter_type', 'game');
         $filterValue = $request->get('filter_value', null);
 
-        // Variables pour stocker les résultats
         $salesData = [];
         $salesDates = [];
         $games = [];
         $agencies = [];
         $genres = [];
 
-        // Récupérer les jeux pour le filtrage
+        // Fetch games for filtering
         if ($filterType === 'game') {
             $games = $jeuxRepository->findAll();
             if ($filterValue) {
                 $salesData = $dm->getRepository(GameSales::class)->findBy(['gameId' => $filterValue]);
             }
         }
-        // Récupérer les agences pour le filtrage
+        // Fetch agencies for filtering
         elseif ($filterType === 'agency') {
             $agencies = $dm->getRepository(AgencySales::class)->findAll();
             if ($filterValue) {
                 $salesData = $dm->getRepository(AgencySales::class)->findBy(['agencyId' => $filterValue]);
             }
         }
-        // Récupérer les genres pour le filtrage
+        // Fetch genres for filtering
         elseif ($filterType === 'genre') {
             $genres = $dm->getRepository(GenreSales::class)->findAll();
             if ($filterValue) {
@@ -53,22 +57,36 @@ class DashboardController extends AbstractController
             }
         }
 
-        // Extraire les dates des ventes
+        // Extract sales dates for the chart
         foreach ($salesData as $sale) {
-            $saleDate = $sale->getSaleDate();
-            if ($saleDate !== null) {
-                $salesDates[] = $saleDate->format('Y-m-d');
+            if ($sale->getSaleDate() !== null) {
+                $salesDates[] = $sale->getSaleDate()->format('Y-m-d');
             }
         }
 
-        return $this->render('admin/sales_dashboard.html.twig', [
-            'sales' => $salesData,  // Données des ventes
-            'sales_dates' => $salesDates,  // Dates des ventes pour le graphique
-            'filter_type' => $filterType,  // Type de filtre sélectionné (jeu, agence, genre)
-            'filter_value' => $filterValue,  // Valeur du filtre sélectionné
-            'games' => $games,  // Liste des jeux
-            'agencies' => $agencies,  // Liste des agences
-            'genres' => $genres,  // Liste des genres
+        return $this->render('Employee/employee_dashboard.html.twig', [
+            'sales' => $salesData,
+            'sales_dates' => $salesDates,
+            'filter_type' => $filterType,
+            'filter_value' => $filterValue,
+            'games' => $games,
+            'agencies' => $agencies,
+            'genres' => $genres,
         ]);
+    }
+
+    #[Route('/stock', name: 'employee_stock')]
+    public function stock(JeuxVideosRepository $jeuxRepository): Response
+    {
+        $jeux = $jeuxRepository->findAll();
+        return $this->render('Employee/employee_stock.html.twig', [
+            'jeux' => $jeux,
+        ]);
+    }
+
+    #[Route('/orders', name: 'employee_orders')]
+    public function orders(): Response
+    {
+        return $this->render('Employee/employee_orders.html.twig');
     }
 }

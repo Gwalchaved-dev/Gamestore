@@ -46,6 +46,12 @@
         </div>
 
         <div class="form-group">
+            {{ form_label(form.email) }} {# Ajout du champ email dans le formulaire #}
+            {{ form_widget(form.email, {'attr': {'class': 'form-control'}}) }}
+            {{ form_errors(form.email) }}
+        </div>
+
+        <div class="form-group">
             {{ form_label(form.plainPassword) }}
             {{ form_widget(form.plainPassword, {'attr': {'class': 'form-control'}}) }}
             {{ form_errors(form.plainPassword) }}
@@ -70,6 +76,7 @@
                 <tr>
                     <th>Nom</th>
                     <th>Prénom</th>
+                    <th>Email</th> {# Ajout d'une colonne pour l'email #}
                     <th>Adresse</th>
                     <th>Ville</th>
                     <th>Rôle</th>
@@ -82,6 +89,7 @@
                     <tr>
                         <td>{{ employee.nom }}</td>
                         <td>{{ employee.prenom }}</td>
+                        <td>{{ employee.email }}</td> {# Affichage de l'email de l'employé #}
                         <td>{{ employee.adresse }}</td>
                         <td>{{ employee.ville }}</td>
                         <td>{{ employee.roles[0] }}</td>

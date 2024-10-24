@@ -15,6 +15,9 @@ use Symfony\Component\Security\Http\Authenticator\Passport\Credentials\PasswordC
 use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
 use Symfony\Component\Security\Http\Util\TargetPathTrait;
 use Symfony\Bundle\SecurityBundle\Security;
+use App\Repository\UserRepository;
+use App\Repository\EmployeeRepository; // Ajout du repository Employee
+use Psr\Log\LoggerInterface;
 
 class UserAuthenticator extends AbstractLoginFormAuthenticator
 {
@@ -24,16 +27,26 @@ class UserAuthenticator extends AbstractLoginFormAuthenticator
 
     private UrlGeneratorInterface $urlGenerator;
     private Security $security;
+    private LoggerInterface $logger;
+    private UserRepository $userRepository;
+    private EmployeeRepository $employeeRepository; // Ajout du repository Employee
 
-    public function __construct(UrlGeneratorInterface $urlGenerator, Security $security)
-    {
+    public function __construct(
+        UrlGeneratorInterface $urlGenerator,
+        Security $security,
+        LoggerInterface $logger,
+        UserRepository $userRepository,
+        EmployeeRepository $employeeRepository // Ajout du repository Employee
+    ) {
         $this->urlGenerator = $urlGenerator;
         $this->security = $security;
+        $this->logger = $logger;
+        $this->userRepository = $userRepository;
+        $this->employeeRepository = $employeeRepository; // Initialisation
     }
 
     public function supports(Request $request): bool
     {
-        // Vérifie uniquement la route de connexion
         return $request->attributes->get('_route') === self::LOGIN_ROUTE
             && $request->isMethod('POST');
     }
@@ -43,13 +56,23 @@ class UserAuthenticator extends AbstractLoginFormAuthenticator
         $email = $request->request->get('email', '');
         $password = $request->request->get('password', '');
 
-        // Vérification si l'email ou le mot de passe sont vides, peut-être utile pour le débogage
         if (empty($email) || empty($password)) {
             throw new \InvalidArgumentException('Email ou mot de passe manquant.');
         }
 
         return new Passport(
-            new UserBadge($email),
+            new UserBadge($email, function ($userIdentifier) {
+                // Cherche d'abord l'utilisateur dans UserRepository
+                $user = $this->userRepository->findOneBy(['email' => $userIdentifier]);
+
+                // Si pas trouvé, cherche dans EmployeeRepository
+                if (!$user) {
+                    $user = $this->employeeRepository->findOneBy(['email' => $userIdentifier]);
+                }
+
+                // Retourner l'utilisateur trouvé ou null
+                return $user;
+            }),
             new PasswordCredentials($password),
             [
                 new CsrfTokenBadge('authenticate', $request->request->get('_csrf_token')),
@@ -60,25 +83,28 @@ class UserAuthenticator extends AbstractLoginFormAuthenticator
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
     {
-        // Redirection personnalisée en fonction du rôle de l'utilisateur
         $user = $token->getUser();
+        $roles = $user->getRoles();
 
-        // Si l'utilisateur est un admin, redirige vers l'espace admin
-        if (in_array('ROLE_ADMIN', $user->getRoles(), true)) {
+        // Log les rôles pour débogage
+        $this->logger->info('User authenticated with roles: ' . implode(', ', $roles));
+
+        // Redirige les administrateurs vers leur espace admin
+        if (in_array('ROLE_ADMIN', $roles, true)) {
             return new RedirectResponse($this->urlGenerator->generate('app_admin'));
         }
 
-        // Sinon, redirige vers la page d'accueil par défaut
-        if ($targetPath = $this->getTargetPath($request->getSession(), $firewallName)) {
-            return new RedirectResponse($targetPath);
+        // Redirige les employés vers leur espace employé
+        if (in_array('ROLE_EMPLOYEE', $roles, true)) {
+            return new RedirectResponse($this->urlGenerator->generate('app_employee'));
         }
 
+        // Redirection par défaut vers la page d'accueil
         return new RedirectResponse($this->urlGenerator->generate('app_homepage'));
     }
 
     protected function getLoginUrl(Request $request): string
     {
-        // Génère l'URL de la page de connexion
         return $this->urlGenerator->generate(self::LOGIN_ROUTE);
     }
 }

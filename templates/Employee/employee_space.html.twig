@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Espace Employé{% endblock %}
+
+{% block body %}
+    <div class="admin-container"> <!-- Même conteneur utilisé pour l'espace admin -->
+        <h1 class="text-center sarpanch-semibold" style="color: #ffff;">Espace Employé</h1>
+
+        <div class="admin-sections">
+            <!-- Section Dashboard -->
+            <div class="admin-section">
+                <a href="{{ path('employee_dashboard') }}"> 
+                    <img src="{{ asset('build/images/adminSpace/dashboard.png') }}" alt="Dashboard" class="admin-icon">
+                    <h2>Dashboard</h2>
+                </a>
+            </div>
+
+            <!-- Section Stock Jeux Vidéo -->
+            <div class="admin-section">
+                <a href="{{ path('employee_stock') }}"> 
+                    <img src="{{ asset('build/images/adminSpace/stockJV.png') }}" alt="Stock JV" class="admin-icon">
+                    <h2>Stock Jeux Vidéo</h2>
+                </a>
+            </div>
+
+            <!-- Section Commandes en attente (par agence) -->
+            <div class="admin-section">
+                <a href="{{ path('employee_orders') }}"> 
+                    <img src="{{ asset('build/images/adminSpace/employeIcon.png') }}" alt="Commandes en attente" class="admin-icon">
+                    <h2>Commandes en attente</h2>
+                </a>
+            </div>
+        </div>
+    </div>
+{% endblock %}

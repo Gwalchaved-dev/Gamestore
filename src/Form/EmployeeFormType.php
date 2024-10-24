@@ -8,6 +8,7 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType; // Utiliser EntityType pour le
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType; // Import du champ EmailType
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -21,6 +22,9 @@ class EmployeeFormType extends AbstractType
             ])
             ->add('prenom', TextType::class, [
                 'label' => 'Prénom',
+            ])
+            ->add('email', EmailType::class, [ // Ajout du champ email
+                'label' => 'Adresse Email',
             ])
             ->add('adresse', TextType::class, [
                 'label' => 'Adresse',
@@ -41,8 +45,7 @@ class EmployeeFormType extends AbstractType
                 'choice_label' => 'nom', // Utilisation du champ nom pour représenter l'agence
                 'label' => 'Agence', // Le label affiché dans le formulaire
                 'placeholder' => 'Sélectionner une agence', // Optionnel, une première option vide
-            ])
-        ;
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

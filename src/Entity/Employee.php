@@ -15,7 +15,7 @@ class Employee implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'integer')]
     private $id;
 
-    #[ORM\Column(type: 'string', length: 180)]
+    #[ORM\Column(type: 'string', length: 180, unique: true)] // Ajout de l'unicité du nom
     private $nom;
 
     #[ORM\Column(type: 'string', length: 180)]
@@ -29,6 +29,9 @@ class Employee implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(type: 'string', length: 180)]
     private $ville;
+
+    #[ORM\Column(type: 'string', length: 180, unique: true)] // Ajout de l'email unique
+    private $email;
 
     #[ORM\Column(type: 'datetime')]
     private $createdAt;
@@ -44,7 +47,7 @@ class Employee implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\ManyToOne(targetEntity: Agence::class)]
     private $agence;
 
-    // Getters and setters...
+    // Getters et setters...
 
     public function getId(): ?int
     {
@@ -111,6 +114,18 @@ class Employee implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    public function getEmail(): ?string // Getter pour l'email
+    {
+        return $this->email;
+    }
+
+    public function setEmail(string $email): self // Setter pour l'email
+    {
+        $this->email = $email;
+
+        return $this;
+    }
+
     public function getCreatedAt(): ?\DateTimeInterface
     {
         return $this->createdAt;
@@ -127,9 +142,9 @@ class Employee implements UserInterface, PasswordAuthenticatedUserInterface
     {
         $roles = $this->roles;
 
-        // guarantee every user at least has ROLE_USER
-        if (empty($roles)) {
-            $roles[] = 'ROLE_USER';
+        // On s'assure que chaque employé a au moins le rôle EMPLOYEE
+        if (!in_array('ROLE_EMPLOYEE', $roles, true)) {
+            $roles[] = 'ROLE_EMPLOYEE';
         }
 
         return array_unique($roles);
@@ -178,7 +193,7 @@ class Employee implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    // Security-related methods
+    // Méthodes liées à la sécurité
     public function eraseCredentials(): void
     {
         $this->plainPassword = null;
@@ -186,6 +201,6 @@ class Employee implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function getUserIdentifier(): string
     {
-        return (string) $this->nom;
+        return (string) $this->email; // Utilisation de l'email pour l'identification
     }
 }
