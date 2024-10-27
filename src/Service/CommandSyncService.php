@@ -26,35 +26,45 @@ class CommandSyncService
         $validatedCommands = $this->entityManager->getRepository(Command::class)->findBy(['status' => 'validé']);
 
         foreach ($validatedCommands as $command) {
-            $saleDate = $command->getDate() ?? new \DateTime(); // Définit une date par défaut
+            // Vérification de l'existence de l'entité Game pour éviter les erreurs
+            $game = $command->getGame();
+            if (!$game) {
+                continue; // Si aucun jeu n'est associé, on passe à la commande suivante
+            }
+
+            // Assure que saleDate est défini; utilise la date actuelle par défaut
+            $saleDate = $command->getDate() ?? new \DateTime();
 
             // Synchronisation pour GameSales
             $gameSale = new GameSales(
-                $command->getGame()->getId(),         // gameId
-                $saleDate                             // saleDate
+                $game->getId(),         // gameId
+                $saleDate               // saleDate
             );
-            $gameSale->setCopiesSold($command->getQuantity());
-            $gameSale->setPricePerCopy($command->getGame()->getPrice());
+            $gameSale->setCopiesSold($command->getQuantity() ?? 0);
+            $gameSale->setPricePerCopy($game->getPrice() ?? 0.0);
             $this->dm->persist($gameSale);
 
             // Synchronisation pour AgencySales
-            $agencySale = new AgencySales(
-                $command->getAgence()->getId(),       // agencyId
-                $saleDate                             // saleDate
-            );
-            $agencySale->setCopiesSold($command->getQuantity());
-            $agencySale->setPricePerCopy($command->getGame()->getPrice());
-            $this->dm->persist($agencySale);
+            $agency = $command->getAgence();
+            if ($agency) { // Vérifie si l'agence existe
+                $agencySale = new AgencySales(
+                    $agency->getId(),   // agencyId
+                    $saleDate           // saleDate
+                );
+                $agencySale->setCopiesSold($command->getQuantity() ?? 0);
+                $agencySale->setPricePerCopy($game->getPrice() ?? 0.0);
+                $this->dm->persist($agencySale);
+            }
 
             // Synchronisation pour GenreSales
-            $genre = $command->getGame()->getGenre();
+            $genre = $game->getGenre();
             if ($genre) {
                 $genreSale = new GenreSales(
-                    $genre,                         // genre
-                    $saleDate                       // saleDate
+                    $genre,             // genre
+                    $saleDate           // saleDate
                 );
-                $genreSale->setCopiesSold($command->getQuantity());
-                $genreSale->setPricePerCopy($command->getGame()->getPrice());
+                $genreSale->setCopiesSold($command->getQuantity() ?? 0);
+                $genreSale->setPricePerCopy($game->getPrice() ?? 0.0);
                 $this->dm->persist($genreSale);
             }
         }

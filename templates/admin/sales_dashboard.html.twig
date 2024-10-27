@@ -47,7 +47,7 @@
             const salesDates = {{ sales_dates|json_encode|raw }};
             const copiesSoldData = [
                 {% for sale in sales %}
-                    {{ sale.copiesSold }},
+                    {{ sale.copiesSold is defined ? sale.copiesSold : 0 }},
                 {% endfor %}
             ];
 
