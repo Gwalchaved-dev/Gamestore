@@ -25,7 +25,7 @@
                         {% endfor %}
                     {% elseif filter_type == 'agency' %}
                         {% for agency in agencies %}
-                            <option value="{{ agency.agencyId }}" {% if filter_value == agency.agencyId %}selected{% endif %}>{{ agency.nom }}</option>
+                            <option value="{{ agency.id }}" {% if filter_value == agency.id %}selected{% endif %}>{{ agency.nom }}</option>
                         {% endfor %}
                     {% elseif filter_type == 'genre' %}
                         {% for genre in genres %}
@@ -40,24 +40,25 @@
         </div>
     </form>
 
-    {% if sales is defined and sales|length > 0 and sales_dates is defined %}
+    {% if sales is defined and sales|length > 0 and sales_dates is defined and sales_dates|length > 0 %}
         <canvas id="salesChart" width="400" height="150"></canvas>
 
         <script>
+            const salesDates = {{ sales_dates|json_encode|raw }};
+            const copiesSoldData = [
+                {% for sale in sales %}
+                    {{ sale.copiesSold }},
+                {% endfor %}
+            ];
+
             const salesData = {
-                labels: {{ sales_dates|json_encode|raw }},
+                labels: salesDates,
                 datasets: [{
                     label: 'Sales for {{ filter_value }}',
                     backgroundColor: 'rgba(75, 192, 192, 0.2)',
                     borderColor: 'rgba(75, 192, 192, 1)',
                     borderWidth: 1,
-                    data: [
-                        {% for sale in sales %}
-                            {{ sale.copiesSold }},
-                        {% else %}
-                            0
-                        {% endfor %}
-                    ]
+                    data: copiesSoldData
                 }]
             };
 

@@ -8,7 +8,6 @@ use App\Entity\Command;
 use App\Document\GameSales;
 use App\Document\AgencySales;
 use App\Document\GenreSales;
-use App\Entity\CartJeuxVideos;
 
 class CommandSyncService
 {
@@ -27,41 +26,39 @@ class CommandSyncService
         $validatedCommands = $this->entityManager->getRepository(Command::class)->findBy(['status' => 'validé']);
 
         foreach ($validatedCommands as $command) {
-            foreach ($command->getCartJeuxVideos() as $cartJeuxVideo) {
-                $game = $cartJeuxVideo->getJeuxVideo();
+            $saleDate = $command->getDate() ?? new \DateTime(); // Définit une date par défaut
 
-                if ($game) {
-                    // Exemple de synchronisation pour GameSales
-                    $gameSale = new GameSales();
-                    $gameSale->setGameId($game->getId());
-                    $gameSale->setSaleDate($command->getDate());
-                    $gameSale->setCopiesSold($cartJeuxVideo->getQuantite());
+            // Synchronisation pour GameSales
+            $gameSale = new GameSales(
+                $command->getGame()->getId(),         // gameId
+                $saleDate                             // saleDate
+            );
+            $gameSale->setCopiesSold($command->getQuantity());
+            $gameSale->setPricePerCopy($command->getGame()->getPrice());
+            $this->dm->persist($gameSale);
 
-                    // Ajout de l'agence
-                    if ($command->getAgence()) {
-                        $agencySale = new AgencySales();
-                        $agencySale->setAgencyId($command->getAgence()->getId());
-                        $agencySale->setSaleDate($command->getDate());
-                        $agencySale->setCopiesSold($cartJeuxVideo->getQuantite());
-                        $this->dm->persist($agencySale);
-                    }
+            // Synchronisation pour AgencySales
+            $agencySale = new AgencySales(
+                $command->getAgence()->getId(),       // agencyId
+                $saleDate                             // saleDate
+            );
+            $agencySale->setCopiesSold($command->getQuantity());
+            $agencySale->setPricePerCopy($command->getGame()->getPrice());
+            $this->dm->persist($agencySale);
 
-                    // Ajout du genre si disponible
-                    if ($game->getGenre()) {
-                        $genreSale = new GenreSales();
-                        $genreSale->setGenre($game->getGenre());
-                        $genreSale->setSaleDate($command->getDate());
-                        $genreSale->setCopiesSold($cartJeuxVideo->getQuantite());
-                        $this->dm->persist($genreSale);
-                    }
-
-                    // Persist le document GameSales
-                    $this->dm->persist($gameSale);
-                }
+            // Synchronisation pour GenreSales
+            $genre = $command->getGame()->getGenre();
+            if ($genre) {
+                $genreSale = new GenreSales(
+                    $genre,                         // genre
+                    $saleDate                       // saleDate
+                );
+                $genreSale->setCopiesSold($command->getQuantity());
+                $genreSale->setPricePerCopy($command->getGame()->getPrice());
+                $this->dm->persist($genreSale);
             }
         }
 
-        // Enregistre toutes les modifications dans MongoDB
         $this->dm->flush();
     }
 }

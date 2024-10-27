@@ -8,23 +8,32 @@ use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 class GenreSales
 {
     #[ODM\Id]
-    private $id;
+    private string $id;
 
     #[ODM\Field(type: "string")]
-    private ?string $genre = null;
+    private string $genre;
 
     #[ODM\Field(type: "date")]
     private ?\DateTimeInterface $saleDate = null;
 
     #[ODM\Field(type: "int")]
-    private ?int $copiesSold = null;
+    private int $copiesSold = 0;
 
-    public function getId()
+    #[ODM\Field(type: "float")]
+    private float $pricePerCopy = 0.0;
+
+    public function __construct(string $genre, \DateTimeInterface $saleDate)
+    {
+        $this->genre = $genre;
+        $this->saleDate = $saleDate;
+    }
+
+    public function getId(): ?string
     {
         return $this->id;
     }
 
-    public function getGenre(): ?string
+    public function getGenre(): string
     {
         return $this->genre;
     }
@@ -35,7 +44,7 @@ class GenreSales
         return $this;
     }
 
-    public function getSaleDate(): ?\DateTimeInterface
+    public function getSaleDate(): \DateTimeInterface
     {
         return $this->saleDate;
     }
@@ -46,7 +55,7 @@ class GenreSales
         return $this;
     }
 
-    public function getCopiesSold(): ?int
+    public function getCopiesSold(): int
     {
         return $this->copiesSold;
     }
@@ -55,5 +64,21 @@ class GenreSales
     {
         $this->copiesSold = $copiesSold;
         return $this;
+    }
+
+    public function getPricePerCopy(): float
+    {
+        return $this->pricePerCopy;
+    }
+
+    public function setPricePerCopy(float $pricePerCopy): self
+    {
+        $this->pricePerCopy = $pricePerCopy;
+        return $this;
+    }
+
+    public function getTotalRevenue(): float
+    {
+        return $this->copiesSold * $this->pricePerCopy;
     }
 }
