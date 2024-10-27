@@ -3,56 +3,49 @@
 {% block title %}Sales Dashboard{% endblock %}
 
 {% block body %}
-    <div class="container mt-5">
-        <h1>Sales Dashboard</h1>
+<div class="container mt-5">
+    <h1>Sales Dashboard</h1>
 
-        <!-- Filter Form -->
-        <form id="filter-form" method="get" class="mb-3">
-            <div class="row">
-                <div class="col-md-6">
-                    <label for="filter-type">Filter by:</label>
-                    <select id="filter-type" name="filter_type" class="form-control">
-                        <option value="game" {% if filter_type == 'game' %}selected{% endif %}>Game</option>
-                        <option value="agency" {% if filter_type == 'agency' %}selected{% endif %}>Agency</option>
-                        <option value="genre" {% if filter_type == 'genre' %}selected{% endif %}>Genre</option>
-                    </select>
-                </div>
-
-                <div class="col-md-6">
-                    <label for="filter-value">Select:</label>
-                    <select id="filter-value" name="filter_value" class="form-control">
-                        {% if filter_type == 'game' %}
-                            {% for game in games %}
-                                <option value="{{ game.id }}" {% if filter_value == game.id %}selected{% endif %}>{{ game.titre }}</option>
-                            {% endfor %}
-                        {% elseif filter_type == 'agency' %}
-                            {% for agency in agencies %}
-                                <option value="{{ agency.agencyId }}" {% if filter_value == agency.agencyId %}selected{% endif %}>{{ agency.nom }}</option>
-                            {% endfor %}
-                        {% elseif filter_type == 'genre' %}
-                            {% for genre in genres %}
-                                <option value="{{ genre }}" {% if filter_value == genre %}selected{% endif %}>{{ genre }}</option>
-                            {% endfor %}
-                        {% endif %}
-                    </select>
-                </div>
+    <form id="filter-form" method="get" class="mb-3">
+        <div class="row">
+            <div class="col-md-6">
+                <label for="filter-type">Filter by:</label>
+                <select id="filter-type" name="filter_type" class="form-control">
+                    <option value="game" {% if filter_type == 'game' %}selected{% endif %}>Game</option>
+                    <option value="agency" {% if filter_type == 'agency' %}selected{% endif %}>Agency</option>
+                    <option value="genre" {% if filter_type == 'genre' %}selected{% endif %}>Genre</option>
+                </select>
             </div>
-
-            <div class="mt-4">
-                <button type="submit" class="btn btn-primary">Apply Filter</button>
+            <div class="col-md-6">
+                <label for="filter-value">Select:</label>
+                <select id="filter-value" name="filter_value" class="form-control">
+                    {% if filter_type == 'game' %}
+                        {% for game in games %}
+                            <option value="{{ game.id }}" {% if filter_value == game.id %}selected{% endif %}>{{ game.titre }}</option>
+                        {% endfor %}
+                    {% elseif filter_type == 'agency' %}
+                        {% for agency in agencies %}
+                            <option value="{{ agency.agencyId }}" {% if filter_value == agency.agencyId %}selected{% endif %}>{{ agency.nom }}</option>
+                        {% endfor %}
+                    {% elseif filter_type == 'genre' %}
+                        {% for genre in genres %}
+                            <option value="{{ genre }}" {% if filter_value == genre %}selected{% endif %}>{{ genre }}</option>
+                        {% endfor %}
+                    {% endif %}
+                </select>
             </div>
-        </form>
+        </div>
+        <div class="mt-4">
+            <button type="submit" class="btn btn-primary">Apply Filter</button>
+        </div>
+    </form>
 
-        <!-- Sales Chart -->
+    {% if sales is defined and sales|length > 0 and sales_dates is defined %}
         <canvas id="salesChart" width="400" height="150"></canvas>
 
         <script>
-            document.getElementById('filter-type').addEventListener('change', function () {
-                document.getElementById('filter-form').submit();
-            });
-
             const salesData = {
-                labels: {{ sales_dates|json_encode }},
+                labels: {{ sales_dates|json_encode|raw }},
                 datasets: [{
                     label: 'Sales for {{ filter_value }}',
                     backgroundColor: 'rgba(75, 192, 192, 0.2)',
@@ -69,17 +62,16 @@
             };
 
             const ctx = document.getElementById('salesChart').getContext('2d');
-            const salesChart = new Chart(ctx, {
+            new Chart(ctx, {
                 type: 'line',
                 data: salesData,
                 options: {
-                    scales: {
-                        y: {
-                            beginAtZero: true
-                        }
-                    }
+                    scales: { y: { beginAtZero: true }}
                 }
             });
         </script>
-    </div>
+    {% else %}
+        <p class="text-warning">No sales data available for the selected filter.</p>
+    {% endif %}
+</div>
 {% endblock %}

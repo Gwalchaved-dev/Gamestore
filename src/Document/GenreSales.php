@@ -11,20 +11,15 @@ class GenreSales
     private $id;
 
     #[ODM\Field(type: "string")]
-    private $genre; // Genre de jeu
-
-    #[ODM\Field(type: "int")]
-    private $totalCopiesSold; // Nombre total d'exemplaires vendus pour ce genre
-
-    #[ODM\Field(type: "float")]
-    private $totalRevenue; // Revenu total généré par ce genre
+    private ?string $genre = null;
 
     #[ODM\Field(type: "date")]
-    private $saleDate; // Date des ventes
+    private ?\DateTimeInterface $saleDate = null;
 
-    // Getters et setters...
+    #[ODM\Field(type: "int")]
+    private ?int $copiesSold = null;
 
-    public function getId(): ?string
+    public function getId()
     {
         return $this->id;
     }
@@ -40,36 +35,25 @@ class GenreSales
         return $this;
     }
 
-    public function getTotalCopiesSold(): ?int
-    {
-        return $this->totalCopiesSold;
-    }
-
-    public function setTotalCopiesSold(int $totalCopiesSold): self
-    {
-        $this->totalCopiesSold = $totalCopiesSold;
-        return $this;
-    }
-
-    public function getTotalRevenue(): ?float
-    {
-        return $this->totalRevenue;
-    }
-
-    public function setTotalRevenue(float $totalRevenue): self
-    {
-        $this->totalRevenue = $totalRevenue;
-        return $this;
-    }
-
-    public function getSaleDate(): ?\DateTime
+    public function getSaleDate(): ?\DateTimeInterface
     {
         return $this->saleDate;
     }
 
-    public function setSaleDate(\DateTime $saleDate): self
+    public function setSaleDate(\DateTimeInterface $saleDate): self
     {
         $this->saleDate = $saleDate;
+        return $this;
+    }
+
+    public function getCopiesSold(): ?int
+    {
+        return $this->copiesSold;
+    }
+
+    public function setCopiesSold(int $copiesSold): self
+    {
+        $this->copiesSold = $copiesSold;
         return $this;
     }
 }

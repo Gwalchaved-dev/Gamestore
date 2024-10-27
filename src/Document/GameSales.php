@@ -10,49 +10,39 @@ class GameSales
     #[ODM\Id]
     private $id;
 
-    #[ODM\Field(type: "string")]
-    private $gameId; // Référence à l'entité Game (jeu vidéo) dans MySQL
-
-    #[ODM\Field(type: "string")]
-    private $genre; // Genre du jeu (par exemple, RPG, FPS)
-
     #[ODM\Field(type: "int")]
-    private $copiesSold; // Nombre d'exemplaires vendus
-
-    #[ODM\Field(type: "float")]
-    private $totalRevenue; // Revenu total généré par ce jeu
+    private ?int $gameId = null;
 
     #[ODM\Field(type: "date")]
-    private $saleDate; // Date de la vente
+    private ?\DateTimeInterface $saleDate = null;
 
-    // Getters et setters...
+    #[ODM\Field(type: "int")]
+    private ?int $copiesSold = null;
 
-    public function getId(): ?string
+    public function getId()
     {
         return $this->id;
     }
 
-    public function getGameId(): ?string
+    public function getGameId(): ?int
     {
         return $this->gameId;
     }
 
-    public function setGameId(string $gameId): self
+    public function setGameId(int $gameId): self
     {
         $this->gameId = $gameId;
-
         return $this;
     }
 
-    public function getGenre(): ?string
+    public function getSaleDate(): ?\DateTimeInterface
     {
-        return $this->genre;
+        return $this->saleDate;
     }
 
-    public function setGenre(string $genre): self
+    public function setSaleDate(\DateTimeInterface $saleDate): self
     {
-        $this->genre = $genre;
-
+        $this->saleDate = $saleDate;
         return $this;
     }
 
@@ -64,31 +54,6 @@ class GameSales
     public function setCopiesSold(int $copiesSold): self
     {
         $this->copiesSold = $copiesSold;
-
-        return $this;
-    }
-
-    public function getTotalRevenue(): ?float
-    {
-        return $this->totalRevenue;
-    }
-
-    public function setTotalRevenue(float $totalRevenue): self
-    {
-        $this->totalRevenue = $totalRevenue;
-
-        return $this;
-    }
-
-    public function getSaleDate(): ?\DateTime
-    {
-        return $this->saleDate;
-    }
-
-    public function setSaleDate(\DateTime $saleDate): self
-    {
-        $this->saleDate = $saleDate;
-
         return $this;
     }
 }

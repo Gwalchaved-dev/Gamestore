@@ -18,7 +18,7 @@ class CartJeuxVideos
     #[ORM\ManyToOne(targetEntity: ShoppingCart::class, inversedBy: 'cartJeuxVideos')]
     private ?ShoppingCart $shoppingCart = null;
 
-    #[ORM\ManyToOne(targetEntity: Command::class, inversedBy: 'cartJeuxVideos')]  // Ajout de la relation avec Command
+    #[ORM\ManyToOne(targetEntity: Command::class, inversedBy: 'cartJeuxVideos')]
     private ?Command $command = null;
 
     #[ORM\Column(type: 'integer')]
@@ -37,7 +37,6 @@ class CartJeuxVideos
     public function setJeuxVideo(?JeuxVideos $jeuxVideo): self
     {
         $this->jeuxVideo = $jeuxVideo;
-
         return $this;
     }
 
@@ -49,7 +48,6 @@ class CartJeuxVideos
     public function setShoppingCart(?ShoppingCart $shoppingCart): self
     {
         $this->shoppingCart = $shoppingCart;
-
         return $this;
     }
 
@@ -61,11 +59,9 @@ class CartJeuxVideos
     public function setQuantite(int $quantite): self
     {
         $this->quantite = $quantite;
-
         return $this;
     }
 
-    // Ajout des méthodes setCommand et getCommand
     public function getCommand(): ?Command
     {
         return $this->command;
@@ -74,7 +70,6 @@ class CartJeuxVideos
     public function setCommand(?Command $command): self
     {
         $this->command = $command;
-
         return $this;
     }
 }

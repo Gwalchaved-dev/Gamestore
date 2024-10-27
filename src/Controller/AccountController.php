@@ -11,24 +11,41 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Psr\Log\LoggerInterface;
 
 class AccountController extends AbstractController
 {
+    private LoggerInterface $logger;
+
+    public function __construct(LoggerInterface $logger)
+    {
+        $this->logger = $logger;
+    }
+
     #[Route('/account', name: 'account')]
     public function index(Request $request, Security $security, EntityManagerInterface $entityManager): Response
     {
         $user = $security->getUser();
 
-        // Redirection vers la page de connexion si l'utilisateur n'est pas connecté
+        $this->logger->info('Current user: ' . ($user ? $user->getUserIdentifier() : 'None'));
+        $this->logger->info('User roles: ' . implode(', ', $user ? $user->getRoles() : []));
+
         if (!$user || !$user instanceof User) {
+            $this->logger->info('Redirecting to login page');
             return $this->redirectToRoute('app_login');
         }
 
-        // Redirige les administrateurs vers la page admin
+        if ($this->isGranted('ROLE_EMPLOYEE')) {
+            $this->logger->info('Redirecting to employee space');
+            return $this->redirectToRoute('app_employee');
+        }
+
         if ($this->isGranted('ROLE_ADMIN')) {
+            $this->logger->info('Redirecting to admin space');
             return $this->redirectToRoute('app_admin');
         }
 
+        $this->logger->info('Rendering account page');
         return $this->render('account/account.html.twig', [
             'user' => $user,
         ]);
@@ -43,7 +60,6 @@ class AccountController extends AbstractController
             return $this->redirectToRoute('app_login');
         }
 
-        // Liste des champs autorisés à être modifiés
         $allowedFields = ['email', 'nom', 'prenom', 'adresse_postale', 'codepostal', 'ville'];
         
         if (!in_array($field, $allowedFields)) {
@@ -65,7 +81,7 @@ class AccountController extends AbstractController
                     $user->setPrenom($newValue);
                     break;
                 case 'adresse_postale':
-                    $user->setAdressePostale($newValue);  // Modification ici pour utiliser `adresse_postale`
+                    $user->setAdressePostale($newValue);
                     break;
                 case 'codepostal':
                     $user->setCodepostal($newValue);
@@ -105,13 +121,10 @@ class AccountController extends AbstractController
             return $this->redirectToRoute('account');
         }
 
-        // Assurez-vous que $user implémente PasswordAuthenticatedUserInterface
         if ($user instanceof PasswordAuthenticatedUserInterface) {
-            // Encodage et mise à jour du mot de passe
             $hashedPassword = $passwordHasher->hashPassword($user, $newPassword);
             $user->setPassword($hashedPassword);
 
-            // Persiste l'utilisateur avec le nouveau mot de passe
             $entityManager->persist($user);
             $entityManager->flush();
 

@@ -37,12 +37,12 @@ security:
                 httponly: true
 
         employee_area:
-            provider: employee_provider  # Le bon provider pour l'Employee
+            provider: employee_provider
             pattern: ^/employee
-            custom_authenticator: App\Security\UserAuthenticator  # Utilisation du même authenticator pour l'Employee
+            custom_authenticator: App\Security\UserAuthenticator
             logout:
-                path: employee_logout
-                target: employee_login
+                path: app_logout
+                target: app_homepage
             remember_me:
                 secret: '%kernel.secret%'
                 lifetime: 604800

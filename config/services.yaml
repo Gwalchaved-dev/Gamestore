@@ -24,14 +24,14 @@ services:
     # Connexion MongoDB ODM
     doctrine_mongodb.odm.document_manager:
         class: Doctrine\ODM\MongoDB\DocumentManager
-        factory: ['Doctrine\ODM\MongoDB\DocumentManager', 'create'] # Utilisation de la méthode 'create'
+        factory: ['Doctrine\ODM\MongoDB\DocumentManager', 'create']
         arguments:
             - '@doctrine_mongodb.odm.connection'
             - '@doctrine_mongodb.odm.configuration'
             - '@doctrine_mongodb.odm.event_manager'
 
     doctrine_mongodb.odm.connection:
-        class: MongoDB\Client  # Utilisation de MongoDB\Client pour la connexion MongoDB
+        class: MongoDB\Client
         arguments:
             - '%env(MONGODB_URL)%'
 
@@ -40,14 +40,14 @@ services:
         calls:
             - [setDefaultDB, ['%env(MONGODB_DB)%']]
             - [setMetadataDriverImpl, ['@doctrine_mongodb.odm.metadata_driver']]
-            - [setHydratorDir, ['%kernel.cache_dir%/doctrine/odm/hydrators']]  # Répertoire pour les hydrators
-            - [setHydratorNamespace, ['Hydrators']]  # Namespace pour les hydrators
+            - [setHydratorDir, ['%kernel.cache_dir%/doctrine/odm/hydrators']]
+            - [setHydratorNamespace, ['Hydrators']]
 
-    # Pour l'utilisation des attributes (correspondant à ta configuration dans doctrine_mongodb.yaml)
+    # Pour l'utilisation des attributes
     doctrine_mongodb.odm.metadata_driver:
         class: Doctrine\ODM\MongoDB\Mapping\Driver\AttributeDriver
         arguments:
-            - ['%kernel.project_dir%/src/Document']  # Répertoire des documents MongoDB
+            - ['%kernel.project_dir%/src/Document']
 
     doctrine_mongodb.odm.event_manager:
         class: Doctrine\Common\EventManager
@@ -56,3 +56,18 @@ services:
     App\EventSubscriber\SomeOtherSubscriber:
         tags:
             - { name: 'doctrine_mongodb.odm.event_subscriber', event: 'some_event' }
+
+    # LoginRedirectListener configuration pour la redirection après login
+    App\EventListener\LoginRedirectListener:
+        tags:
+            - { name: 'kernel.event_listener', event: 'security.interactive_login', method: 'onSecurityInteractiveLogin' }
+
+    # RedirectAdminListener configuration pour rediriger les administrateurs
+    App\EventListener\RedirectAdminListener:
+        tags:
+            - { name: 'kernel.event_listener', event: 'kernel.request', method: 'onKernelRequest' }
+
+    # RedirectEmployeeListener configuration pour rediriger les employés
+    App\EventListener\RedirectEmployeeListener:
+        tags:
+            - { name: 'kernel.event_listener', event: 'kernel.request', method: 'onKernelRequest' }
