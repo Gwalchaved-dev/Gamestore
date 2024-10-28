@@ -330,15 +330,17 @@ h2{
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   border: #00bfff;
+  background-color: rgba(0, 0, 0, 0.8);
 }
 
 .card-img-top {
-  height: 200px;
+  height: 400px;
   object-fit: cover;
 }
 
 .card-body {
   text-align: center;
+  height: 300px;
 }
 
 .btn-primary {
@@ -346,13 +348,13 @@ h2{
   border-color: #007bff;
 }
 
-/*MODALS pr fiche jeux*/
+/* MODALS pr fiche jeux */
 .modal-img {
-  max-width: 100%; /* Cela limite la largeur de l'image à 100% de la largeur de la modal */
+  max-width: 100%; /* Limite la largeur de l'image à 100% de la modal */
   height: auto; /* Garde les proportions de l'image */
-  max-height: 400px; /* Optionnel : cela limite la hauteur maximale de l'image */
+  max-height: 400px; /* Hauteur maximale de l'image */
   margin: 0 auto; /* Centre l'image horizontalement */
-  display: block; /* Assure que l'image se comporte comme un bloc */
+  display: block; /* Comporte l'image comme un bloc */
 }
 
 .modal-body .main-image img {
@@ -364,12 +366,18 @@ h2{
   margin-right: 10px;
 }
 
-.modal-body .game-description, .modal-body .game-price {
+.modal-body .game-description {
   margin-top: 20px;
 }
 
+.modal-body .game-price {
+  margin-top: 20px;
+  font-size: 1.5em; /* Agrandir le texte du prix */
+  color: #ff5722; /* Changer la couleur pour attirer l'attention */
+  font-weight: bold;
+}
+
 /* Mise en page des formulaires */
-/* Centrer le contenu verticalement et horizontalement */
 .centered-container {
   display: flex;
   justify-content: center;
@@ -380,7 +388,7 @@ h2{
 }
 
 .form-container {
-  background-color: rgba(0, 0, 0, 0.8); /* Conserve la boîte noire */
+  background-color: rgba(0, 0, 0, 0.8); 
   padding: 20px;
   border-radius: 8px;
   width: 100%;
@@ -537,7 +545,7 @@ h1 {
 /* Boutons */
 .btn {
   padding: 10px 20px;
-  background-color: #28a745;
+  background-color: #007bff;
   color: white;
   border: none;
   border-radius: 5px;
@@ -545,7 +553,7 @@ h1 {
 }
 
 .btn:hover {
-  background-color: #218838;
+  background-color: #b01717;
 }
 
 /* Page account - compte client*/

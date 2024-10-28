@@ -12,7 +12,6 @@
             <div class="row justify-content-center mb-4">
                 <div class="col-md-8">
                     <form method="get" action="{{ path('galerie') }}" class="d-flex justify-content-between">
-                        
                         <div class="form-group me-3">
                             <label for="genre" class="form-label sarpanch-semibold" style="color: #fff;">Genre</label>
                             <select name="genre" id="genre" class="form-select">
@@ -25,7 +24,6 @@
                             </select>
                         </div>
 
-                        {# Ajout du filtre par prix #}
                         <div class="form-group me-3">
                             <label for="prix" class="form-label sarpanch-semibold" style="color: #fff;">Prix</label>
                             <select name="prix" id="prix" class="form-select">
@@ -60,7 +58,8 @@
                         <img src="{{ asset('uploads/images/' ~ jeu.image) }}" class="card-img-top" alt="{{ jeu.titre }}">
                         <div class="card-body">
                             <h5 class="card-title sarpanch-semibold">{{ jeu.titre }}</h5>
-                            <p class="card-text pt-mono-regular">{{ jeu.description|slice(0, 100) }}...</p>
+                            <p class="card-text pt-mono-regular">{{ jeu.description|default('Aucune description disponible')|slice(0, 100) }}...</p>
+                            <p class="card-text sarpanch-semibold" style="font-size: 1.5em; color: #007bff;">Prix : {{ jeu.prix is defined ? jeu.prix ~ '€' : 'Non spécifié' }}</p>
                             <button type="button" class="btn btn-primary sarpanch-semibold" data-bs-toggle="modal" data-bs-target="#gameModal{{ jeu.id }}">Voir fiche</button>
                         </div>
                     </div>
@@ -80,7 +79,6 @@
                                 </div>
                                 <div class="details" style="flex: 1; padding-left: 20px;">
                                     <div class="image-gallery d-flex justify-content-center mb-3">
-                                        {# Images supplémentaires avec la possibilité de changer l'image principale #}
                                         {% if jeu.secondImage %}
                                             <img src="{{ asset('uploads/images/' ~ jeu.secondImage) }}" class="img-thumbnail selectable-img" alt="{{ jeu.titre }}" data-main-image="#mainImage{{ jeu.id }}" style="width: 50px;">
                                         {% endif %}
@@ -88,23 +86,20 @@
                                             <img src="{{ asset('uploads/images/' ~ jeu.thirdImage) }}" class="img-thumbnail selectable-img" alt="{{ jeu.titre }}" data-main-image="#mainImage{{ jeu.id }}" style="width: 50px;">
                                         {% endif %}
                                     </div>
-                                    <p class="game-description pt-mono-regular">{{ jeu.description }}</p>
-                                    <p class="game-price sarpanch-semibold">Prix : {{ jeu.prix }}€</p>
+                                    <p class="game-description pt-mono-regular">{{ jeu.description|default('Aucune description disponible') }}</p>
+                                    <p class="game-price sarpanch-semibold" style="font-size: 1.5em; color: #007bff;">Prix : {{ jeu.prix is defined ? jeu.prix : 'Non spécifié' }}€</p>
                                 </div>
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Fermer</button>
 
-                                {# Vérifier si l'utilisateur est authentifié ou non #}
                                 {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
-                                    {# Si l'utilisateur est connecté, afficher le bouton "Acheter" #}
                                     <form method="post" action="{{ path('ajouter_panier', {id: jeu.id}) }}">
                                         <button type="submit" class="btn btn-primary">Acheter</button>
                                     </form>
                                 {% else %}
-                                    {# Si l'utilisateur n'est pas connecté, proposer l'inscription ou connexion #}
                                     <a href="{{ path('app_login') }}" class="btn btn-primary">Se connecter</a>
-                                    <a href="{{ path('app_register') }}" class="btn btn-secondary">S'inscrire</a>
+                                    <a href="{{ path('app_register') }}" class="btn btn-primary">S'inscrire</a>
                                 {% endif %}
                             </div>
                         </div>
@@ -115,6 +110,5 @@
         </div>
     </section>
 
-    {# Inclusion du script JavaScript pour gérer le changement d'image dans la modal #}
     <script src="{{ asset('build/galerieModal.js') }}"></script>
 {% endblock %}

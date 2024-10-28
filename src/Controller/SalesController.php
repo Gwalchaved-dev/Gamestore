@@ -22,10 +22,9 @@ class SalesController extends AbstractController
         // Récupérer les jeux depuis MySQL
         $games = $entityManager->getRepository(JeuxVideos::class)->findAll();
         
-        // Vérifie si des jeux existent dans MySQL, sinon retourne un message d'erreur
         if (!$games) {
             $this->addFlash('warning', 'Aucun jeu trouvé dans la base de données MySQL.');
-            return $this->redirectToRoute('admin_dashboard'); // Remplace par la route adéquate
+            return $this->redirectToRoute('admin_dashboard'); // Assurez-vous que cette route existe
         }
 
         // Récupérer les agences depuis MySQL
@@ -34,20 +33,18 @@ class SalesController extends AbstractController
         // Récupérer les statistiques de ventes par jeu (MongoDB)
         $gameSales = $documentManager->getRepository(GameSales::class)->findAll();
 
-        // Insérer des statistiques de ventes par jeu dans MongoDB (si nécessaire)
+        // Insérer des statistiques de ventes par jeu dans MongoDB si elles n'existent pas
         foreach ($games as $game) {
             $existingGameSale = $documentManager->getRepository(GameSales::class)->findOneBy(['gameId' => $game->getId()]);
             
-            // Si les statistiques n'existent pas encore pour ce jeu, on les crée
             if (!$existingGameSale) {
                 $newGameSale = new GameSales();
-                $newGameSale->setGameId($game->getId()); // Utiliser gameId pour référencer le jeu MySQL
-                $newGameSale->setGenre($game->getGenre()); // Suppose que le jeu a un genre défini
-                $newGameSale->setCopiesSold(mt_rand(100, 1000)); // Exemple, tu peux définir une vraie valeur
-                $newGameSale->setTotalRevenue(mt_rand(10000, 100000)); // Exemple, valeur fictive
-                $newGameSale->setSaleDate(new \DateTime()); // Ajoute la date d'achat
+                $newGameSale->setGameId($game->getId());
+                $newGameSale->setGenre($game->getGenre());
+                $newGameSale->setCopiesSold(mt_rand(100, 1000));
+                $newGameSale->setTotalRevenue(mt_rand(10000, 100000));
+                $newGameSale->setSaleDate(new \DateTime());
 
-                // Persiste et flush les nouvelles données dans MongoDB
                 $documentManager->persist($newGameSale);
             }
         }
@@ -55,16 +52,12 @@ class SalesController extends AbstractController
         // Enregistrer les changements dans MongoDB
         $documentManager->flush();
 
-        // Récupérer les statistiques de ventes par genre (MongoDB)
+        // Récupérer les statistiques de ventes par genre et par agence depuis MongoDB
         $genreSales = $documentManager->getRepository(GenreSales::class)->findAll();
-
-        // Récupérer les statistiques de ventes par agence (MongoDB)
         $agencySales = $documentManager->getRepository(AgencySales::class)->findAll();
 
         // Récupérer les genres depuis les jeux (MySQL)
-        $genres = array_unique(array_map(function($game) {
-            return $game->getGenre();
-        }, $games));
+        $genres = array_unique(array_map(fn($game) => $game->getGenre(), $games));
 
         // Calcul des statistiques globales
         $totalSales = 0;
@@ -79,22 +72,20 @@ class SalesController extends AbstractController
                 $totalSales += $sale->getCopiesSold();
                 $totalRevenue += $sale->getTotalRevenue();
 
-                // Ajouter les dates et données de ventes
                 if ($sale->getSaleDate()) {
-                    $salesDates[] = $sale->getSaleDate()->format('Y-m-d'); // Date d'achat
-                    $salesData[] = $sale->getCopiesSold(); // Quantité vendue
+                    $salesDates[] = $sale->getSaleDate()->format('Y-m-d');
+                    $salesData[] = $sale->getCopiesSold();
                 }
             }
         }
 
-        // Vérifie également si les ventes par genre ou par agence existent
         if (!$genreSales || !$agencySales) {
             $this->addFlash('warning', 'Pas de statistiques de ventes disponibles.');
         }
 
         // Récupérer le filtre actuel de la requête ou définir une valeur par défaut
-        $filterType = $request->query->get('filter_type', 'game'); // Par défaut 'game'
-        $filterValue = $request->query->get('filter_value', ''); // Par défaut vide
+        $filterType = $request->query->get('filter_type', 'game');
+        $filterValue = $request->query->get('filter_value', '');
 
         return $this->render('admin/sales_dashboard.html.twig', [
             'games' => $games,
@@ -104,11 +95,11 @@ class SalesController extends AbstractController
             'agencySales' => $agencySales,
             'totalSales' => $totalSales,
             'totalRevenue' => $totalRevenue,
-            'filter_type' => $filterType,  // Ajout du filtre type
-            'filter_value' => $filterValue, // Ajout du filtre valeur
-            'sales_dates' => $salesDates,   // Ajout des dates de vente
-            'sales_data' => $salesData,     // Ajout des données de vente
-            'genres' => $genres,            // Ajout des genres ici
+            'filter_type' => $filterType,
+            'filter_value' => $filterValue,
+            'sales_dates' => $salesDates,
+            'sales_data' => $salesData,
+            'genres' => $genres,
         ]);
     }
 }
