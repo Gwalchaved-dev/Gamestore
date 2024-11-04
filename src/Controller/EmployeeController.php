@@ -45,7 +45,7 @@ class EmployeeController extends AbstractController
         $filterValue = $request->get('filter_value', null);
 
         // Synchroniser les commandes validées de MySQL vers MongoDB
-        $this->commandSyncService->syncValidatedCommands();
+        $this->commandSyncService->syncValidatedCommands(); // Correction ici
 
         $salesData = [];
         $salesDates = [];

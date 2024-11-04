@@ -13,6 +13,9 @@ class AgencySales
     #[ODM\Field(type: "string")]
     private string $agencyId;
 
+    #[ODM\Field(type: "string")]
+    private ?string $nom = null;  // Ajout du champ "nom"
+
     #[ODM\Field(type: "date")]
     private ?\DateTimeInterface $saleDate = null;
 
@@ -22,10 +25,11 @@ class AgencySales
     #[ODM\Field(type: "float")]
     private float $pricePerCopy = 0.0;
 
-    public function __construct(string $agencyId, \DateTimeInterface $saleDate)
+    public function __construct(string $agencyId, \DateTimeInterface $saleDate, ?string $nom = null)
     {
         $this->agencyId = $agencyId;
         $this->saleDate = $saleDate;
+        $this->nom = $nom;
     }
 
     public function getId(): ?string
@@ -41,6 +45,17 @@ class AgencySales
     public function setAgencyId(string $agencyId): self
     {
         $this->agencyId = $agencyId;
+        return $this;
+    }
+
+    public function getNom(): ?string
+    {
+        return $this->nom;
+    }
+
+    public function setNom(?string $nom): self
+    {
+        $this->nom = $nom;
         return $this;
     }
 

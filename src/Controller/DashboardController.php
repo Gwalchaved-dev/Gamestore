@@ -36,15 +36,12 @@ class DashboardController extends AbstractController
 
         $this->logger->info("Filter type: $filterType, Filter value: $filterValue");
 
-        // Synchroniser les commandes validées de MySQL vers MongoDB
+        // Appel correct de la méthode `syncValidatedCommands`
         $this->commandSyncService->syncValidatedCommands();
 
         $salesData = [];
         $salesDates = [];
-        $games = [];
-        $agencies = [];
-        $genres = [];
-
+        
         // Récupérer les options de filtre
         $games = $jeuxRepository->findAll();
         $agencies = $dm->getRepository(AgencySales::class)->findAll();

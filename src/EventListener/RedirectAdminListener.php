@@ -9,8 +9,8 @@ use Symfony\Bundle\SecurityBundle\Security;
 
 class RedirectAdminListener
 {
-    private $security;
-    private $router;
+    private Security $security;
+    private RouterInterface $router;
 
     public function __construct(Security $security, RouterInterface $router)
     {
@@ -18,7 +18,7 @@ class RedirectAdminListener
         $this->router = $router;
     }
 
-    public function onKernelRequest(RequestEvent $event)
+    public function onKernelRequest(RequestEvent $event): void
     {
         // Récupérer l'utilisateur actuel
         $user = $this->security->getUser();
@@ -27,10 +27,10 @@ class RedirectAdminListener
         if ($user && $this->security->isGranted('ROLE_ADMIN')) {
             $request = $event->getRequest();
 
-            // Si l'utilisateur tente d'accéder à la page du compte
-            if ($request->get('_route') === 'app_account') {
-                // Rediriger vers la page d'administration
-                $adminUrl = $this->router->generate('admin_dashboard'); // Assurez-vous que la route existe
+            // Vérifie si l'utilisateur tente d'accéder à la page du compte
+            if ($request->attributes->get('_route') === 'app_account') {
+                // Redirige vers la page d'administration
+                $adminUrl = $this->router->generate('admin_dashboard'); // Assurez-vous que cette route existe dans vos routes
                 $event->setResponse(new RedirectResponse($adminUrl));
             }
         }

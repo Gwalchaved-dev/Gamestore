@@ -22,6 +22,9 @@ class GameSales
     #[ODM\Field(type: "float")]
     private float $pricePerCopy = 0.0;
 
+    #[ODM\Field(type: "float", nullable: true)]
+    private ?float $totalRevenue = null;
+
     #[ODM\Field(type: "string", nullable: true)]
     private ?string $genre = null;
 
@@ -94,9 +97,16 @@ class GameSales
         return $this;
     }
 
-    // Méthode pour obtenir le revenu total
+    // Méthode pour définir le revenu total
+    public function setTotalRevenue(float $totalRevenue): self
+    {
+        $this->totalRevenue = $totalRevenue;
+        return $this;
+    }
+
+    // Méthode pour obtenir le revenu total, calculé si non défini
     public function getTotalRevenue(): float
     {
-        return $this->copiesSold * $this->pricePerCopy;
+        return $this->totalRevenue ?? ($this->copiesSold * $this->pricePerCopy);
     }
 }

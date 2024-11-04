@@ -19,15 +19,15 @@
             <div class="col-md-6">
                 <label for="filter-value">Select:</label>
                 <select id="filter-value" name="filter_value" class="form-control">
-                    {% if filter_type == 'game' %}
+                    {% if filter_type == 'game' and games is defined %}
                         {% for game in games %}
                             <option value="{{ game.id }}" {% if filter_value == game.id %}selected{% endif %}>{{ game.titre }}</option>
                         {% endfor %}
-                    {% elseif filter_type == 'agency' %}
+                    {% elseif filter_type == 'agency' and agencies is defined %}
                         {% for agency in agencies %}
                             <option value="{{ agency.id }}" {% if filter_value == agency.id %}selected{% endif %}>{{ agency.nom }}</option>
                         {% endfor %}
-                    {% elseif filter_type == 'genre' %}
+                    {% elseif filter_type == 'genre' and genres is defined %}
                         {% for genre in genres %}
                             <option value="{{ genre }}" {% if filter_value == genre %}selected{% endif %}>{{ genre }}</option>
                         {% endfor %}
@@ -43,7 +43,11 @@
     {% if sales is defined and sales|length > 0 and sales_dates is defined and sales_dates|length > 0 %}
         <canvas id="salesChart" width="400" height="150"></canvas>
 
+        <!-- Inclusion de Chart.js -->
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
         <script>
+            // Préparation des données pour Chart.js
             const salesDates = {{ sales_dates|json_encode|raw }};
             const copiesSoldData = [
                 {% for sale in sales %}
@@ -51,6 +55,7 @@
                 {% endfor %}
             ];
 
+            // Configuration du graphique
             const salesData = {
                 labels: salesDates,
                 datasets: [{
@@ -62,12 +67,45 @@
                 }]
             };
 
+            // Initialisation de Chart.js
             const ctx = document.getElementById('salesChart').getContext('2d');
             new Chart(ctx, {
                 type: 'line',
                 data: salesData,
                 options: {
-                    scales: { y: { beginAtZero: true }}
+                    responsive: true,
+                    scales: {
+                        x: {
+                            type: 'time',
+                            time: {
+                                unit: 'day'
+                            },
+                            title: {
+                                display: true,
+                                text: 'Date'
+                            }
+                        },
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Copies Sold'
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: true,
+                            position: 'top'
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return `Copies Sold: ${context.parsed.y}`;
+                                }
+                            }
+                        }
+                    }
                 }
             });
         </script>
