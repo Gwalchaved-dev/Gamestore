@@ -1,18 +1,61 @@
+# Ignorer les fichiers de configuration sensibles
+.env
+.env.local
+.env.*.local
 
-###> symfony/framework-bundle ###
-/.env.local
-/.env.local.php
-/.env.*.local
-/config/secrets/prod/prod.decrypt.private.php
-/public/bundles/
+# Caches de Symfony
 /var/
 /vendor/
-###< symfony/framework-bundle ###
-node_modules
-
-###> symfony/webpack-encore-bundle ###
-/node_modules/
+/public/bundles/
 /public/build/
-npm-debug.log
-yarn-error.log
-###< symfony/webpack-encore-bundle ###
+
+# Dossiers de cache
+**/.DS_Store
+/.idea/
+/node_modules/
+/.cache/
+/logs/
+/tmp/
+/.cache-loader
+/.phpunit.result.cache
+
+# Fichiers de logs
+*.log
+*.test
+*.key
+*.pem
+
+# Dépendances de Composer
+/vendor/
+
+# Dépendances de Yarn ou NPM
+/node_modules/
+.pnp
+.pnp.js
+/yarn.lock
+package-lock.json
+
+# Cache de coverage
+/coverage/
+
+# Dossier d'uploads et autres fichiers générés dynamiquement
+/public/uploads/
+public/uploads/images/
+
+# Ignorer les fichiers de déploiement ou autres spécifiques à l'environnement
+.phpunit.result.cache
+.cache/
+phpunit.xml
+phpunit.xml.dist
+phpstan.neon
+phpstan.neon.dist
+.psalm
+php_cs.cache
+
+# Autres fichiers spécifiques à l'IDE
+/.idea
+.vscode/
+*.code-workspace
+
+# Ignorer les fichiers de build de Symfony encore manuels
+/public/build/

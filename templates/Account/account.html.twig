@@ -44,25 +44,33 @@
             <button type="submit" class="btn btn-success">Enregistrer</button>
         </form>
 
-        <h2 class='mt-4 text-center sarpanch-semibold' style="color: #ffff";>Historique des commandes</h2>
+        <h2 class="mt-4 text-center sarpanch-semibold" style="color: #ffff;">Historique des commandes</h2>
         <table class="table table-striped">
             <thead>
                 <tr>
                     <th>Date</th>
+                    <th>Nom du Jeu</th>
+                    <th>Quantité</th>
                     <th>Montant</th>
+                    <th>État</th>
                 </tr>
             </thead>
             <tbody>
-                {% for command in app.user.commands %}
-                    <tr>
-                        <td>{{ command.date|date('d/m/Y H:i') }}</td>
-                        <td>{{ command.total }}€</td>
-                    </tr>
+                {% if commands is not empty %}
+                    {% for command in commands %}
+                        <tr>
+                            <td>{{ command.date|date('d/m/Y H:i') }}</td>
+                            <td>{{ command.gameTitre is defined and command.gameTitre is not empty ? command.gameTitre : 'N/A' }}</td>
+                            <td>{{ command.quantite is defined and command.quantite is not empty ? command.quantite : 'N/A' }}</td>
+                            <td>{{ command.total }}€</td>
+                            <td>{{ command.status }}</td>
+                        </tr>
+                    {% endfor %}
                 {% else %}
                     <tr>
-                        <td colspan="2">Aucune commande.</td>
+                        <td colspan="5">Aucune commande.</td>
                     </tr>
-                {% endfor %}
+                {% endif %}
             </tbody>
         </table>
     </section>

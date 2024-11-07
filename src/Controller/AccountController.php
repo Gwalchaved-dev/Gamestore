@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Repository\CommandRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -16,14 +17,16 @@ use Psr\Log\LoggerInterface;
 class AccountController extends AbstractController
 {
     private LoggerInterface $logger;
+    private CommandRepository $commandRepository;
 
-    public function __construct(LoggerInterface $logger)
+    public function __construct(LoggerInterface $logger, CommandRepository $commandRepository)
     {
         $this->logger = $logger;
+        $this->commandRepository = $commandRepository;
     }
 
     #[Route('/account', name: 'account')]
-    public function index(Request $request, Security $security, EntityManagerInterface $entityManager): Response
+    public function index(Security $security): Response
     {
         $user = $security->getUser();
 
@@ -36,18 +39,23 @@ class AccountController extends AbstractController
         }
 
         if ($this->isGranted('ROLE_EMPLOYEE')) {
-            $this->logger->info('Redirecting to employee space');
             return $this->redirectToRoute('app_employee');
         }
 
         if ($this->isGranted('ROLE_ADMIN')) {
-            $this->logger->info('Redirecting to admin space');
             return $this->redirectToRoute('app_admin');
         }
+
+        // Récupération des commandes de l'utilisateur directement depuis la base de données
+        $commands = $this->commandRepository->findBy(['user' => $user]);
+
+        // Log pour vérifier les données des commandes récupérées
+        $this->logger->info('User Commands: ', ['commands' => $commands]);
 
         $this->logger->info('Rendering account page');
         return $this->render('account/account.html.twig', [
             'user' => $user,
+            'commands' => $commands,
         ]);
     }
 

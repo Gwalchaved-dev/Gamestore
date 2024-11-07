@@ -124,24 +124,24 @@ class Command
         return $this;
     }
 
-    // Nouvelle méthode pour obtenir tous les jeux associés à la commande
-    public function getGames(): Collection
+    /**
+     * Retourne les titres, genres et quantités pour chaque jeu dans la commande.
+     *
+     * @return array
+     */
+    public function getGamesTitlesAndQuantities(): array
     {
-        $games = new ArrayCollection();
+        $gamesData = [];
         foreach ($this->cartJeuxVideos as $cartJeuxVideo) {
-            $games->add($cartJeuxVideo->getJeuxVideo());
+            $jeuxVideo = $cartJeuxVideo->getJeuxVideo();
+            if ($jeuxVideo) {
+                $gamesData[] = [
+                    'titre' => $jeuxVideo->getTitre(),
+                    'genre' => $jeuxVideo->getGenre() ?? 'Inconnu', // On gère le cas où le genre est null
+                    'quantite' => $cartJeuxVideo->getQuantite()
+                ];
+            }
         }
-        return $games;
-    }
-
-    // Nouvelle méthode pour définir les jeux associés à la commande
-    public function setGames(array $games): self
-    {
-        foreach ($games as $game) {
-            $cartJeuxVideo = new CartJeuxVideos();
-            $cartJeuxVideo->setJeuxVideo($game);
-            $this->addCartJeuxVideo($cartJeuxVideo);
-        }
-        return $this;
+        return $gamesData;
     }
 }

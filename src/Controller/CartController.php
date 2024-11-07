@@ -27,27 +27,20 @@ class CartController extends AbstractController
     {
         $user = $security->getUser();
 
-        // Vérification si l'utilisateur est connecté et de type User
         if (!$user || !($user instanceof User)) {
             return $this->redirectToRoute('app_login');
         }
 
-        // Récupérer ou créer le panier de l'utilisateur
         $shoppingCart = $this->getOrCreateShoppingCart($user, $entityManager);
-
-        // Récupérer les articles du panier
         $cartItems = $shoppingCart->getCartJeuxVideos();
-        $agences = $agenceRepository->findAll();  // Récupérer toutes les agences
-
-        // Calculer le prix total du panier
+        $agences = $agenceRepository->findAll();
         $totalPrice = $this->calculateTotalPrice($cartItems);
 
-        // Afficher le template avec la modal du panier
         return $this->render('base.html.twig', [
             'cart_items' => $cartItems,
-            'cart_items_count' => count($cartItems),  // Nombre d'articles dans le panier
-            'agences' => $agences,  // Passer les agences à la vue
-            'total_price' => $totalPrice,  // Passer le prix total à la vue
+            'cart_items_count' => count($cartItems),
+            'agences' => $agences,
+            'total_price' => $totalPrice,
         ]);
     }
 
@@ -56,15 +49,11 @@ class CartController extends AbstractController
     {
         $user = $security->getUser();
 
-        // Vérification si l'utilisateur est connecté et de type User
         if (!$user || !($user instanceof User)) {
             return $this->redirectToRoute('app_login');
         }
 
-        // Récupérer ou créer le panier de l'utilisateur
         $shoppingCart = $this->getOrCreateShoppingCart($user, $entityManager);
-
-        // Récupérer les articles du panier
         $cartItems = $shoppingCart->getCartJeuxVideos();
 
         if ($cartItems->isEmpty()) {
@@ -72,7 +61,6 @@ class CartController extends AbstractController
             return $this->redirectToRoute('cart_show');
         }
 
-        // Récupérer l'agence sélectionnée (vérifier si elle existe)
         $agence = $entityManager->getRepository(Agence::class)->find($request->request->get('agencySelect'));
 
         if (!$agence) {
@@ -80,29 +68,29 @@ class CartController extends AbstractController
             return $this->redirectToRoute('cart_show');
         }
 
-        // Sauvegarder la commande en tant que Command et marquer les articles
         $order = new Command();
         $order->setUser($user);
-        $order->setDate(new \DateTime());  // Date de la commande
-        $order->setTotal($this->calculateTotalPrice($cartItems));  // Calculer le total
-        $order->setAgence($agence); // Agence sélectionnée
+        $order->setDate(new \DateTime());
+        $order->setTotal($this->calculateTotalPrice($cartItems));
+        $order->setAgence($agence);
 
+        // Ajout des titres et quantités des jeux dans la commande
         foreach ($cartItems as $item) {
-            $order->addCartJeuxVideo($item);  // Lier les items de commande
+            $order->addCartJeuxVideo($item);
+            $order->setGameTitre($item->getJeuxVideo()->getTitre());
+            $order->setQuantite($item->getQuantite());
             $entityManager->persist($item);
         }
 
-        // Persister la commande
         $entityManager->persist($order);
         $entityManager->flush();
 
-        // Envoi de l'e-mail de confirmation
         $email = (new Email())
-            ->from('no-reply@gamestore.com')  // L'adresse email de l'expéditeur
-            ->to($user->getEmail())  // L'adresse email du destinataire
+            ->from('no-reply@gamestore.com')
+            ->to($user->getEmail())
             ->subject('Confirmation de votre commande')
             ->html($this->renderView('email/confirmation_commande.html.twig', [
-                'user' => $user,  // Ajout de la variable user
+                'user' => $user,
                 'cartItems' => $cartItems,
                 'totalPrice' => $order->getTotal(),
                 'agence' => $order->getAgence(),
@@ -110,12 +98,67 @@ class CartController extends AbstractController
 
         $mailer->send($email);
 
-        // Vider le panier après la validation
         $shoppingCart->getCartJeuxVideos()->clear();
         $entityManager->persist($shoppingCart);
         $entityManager->flush();
 
-        $this->addFlash('success', 'Merci pour votre commande, elle a bien été prise en compte par nos services. Votre jeu vous attend dans l\'agence sélectionnée !');
+        $this->addFlash('success', 'Merci pour votre commande, elle a bien été prise en compte par nos services.');
+
+        return $this->redirectToRoute('account');
+    }
+
+    #[Route('/cart/checkout', name: 'cart_checkout', methods: ['POST'])]
+    public function checkout(Security $security, EntityManagerInterface $entityManager, MailerInterface $mailer): Response
+    {
+        $user = $security->getUser();
+
+        if (!$user || !($user instanceof User)) {
+            return $this->redirectToRoute('app_login');
+        }
+
+        $shoppingCart = $this->getOrCreateShoppingCart($user, $entityManager);
+        $cartItems = $shoppingCart->getCartJeuxVideos();
+
+        if ($cartItems->isEmpty()) {
+            $this->addFlash('error', 'Votre panier est vide.');
+            return $this->redirectToRoute('cart_show');
+        }
+
+        $order = new Command();
+        $order->setUser($user);
+        $order->setDate(new \DateTime());
+        $order->setTotal($this->calculateTotalPrice($cartItems));
+        $order->setAgence($entityManager->getRepository(Agence::class)->findOneBy(['id' => 1])); 
+
+        foreach ($cartItems as $item) {
+            $order->addCartJeuxVideo($item);
+            $order->setGameTitre($item->getJeuxVideo()->getTitre());
+            $order->setQuantite($item->getQuantite());
+            $item->setShoppingCart(null);
+            $entityManager->persist($item);
+        }
+
+        $entityManager->persist($order);
+        $entityManager->flush();
+
+        $email = (new Email())
+            ->from('no-reply@gamestore.com')
+            ->to($user->getEmail())
+            ->subject('Confirmation de votre commande')
+            ->html($this->renderView('email/confirmation_commande.html.twig', [
+                'user' => $user,
+                'cartItems' => $cartItems,
+                'totalPrice' => $order->getTotal(),
+                'agence' => $order->getAgence(),
+            ]));
+
+        $mailer->send($email);
+
+        $shoppingCart->getCartJeuxVideos()->clear();
+        $entityManager->persist($shoppingCart);
+        $entityManager->flush();
+
+        $this->addFlash('success', 'Merci pour votre commande, elle a bien été prise en compte.');
 
         return $this->redirectToRoute('account');
     }
@@ -124,29 +167,100 @@ class CartController extends AbstractController
     public function emptyCart(EntityManagerInterface $entityManager, Security $security): Response
     {
         $user = $security->getUser();
-    
-        // Vérification si l'utilisateur est connecté et de type User
+
         if (!$user || !($user instanceof User)) {
             return $this->json(['success' => false, 'error' => 'User not logged in'], 403);
         }
-    
-        // Récupérer le panier de l'utilisateur
+
         $shoppingCart = $user->getShoppingCart();
-    
-        // S'assurer que le panier existe
+
         if (!$shoppingCart) {
             return $this->json(['success' => false, 'error' => 'No shopping cart found'], 404);
         }
-    
-        // Vider le panier (suppression des éléments du panier)
+
         foreach ($shoppingCart->getCartJeuxVideos() as $cartItem) {
-            $entityManager->remove($cartItem); // Supprimer chaque élément du panier
+            $entityManager->remove($cartItem);
         }
-    
-        $entityManager->flush(); // Appliquer les modifications à la base de données
-    
-        // Envoyer une réponse JSON pour confirmer le succès de l'opération
+
+        $entityManager->flush();
+
         return $this->json(['success' => true]);
+    }
+
+    #[Route('/panier/ajouter/{id}', name: 'ajouter_panier', methods: ['POST'])]
+    public function ajouterAuPanier(int $id, EntityManagerInterface $entityManager, Security $security): Response
+    {
+        $user = $security->getUser();
+        if (!$user || !($user instanceof User)) {
+            return $this->redirectToRoute('app_login');
+        }
+
+        $shoppingCart = $this->getOrCreateShoppingCart($user, $entityManager);
+        $jeu = $entityManager->getRepository(JeuxVideos::class)->find($id);
+
+        if (!$jeu) {
+            throw $this->createNotFoundException('Le jeu vidéo n\'existe pas.');
+        }
+
+        $cartItem = $entityManager->getRepository(CartJeuxVideos::class)->findOneBy([
+            'shoppingCart' => $shoppingCart,
+            'jeuxVideo' => $jeu
+        ]);
+
+        if (!$cartItem) {
+            $cartItem = new CartJeuxVideos();
+            $cartItem->setShoppingCart($shoppingCart);
+            $cartItem->setJeuxVideo($jeu);
+            $cartItem->setQuantite(1);
+
+            $entityManager->persist($cartItem);
+        } else {
+            $cartItem->setQuantite($cartItem->getQuantite() + 1);
+        }
+
+        $entityManager->flush();
+
+        return $this->redirectToRoute('cart_show');
+    }
+
+    #[Route('/panier/update-quantite', name: 'update_cart_quantity', methods: ['POST'])]
+    public function updateQuantite(Request $request, EntityManagerInterface $entityManager, Security $security): Response
+    {
+        $user = $security->getUser();
+        if (!$user || !($user instanceof User)) {
+            return $this->json(['error' => 'User not logged in'], 403);
+        }
+
+        $data = json_decode($request->getContent(), true);
+        $itemId = $data['itemId'] ?? null;
+        $quantite = $data['quantite'] ?? null;
+
+        if (!$itemId || !$quantite || $quantite < 1) {
+            return $this->json(['error' => 'Invalid item ID or quantity'], 400);
+        }
+
+        $shoppingCart = $user->getShoppingCart();
+        if (!$shoppingCart) {
+            return $this->json(['error' => 'Aucun panier trouvé pour l\'utilisateur'], 404);
+        }
+
+        $cartItem = $entityManager->getRepository(CartJeuxVideos::class)->findOneBy([
+            'id' => $itemId,
+            'shoppingCart' => $shoppingCart
+        ]);
+
+        if (!$cartItem) {
+            return $this->json(['error' => 'Cart item not found or does not belong to this user'], 404);
+        }
+
+        $cartItem->setQuantite($quantite);
+        $entityManager->persist($cartItem);
+        $entityManager->flush();
+
+        $cartItems = $shoppingCart->getCartJeuxVideos();
+        $totalPrice = $this->calculateTotalPrice($cartItems);
+
+        return $this->json(['success' => true, 'totalPrice' => $totalPrice]);
     }
 
     private function calculateTotalPrice($cartItems): float
@@ -158,133 +272,20 @@ class CartController extends AbstractController
         return $totalPrice;
     }
 
-    #[Route('/panier/ajouter/{id}', name: 'ajouter_panier', methods: ['POST'])]
-    public function ajouterAuPanier(int $id, EntityManagerInterface $entityManager, Security $security): Response
-    {
-        // Récupérer l'utilisateur connecté
-        $user = $security->getUser();
-        if (!$user || !($user instanceof User)) {
-            return $this->redirectToRoute('app_login');
-        }
-
-        // Récupérer ou créer le panier de l'utilisateur
-        $shoppingCart = $this->getOrCreateShoppingCart($user, $entityManager);
-
-        // Récupérer l'article (jeu vidéo) par son ID
-        $jeu = $entityManager->getRepository(JeuxVideos::class)->find($id);
-
-        if (!$jeu) {
-            throw $this->createNotFoundException('Le jeu vidéo n\'existe pas.');
-        }
-
-        // Vérifier si l'article est déjà dans le panier
-        $cartItem = $entityManager->getRepository(CartJeuxVideos::class)->findOneBy([
-            'shoppingCart' => $shoppingCart,
-            'jeuxVideo' => $jeu
-        ]);
-
-        if (!$cartItem) {
-            // Si l'article n'est pas encore dans le panier, on l'ajoute
-            $cartItem = new CartJeuxVideos();
-            $cartItem->setShoppingCart($shoppingCart);
-            $cartItem->setJeuxVideo($jeu);
-            $cartItem->setQuantite(1); // Par exemple, quantité par défaut
-
-            $entityManager->persist($cartItem);
-        } else {
-            // Si l'article est déjà dans le panier, on augmente la quantité
-            $cartItem->setQuantite($cartItem->getQuantite() + 1);
-        }
-
-        $entityManager->flush();
-
-        // Rediriger vers la page du panier ou un message de succès
-        return $this->redirectToRoute('cart_show');
-    }
-
-    // Méthode pour récupérer ou créer un panier pour l'utilisateur
     private function getOrCreateShoppingCart($user, EntityManagerInterface $entityManager): ShoppingCart
     {
         $shoppingCart = $user->getShoppingCart();
 
-        // Si l'utilisateur n'a pas de panier, on en crée un
         if ($shoppingCart === null) {
             $shoppingCart = new ShoppingCart();
-            $shoppingCart->setUser($user);  // Associe le panier à l'utilisateur
+            $shoppingCart->setUser($user);
             $entityManager->persist($shoppingCart);
-            $entityManager->flush(); // Flush ici pour avoir un ID pour le panier
-            $user->setShoppingCart($shoppingCart);  // Met à jour l'utilisateur avec le panier
+            $entityManager->flush();
+            $user->setShoppingCart($shoppingCart);
             $entityManager->persist($user);
-            $entityManager->flush();  // Persist changes on both user and shopping cart
+            $entityManager->flush();
         }
 
         return $shoppingCart;
-    }
-
-    // Méthode pour mettre à jour la quantité des articles dans le panier via AJAX
-    #[Route('/panier/update-quantite', name: 'update_cart_quantity', methods: ['POST'])]
-    public function updateQuantite(Request $request, EntityManagerInterface $entityManager, Security $security): Response
-    {
-        // Récupérer l'utilisateur connecté
-        $user = $security->getUser();
-        if (!$user || !($user instanceof User)) {
-            return $this->json(['error' => 'User not logged in'], 403);
-        }
-    
-        // Récupérer les données envoyées via la requête POST
-        $data = json_decode($request->getContent(), true);
-        $itemId = $data['itemId'] ?? null;
-        $quantite = $data['quantite'] ?? null;
-    
-        if (!$itemId || !$quantite || $quantite < 1) {
-            return $this->json(['error' => 'Invalid item ID or quantity'], 400);
-        }
-    
-        // Récupérer le panier de l'utilisateur
-        $shoppingCart = $user->getShoppingCart();
-        if (!$shoppingCart) {
-            return $this->json(['error' => 'Aucun panier trouvé pour l\'utilisateur'], 404);
-        }
-    
-        // Récupérer l'article du panier correspondant
-        $cartItem = $entityManager->getRepository(CartJeuxVideos::class)->findOneBy([
-            'id' => $itemId,   // Id spécifique de l'item dans le panier
-            'shoppingCart' => $shoppingCart // Assurez-vous que l'item appartient au panier de cet utilisateur
-        ]);
-    
-        if (!$cartItem) {
-            return $this->json(['error' => 'Cart item not found or does not belong to this user'], 404);
-        }
-    
-        // Mettre à jour la quantité
-        $cartItem->setQuantite($quantite);
-        $entityManager->persist($cartItem);
-        $entityManager->flush();
-    
-        // Recalculer le prix total du panier
-        $cartItems = $shoppingCart->getCartJeuxVideos();
-        $totalPrice = $this->calculateTotalPrice($cartItems);
-    
-        return $this->json(['success' => true, 'totalPrice' => $totalPrice]);
-    }
-
-    #[Route('/admin/create-cart-users', name: 'create_cart_users')]
-    public function createCartForUsers(EntityManagerInterface $entityManager, UserRepository $userRepository): Response
-    {
-        $users = $userRepository->findAll();
-
-        foreach ($users as $user) {
-            if ($user->getShoppingCart() === null) {
-                $shoppingCart = new ShoppingCart();
-                $shoppingCart->setUser($user);
-                $entityManager->persist($shoppingCart);
-                $user->setShoppingCart($shoppingCart);
-                $entityManager->persist($user);
-            }
-        }
-
-        $entityManager->flush();
-
-        return new Response('Panier créé pour les utilisateurs sans panier.');
     }
 }

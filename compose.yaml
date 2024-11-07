@@ -27,8 +27,8 @@ services:
     container_name: phpmyadmin_gamestore
     environment:
       PMA_HOST: database
-      PMA_USER: ${PMA_USER}
-      PMA_PASSWORD: ${PMA_PASSWORD}
+      PMA_USER: ${MYSQL_USER}
+      PMA_PASSWORD: ${MYSQL_PASSWORD}
     ports:
       - "8080:80"
     depends_on:
@@ -56,7 +56,7 @@ services:
       - MONGODB_URL=mongodb://mongodb:27017
     networks:
      - app-network
-    command: /usr/sbin/apache2ctl -D FOREGROUND  # Lancer Apache pour que le conteneur fonctionne
+    command: /usr/sbin/apache2ctl -D FOREGROUND
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost"]
       interval: 10s
@@ -70,7 +70,7 @@ services:
     ports:
       - "27017:27017"
     volumes:
-      - ./docker/mongodb/mongod.conf:/etc/mongod.conf  # Montre ton fichier local vers le conteneur
+      - ./docker/mongodb/mongod.conf:/etc/mongod.conf
       - mongo_data:/data/db
     networks:
       - app-network
@@ -82,4 +82,3 @@ networks:
 volumes:
   database_data:
   mongo_data:
-

@@ -36,7 +36,7 @@ class DashboardController extends AbstractController
 
         $this->logger->info("Filter type: $filterType, Filter value: $filterValue");
 
-        // Appel correct de la méthode `syncValidatedCommands`
+        // Appel de la méthode de synchronisation pour actualiser les données
         $this->commandSyncService->syncValidatedCommands();
 
         $salesData = [];
@@ -53,10 +53,13 @@ class DashboardController extends AbstractController
 
         // Filtrer les ventes selon le filtre sélectionné
         if ($filterType === 'game' && $filterValue) {
-            $salesData = $dm->getRepository(GameSales::class)->findBy(['gameId' => $filterValue]);
+            // Recherche par titre de jeu
+            $salesData = $dm->getRepository(GameSales::class)->findBy(['gameTitre' => $filterValue]);
         } elseif ($filterType === 'agency' && $filterValue) {
-            $salesData = $dm->getRepository(AgencySales::class)->findBy(['agencyId' => $filterValue]);
+            // Recherche par agence ID
+            $salesData = $dm->getRepository(AgencySales::class)->findBy(['agenceId' => $filterValue]);
         } elseif ($filterType === 'genre' && $filterValue) {
+            // Recherche par genre
             $salesData = $dm->getRepository(GenreSales::class)->findBy(['genre' => $filterValue]);
         }
 

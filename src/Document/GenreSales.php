@@ -14,7 +14,7 @@ class GenreSales
     private string $genre;
 
     #[ODM\Field(type: "date")]
-    private ?\DateTimeInterface $saleDate = null;
+    private ?\DateTimeInterface $saleDate;
 
     #[ODM\Field(type: "int")]
     private int $copiesSold = 0;
@@ -22,10 +22,10 @@ class GenreSales
     #[ODM\Field(type: "float")]
     private float $pricePerCopy = 0.0;
 
-    public function __construct(string $genre, \DateTimeInterface $saleDate)
+    public function __construct(string $genre, ?\DateTimeInterface $saleDate = null)
     {
         $this->genre = $genre;
-        $this->saleDate = $saleDate;
+        $this->saleDate = $saleDate ?? new \DateTime(); // Définit la date actuelle par défaut si null
     }
 
     public function getId(): ?string
@@ -46,7 +46,7 @@ class GenreSales
 
     public function getSaleDate(): \DateTimeInterface
     {
-        return $this->saleDate;
+        return $this->saleDate ?? new \DateTime(); // Assure une date même si elle n'a pas été initialisée
     }
 
     public function setSaleDate(\DateTimeInterface $saleDate): self

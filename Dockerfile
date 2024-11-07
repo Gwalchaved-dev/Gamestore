@@ -41,8 +41,8 @@ RUN php -m | grep mongodb
 # Revenir à l'utilisateur www-data pour exécuter les actions sur les fichiers
 USER www-data
 
-# Installer les dépendances PHP avec Composer
-RUN composer install --optimize-autoloader --no-interaction
+# Installer les dépendances PHP avec Composer (inclure doctrine/orm)
+RUN composer require symfony/mailer symfony/validator doctrine/orm --no-interaction
 
 # Installer les dépendances npm
 RUN npm install --no-audit --no-fund --prefer-offline

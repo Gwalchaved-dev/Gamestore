@@ -51,6 +51,7 @@ class CartJeuxVideos
         return $this;
     }
 
+    // Modification pour rendre la méthode plus intuitive
     public function getQuantite(): ?int
     {
         return $this->quantite;
@@ -71,5 +72,11 @@ class CartJeuxVideos
     {
         $this->command = $command;
         return $this;
+    }
+
+    // Récupérer le titre du jeu depuis l'entité JeuxVideos
+    public function getGameTitre(): ?string
+    {
+        return $this->jeuxVideo ? $this->jeuxVideo->getTitre() : null;
     }
 }

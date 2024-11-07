@@ -11,10 +11,10 @@ class GameSales
     private string $id;
 
     #[ODM\Field(type: "string")]
-    private string $gameId;
+    private string $gameTitre;
 
     #[ODM\Field(type: "date")]
-    private ?\DateTimeInterface $saleDate = null;  // Initialisé à null pour éviter tout accès sans valeur
+    private ?\DateTimeInterface $saleDate = null;
 
     #[ODM\Field(type: "int")]
     private int $copiesSold = 0;
@@ -22,16 +22,13 @@ class GameSales
     #[ODM\Field(type: "float")]
     private float $pricePerCopy = 0.0;
 
-    #[ODM\Field(type: "float", nullable: true)]
-    private ?float $totalRevenue = null;
-
     #[ODM\Field(type: "string", nullable: true)]
     private ?string $genre = null;
 
-    public function __construct(string $gameId, ?\DateTimeInterface $saleDate = null)
+    public function __construct(string $gameTitre, ?\DateTimeInterface $saleDate = null)
     {
-        $this->gameId = $gameId;
-        $this->saleDate = $saleDate ?? new \DateTime(); // Initialise avec la date actuelle par défaut
+        $this->gameTitre = $gameTitre;
+        $this->saleDate = $saleDate ?? new \DateTime();
     }
 
     public function getId(): ?string
@@ -39,21 +36,21 @@ class GameSales
         return $this->id;
     }
 
-    public function getGameId(): string
+    public function getGameTitre(): string
     {
-        return $this->gameId;
+        return $this->gameTitre;
     }
 
-    public function setGameId(string $gameId): self
+    public function setGameTitre(string $gameTitre): self
     {
-        $this->gameId = $gameId;
+        $this->gameTitre = $gameTitre;
         return $this;
     }
 
     public function getSaleDate(): \DateTimeInterface
     {
         if ($this->saleDate === null) {
-            $this->saleDate = new \DateTime(); // Assure une date même si elle n'a pas été initialisée
+            $this->saleDate = new \DateTime();
         }
         return $this->saleDate;
     }
@@ -97,16 +94,9 @@ class GameSales
         return $this;
     }
 
-    // Méthode pour définir le revenu total
-    public function setTotalRevenue(float $totalRevenue): self
-    {
-        $this->totalRevenue = $totalRevenue;
-        return $this;
-    }
-
-    // Méthode pour obtenir le revenu total, calculé si non défini
+    // Méthode calculant et renvoyant le revenu total
     public function getTotalRevenue(): float
     {
-        return $this->totalRevenue ?? ($this->copiesSold * $this->pricePerCopy);
+        return $this->copiesSold * $this->pricePerCopy;
     }
 }

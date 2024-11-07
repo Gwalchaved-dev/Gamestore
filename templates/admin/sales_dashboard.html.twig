@@ -21,7 +21,7 @@
                 <select id="filter-value" name="filter_value" class="form-control">
                     {% if filter_type == 'game' and games is defined %}
                         {% for game in games %}
-                            <option value="{{ game.id }}" {% if filter_value == game.id %}selected{% endif %}>{{ game.titre }}</option>
+                            <option value="{{ game.id }}" {% if filter_value == game.id %}selected{% endif %}>{{ game.gameTitre }}</option>
                         {% endfor %}
                     {% elseif filter_type == 'agency' and agencies is defined %}
                         {% for agency in agencies %}

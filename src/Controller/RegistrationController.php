@@ -16,7 +16,6 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
-use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 
@@ -42,10 +41,9 @@ class RegistrationController extends AbstractController
         UserPasswordHasherInterface $userPasswordHasher,
         EntityManagerInterface $entityManager
     ): Response {
-        // Initialiser la variable $user
-        $user = $this->getUser(); // Assurez-vous que cette méthode retourne un utilisateur ou null
+        $user = $this->getUser();
 
-        // Si l'utilisateur est déjà connecté
+        // Si l'utilisateur est déjà connecté, redirection avec message d'information
         if ($user instanceof User) {
             $this->addFlash('info', 'Vous êtes déjà connecté en tant que ' . $user->getEmail());
             return $this->redirectToRoute('app_homepage');
@@ -56,10 +54,10 @@ class RegistrationController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // Vérification des mots de passe
             $password = $form->get('password')->getData();
             $confirmPassword = $form->get('confirmPassword')->getData();
 
+            // Vérification de la correspondance des mots de passe
             if ($password !== $confirmPassword) {
                 $this->addFlash('error', 'Les mots de passe ne correspondent pas.');
                 return $this->render('registration/register.html.twig', [
@@ -67,22 +65,20 @@ class RegistrationController extends AbstractController
                 ]);
             }
 
-            // Hachage du mot de passe
+            // Hachage du mot de passe et attribution du rôle
             $hashedPassword = $userPasswordHasher->hashPassword($user, $password);
             $user->setPassword($hashedPassword);
-
-            // **Attribution du rôle ROLE_USER**
             $user->setRoles(['ROLE_USER']);
 
-            // Persistance des données de l'utilisateur
+            // Sauvegarde de l'utilisateur dans la base de données
             $entityManager->persist($user);
             $entityManager->flush();
 
-            // Connexion automatique après l'inscription
-            $token = new UsernamePasswordToken($user, $hashedPassword, ['main'], $user->getRoles());
+            // Connexion automatique de l'utilisateur après l'inscription
+            $token = new UsernamePasswordToken($user, 'main', $user->getRoles());
             $this->tokenStorage->setToken($token);
-            
-            // Récupère la session via RequestStack
+
+            // Gestion de la session
             $session = $this->requestStack->getSession();
             $session->set('_security_main', serialize($token));
             $session->save();
@@ -120,6 +116,6 @@ class RegistrationController extends AbstractController
         }
 
         $this->addFlash('success', 'Votre adresse email a été vérifiée.');
-        return $this->redirectToRoute('app_register');
+        return $this->redirectToRoute('app_homepage');
     }
 }
