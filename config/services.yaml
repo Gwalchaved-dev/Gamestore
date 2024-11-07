@@ -14,11 +14,21 @@ services:
             - '../src/Entity/'
             - '../src/Kernel.php'
 
-    # Ajout explicite de CommandSyncService pour éviter les erreurs de casse
+    # Configuration explicite de CommandSyncService avec injection des services nécessaires
     App\Service\CommandSyncService:
+        arguments:
+            $entityManager: '@doctrine.orm.entity_manager'
+            $dm: '@doctrine_mongodb.odm.document_manager'
         autowire: true
         autoconfigure: true
         public: false
+
+    # Enregistrement explicite de SyncSalesCommand comme une commande de console
+    App\Command\SyncSalesCommand:
+        tags:
+            - { name: 'console.command' }
+        autowire: true
+        autoconfigure: true
 
     # Configuration pour l'Event Subscriber CartSubscriber
     App\EventSubscriber\CartSubscriber:
@@ -27,7 +37,7 @@ services:
         tags:
             - { name: 'kernel.event_subscriber' }
 
-    # Connexion MongoDB ODM
+    # Connexion MongoDB ODM avec les paramètres nécessaires
     doctrine_mongodb.odm.document_manager:
         class: Doctrine\ODM\MongoDB\DocumentManager
         factory: ['Doctrine\ODM\MongoDB\DocumentManager', 'create']
@@ -49,7 +59,7 @@ services:
             - [setHydratorDir, ['%kernel.cache_dir%/doctrine/odm/hydrators']]
             - [setHydratorNamespace, ['Hydrators']]
 
-    # Pour l'utilisation des attributes
+    # Pour l'utilisation des attributs pour MongoDB ODM
     doctrine_mongodb.odm.metadata_driver:
         class: Doctrine\ODM\MongoDB\Mapping\Driver\AttributeDriver
         arguments:
@@ -58,7 +68,7 @@ services:
     doctrine_mongodb.odm.event_manager:
         class: Doctrine\Common\EventManager
 
-    # Exemple d'Event Manager pour MongoDB si nécessaire
+    # Exemples d'Event Subscribers pour MongoDB si nécessaire
     App\EventSubscriber\SomeOtherSubscriber:
         tags:
             - { name: 'doctrine_mongodb.odm.event_subscriber', event: 'some_event' }
