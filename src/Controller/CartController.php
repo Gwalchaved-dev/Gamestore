@@ -68,23 +68,28 @@ class CartController extends AbstractController
             return $this->redirectToRoute('cart_show');
         }
 
+        // Création de la commande
         $order = new Command();
         $order->setUser($user);
         $order->setDate(new \DateTime());
         $order->setTotal($this->calculateTotalPrice($cartItems));
         $order->setAgence($agence);
 
-        // Ajout des titres et quantités des jeux dans la commande
+        // Ajout des jeux et informations à la commande
         foreach ($cartItems as $item) {
             $order->addCartJeuxVideo($item);
-            $order->setGameTitre($item->getJeuxVideo()->getTitre());
-            $order->setQuantite($item->getQuantite());
+            // Enregistrement du titre, genre et quantité de chaque jeu dans la commande
+            $order->setTitre($item->getJeuxVideo()->getTitre());
+            $order->setGenre($item->getJeuxVideo()->getGenre()); // Genre
+            $order->setQuantite($item->getQuantite()); // Quantité
             $entityManager->persist($item);
         }
 
+        // Persistance de la commande et mise à jour de la base de données
         $entityManager->persist($order);
         $entityManager->flush();
 
+        // Envoi d'email de confirmation à l'utilisateur
         $email = (new Email())
             ->from('no-reply@gamestore.com')
             ->to($user->getEmail())
@@ -98,11 +103,13 @@ class CartController extends AbstractController
 
         $mailer->send($email);
 
+        // Vider le panier après la validation de la commande
         $shoppingCart->getCartJeuxVideos()->clear();
         $entityManager->persist($shoppingCart);
         $entityManager->flush();
 
-        $this->addFlash('success', 'Merci pour votre commande, elle a bien été prise en compte par nos services.');
+        // Confirmation de la commande dans le frontend
+        $this->addFlash('success', 'Merci pour votre commande, elle a bien été prise en compte.');
 
         return $this->redirectToRoute('account');
     }
@@ -128,19 +135,22 @@ class CartController extends AbstractController
         $order->setUser($user);
         $order->setDate(new \DateTime());
         $order->setTotal($this->calculateTotalPrice($cartItems));
-        $order->setAgence($entityManager->getRepository(Agence::class)->findOneBy(['id' => 1])); 
+        $order->setAgence($entityManager->getRepository(Agence::class)->findOneBy(['id' => 1])); // Default agency for checkout
 
+        // Ajout des jeux et informations à la commande
         foreach ($cartItems as $item) {
             $order->addCartJeuxVideo($item);
-            $order->setGameTitre($item->getJeuxVideo()->getTitre());
-            $order->setQuantite($item->getQuantite());
-            $item->setShoppingCart(null);
+            $order->setTitre($item->getJeuxVideo()->getTitre());
+            $order->setGenre($item->getJeuxVideo()->getGenre()); // Genre
+            $order->setQuantite($item->getQuantite()); // Quantité
+            $item->setShoppingCart(null); // Retirer l'élément du panier après validation
             $entityManager->persist($item);
         }
 
         $entityManager->persist($order);
         $entityManager->flush();
 
+        // Envoi de l'email de confirmation
         $email = (new Email())
             ->from('no-reply@gamestore.com')
             ->to($user->getEmail())
@@ -154,6 +164,7 @@ class CartController extends AbstractController
 
         $mailer->send($email);
 
+        // Vider le panier après la commande
         $shoppingCart->getCartJeuxVideos()->clear();
         $entityManager->persist($shoppingCart);
         $entityManager->flush();

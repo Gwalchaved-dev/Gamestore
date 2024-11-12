@@ -31,21 +31,29 @@ class CommandSyncService
     public function syncValidatedCommands(): void
     {
         try {
+            $this->logger->info("Début de la synchronisation des commandes validées.");
+
             // Récupérer les commandes validées depuis MySQL
             $validatedCommands = $this->entityManager->getRepository(Command::class)->findBy(['status' => 'validé']);
-        
+            $this->logger->info("Nombre de commandes validées à synchroniser : " . count($validatedCommands));
+
             foreach ($validatedCommands as $command) {
                 // Log de début de synchronisation pour chaque commande
                 $this->logger->debug("Début de synchronisation pour la commande ID: {$command->getId()}.");
 
                 // Récupération des jeux et quantités depuis la commande
-                foreach ($command->getGameTitlesAndQuantities() as $gameData) {
+                foreach ($command->getGamesTitlesAndQuantities() as $gameData) {
                     $gameTitle = $gameData['titre'];
                     $genre = $gameData['genre'] ?? '';
                     $copiesSold = $gameData['quantite'];
 
+                    // Log des données avant insertion
+                    $this->logger->debug("Vente par jeu - Titre: {$gameTitle}, Genre: {$genre}, Copies: {$copiesSold}");
+
                     // Vérifier si les données de jeu sont valides
                     if ($gameTitle && $copiesSold > 0) {
+                        $this->logger->debug("Synchronisation des ventes pour le jeu : {$gameTitle}, copies vendues : {$copiesSold}.");
+
                         // Synchronisation des ventes par jeu
                         $existingGameSale = $this->dm->getRepository(GameSales::class)->findOneBy(['gameTitle' => $gameTitle]);
                         if (!$existingGameSale) {
@@ -80,10 +88,12 @@ class CommandSyncService
                 // Synchronisation des ventes par agence
                 $agency = $command->getAgence();
                 if ($agency) {
+                    $this->logger->debug("Synchronisation des ventes pour l'agence ID: {$agency->getId()}.");
+
                     $existingAgencySale = $this->dm->getRepository(AgencySales::class)->findOneBy(['agencyId' => $agency->getId()]);
                     if (!$existingAgencySale) {
                         $newAgencySale = new AgencySales($agency->getId(), new \DateTime());
-                        $newAgencySale->setCopiesSold(1); // Ajout d'une copie pour chaque commande
+                        $newAgencySale->setCopiesSold(1);
                         $newAgencySale->setNom($agency->getNom());
                         $this->dm->persist($newAgencySale);
                         $this->logger->info("Ajout de AgencySale pour l'agence ID: {$agency->getId()} avec 1 copie.");
@@ -95,7 +105,7 @@ class CommandSyncService
                     $this->logger->warning("Agence non définie pour la commande ID: {$command->getId()}.");
                 }
             }
-        
+
             // Sauvegarder les changements dans MongoDB
             $this->dm->flush();
             $this->logger->info("Synchronisation des ventes terminée avec succès.");

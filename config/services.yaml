@@ -25,10 +25,13 @@ services:
 
     # Enregistrement explicite de SyncSalesCommand comme une commande de console
     App\Command\SyncSalesCommand:
+        arguments:
+            $syncService: '@App\Service\CommandSyncService'  # Injection explicite de CommandSyncService
         tags:
             - { name: 'console.command' }
         autowire: true
         autoconfigure: true
+        public: true
 
     # Configuration pour l'Event Subscriber CartSubscriber
     App\EventSubscriber\CartSubscriber:

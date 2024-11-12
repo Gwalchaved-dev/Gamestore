@@ -33,11 +33,22 @@ class Command
     #[ORM\OneToMany(mappedBy: 'command', targetEntity: CartJeuxVideos::class, cascade: ['persist', 'remove'])]
     private Collection $cartJeuxVideos;
 
+    // Nouvelles colonnes pour le titre, la quantité et le genre
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private ?string $titre = null;
+
+    #[ORM\Column(type: 'integer', nullable: true)]
+    private ?int $quantite = null;
+
+    #[ORM\Column(type: 'string', length: 100, nullable: true)]
+    private ?string $genre = null;
+
     public function __construct()
     {
         $this->date = new \DateTime();
         $this->status = 'New';
         $this->cartJeuxVideos = new ArrayCollection();
+        $this->quantite = 0; // Initialisation de la quantité
     }
 
     public function getId(): ?int
@@ -124,6 +135,40 @@ class Command
         return $this;
     }
 
+    // Getters et Setters pour les nouvelles colonnes
+    public function getTitre(): ?string
+    {
+        return $this->titre;
+    }
+
+    public function setTitre(?string $titre): self
+    {
+        $this->titre = $titre;
+        return $this;
+    }
+
+    public function getQuantite(): ?int
+    {
+        return $this->quantite;
+    }
+
+    public function setQuantite(?int $quantite): self
+    {
+        $this->quantite = $quantite;
+        return $this;
+    }
+
+    public function getGenre(): ?string
+    {
+        return $this->genre;
+    }
+
+    public function setGenre(?string $genre): self
+    {
+        $this->genre = $genre;
+        return $this;
+    }
+
     /**
      * Retourne les titres, genres et quantités pour chaque jeu dans la commande.
      *
@@ -137,7 +182,7 @@ class Command
             if ($jeuxVideo) {
                 $gamesData[] = [
                     'titre' => $jeuxVideo->getTitre(),
-                    'genre' => $jeuxVideo->getGenre() ?? 'Inconnu', // On gère le cas où le genre est null
+                    'genre' => $jeuxVideo->getGenre() ?? 'Inconnu', // Gérer le cas où le genre est null
                     'quantite' => $cartJeuxVideo->getQuantite()
                 ];
             }

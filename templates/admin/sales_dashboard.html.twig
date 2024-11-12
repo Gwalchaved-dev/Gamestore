@@ -70,7 +70,7 @@
             // Initialisation de Chart.js
             const ctx = document.getElementById('salesChart').getContext('2d');
             new Chart(ctx, {
-                type: 'line',
+                type: 'line', // Type de graphique (ligne)
                 data: salesData,
                 options: {
                     responsive: true,
@@ -78,7 +78,7 @@
                         x: {
                             type: 'time',
                             time: {
-                                unit: 'day'
+                                unit: 'day' // Unité de l'axe X (jour)
                             },
                             title: {
                                 display: true,

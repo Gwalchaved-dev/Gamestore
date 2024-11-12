@@ -29,7 +29,7 @@
                         {% endfor %}
                     {% elseif filter_type == 'genre' %}
                         {% for genre in genres %}
-                            <option value="{{ genre }}" {% if filter_value == genre %}selected{% endif %}>{{ genre }}</option>
+                            <option value="{{ genre }}" {% if filter_value == genre %}selected{% endif %}>{{ genre.nom }}</option>
                         {% endfor %}
                     {% endif %}
                 </select>

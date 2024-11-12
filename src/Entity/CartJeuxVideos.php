@@ -80,3 +80,4 @@ class CartJeuxVideos
         return $this->jeuxVideo ? $this->jeuxVideo->getTitre() : null;
     }
 }
+

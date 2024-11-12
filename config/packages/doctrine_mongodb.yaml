@@ -1,49 +1,52 @@
 doctrine_mongodb:
     connections:
         default:
-            server: "mongodb://mongodb:27017" # Utilise l'adresse du conteneur MongoDB
-            options: {}
-    default_database: "db_gamestore" # Assure-toi que le nom de la BDD est bien défini
+            # Utilise l'adresse du conteneur MongoDB, l'adresse du conteneur est généralement le nom du conteneur Docker
+            # Le nom "mongodb" doit correspondre au nom de ton conteneur MongoDB dans Docker
+            server: "mongodb://mongodb:27017"  # Tu peux remplacer "mongodb" par l'adresse IP si ce n'est pas dans un réseau Docker
+            options: {}  # Si tu n'as pas besoin de configurations supplémentaires, tu peux laisser vide ou ajouter des options comme auth, timeouts, etc.
+
+    # Assure-toi que tu utilises la bonne base de données ici
+    default_database: "db_gamestore" # Nom de la BDD utilisée pour ton application principale
 
     document_managers:
         default:
-            auto_mapping: true
-            # Cache de métadonnées
+            auto_mapping: true  # Auto-mapping permet de lier toutes les classes Document automatiquement
             metadata_cache_driver:
-                type: array
+                type: array  # Tu peux utiliser "array" pour des tests, mais pour la production, il est préférable d'utiliser un cache externe comme Redis
             mappings:
                 App:
-                    is_bundle: false
-                    type: attribute
-                    dir: '%kernel.project_dir%/src/Document'
-                    prefix: 'App\Document'
-                    alias: App
+                    is_bundle: false  # Si tu n'utilises pas de bundle spécifique, laisse cette option sur false
+                    type: attribute  # Utilisation de la version basée sur des attributs
+                    dir: '%kernel.project_dir%/src/Document'  # Assure-toi que ce répertoire est correct et contient tes documents MongoDB
+                    prefix: 'App\Document'  # Prefix des classes document dans ton application
+                    alias: App  # Alias de ton espace de nom pour MongoDB
 
-# Configuration pour l'environnement de test
+# Configuration spécifique pour l'environnement de test
 when@test:
     doctrine_mongodb:
         connections:
             default:
-                server: "mongodb://mongodb:27017"
+                server: "mongodb://mongodb:27017"  # Utilisation du même serveur MongoDB en test
                 options: {}
-        default_database: "db_gamestore_test" # BDD pour les tests
+        default_database: "db_gamestore_test"  # Nom de la BDD pour les tests
         document_managers:
             default:
-                auto_mapping: true
+                auto_mapping: true  # Auto-mapping activé pour les tests également
                 metadata_cache_driver:
-                    type: array
+                    type: array  # Tu peux garder "array" pour le cache de test, ce n'est pas critique
 
 # Configuration pour l'environnement de production
 when@prod:
     doctrine_mongodb:
         document_managers:
             default:
-                auto_generate_proxy_classes: false
+                auto_generate_proxy_classes: false  # Désactive la génération automatique des proxies en prod pour la performance
                 metadata_cache_driver:
-                    type: redis
-                    host: "%env(REDIS_HOST)%"
-                    port: "%env(REDIS_PORT)%"
-                proxy_dir: '%kernel.cache_dir%/doctrine/odm/proxies'
+                    type: redis  # Utilise Redis pour le cache des métadonnées en production, ce qui est plus rapide
+                    host: "%env(REDIS_HOST)%"  # Assure-toi que les variables d'environnement sont correctement définies
+                    port: "%env(REDIS_PORT)%"  # Idem pour le port Redis
+                proxy_dir: '%kernel.cache_dir%/doctrine/odm/proxies'  # Répertoire des proxies
                 query_cache_driver:
-                    type: pool
-                    pool: doctrine.system_cache_pool
+                    type: pool  # Utilise un pool de cache pour les requêtes en production
+                    pool: doctrine.system_cache_pool  # Le pool de cache utilisé par Doctrine

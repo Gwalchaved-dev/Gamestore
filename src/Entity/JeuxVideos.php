@@ -194,3 +194,4 @@ class JeuxVideos
         return $this;
     }
 }
+
